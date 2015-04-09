@@ -61,7 +61,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var sharpnessMod = [0.5, 0.75, 1.0, 1.125, 1.25, 1.32, 1.44];
 			var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
 
-			var pwr = pPwr(weapon.attack * modifiers.pMul + modifiers.pAdd, weapon.affinity + modifiers.aff, weapon.modifier, sharpnessMod[sharpness]);
+			var pwr = pPwr(weapon.attack, weapon.affinity + modifiers.aff, weapon.modifier, sharpnessMod[sharpness]) *  * modifiers.pMul + modifiers.pAdd;
 			var epwr = 0;
 			var etype = 0
 			var epwr2 = 0;;
