@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en" ng-app="calculatingPalico">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/normalize.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/material.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel=stylesheet href="/calculatingpalico{{ url_for('static', filename='style.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
+	<script src="/calculatingpalico{{ url_for('static', filename='include.js') }}"></script>
+</head>
+<body>
+<nav class="navbar navbar-material-brown navbar-static-top" role="navigation" data-swiftype-index="false">
+	<div class="container">
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand">The Calculating Palico</a>
+		</div>
+	</div>
+</nav>
+
+<div class="container" ng-controller="calculatingPalicoController">
+	<div class="row">
+		<div class="col-xs-12 col-sm-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">Choose Weapon</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 text-right">
+							<select id="weapon_type_list" name="weapon_type_list" ng-options="weaponType.id as weaponType.name for weaponType in weaponTypes" ng-model="weaponTypeValue" ng-change="updateWeaponList()"></select>
+						</div>
+						<div class="col-xs-6 col-sm-6">
+							<select id="weapon_list" name="weapon_list" ng-options="weapon.id as weapon.name for weapon in weapons | orderBy:'name'" ng-model="weaponValue" ng-change="updateWeapon()"></select>
+						</div>
+					</div>
+					<div ng-show="weaponValue">
+						<div class="row top_row">
+							<div class="col-xs-6 col-sm-6 text-right">Damage</div>
+							<div class="col-xs-6 col-sm-6"><%weaponDetails.attack%></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 text-right">Affinity</div>
+							<div class="col-xs-6 col-sm-6"><%weaponDetails.affinity%></div>
+						</div>
+						<div class="row" ng-repeat="weaponElement in weaponElements">
+							<div class="col-xs-6 col-sm-6 text-right">Element</div>
+							<div class="col-xs-6 col-sm-6">
+								<%weaponElement.attack%> <i class="fa fa-circle element_marker <%weaponElement.name%>" ng-if="weaponElement.awaken_required == 0"></i><i class="fa fa-circle-o element_marker <%weaponElement.name%>" ng-if="weaponElement.awaken_required == 1"></i> <%weaponElement.name%>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 text-right">Sharpness</div>
+							<div class="col-xs-6 col-sm-6">
+								<div id="sharpness">
+									<span style="width:<%weaponSharpness[0]%>px" class="red"></span>
+									<span style="width:<%weaponSharpness[1]%>px" class="orange"></span>
+									<span style="width:<%weaponSharpness[2]%>px" class="yellow"></span>
+									<span style="width:<%weaponSharpness[3]%>px" class="green"></span>
+									<span style="width:<%weaponSharpness[4]%>px" class="blue"></span>
+									<span style="width:<%weaponSharpness[5]%>px" class="white"></span>
+									<span style="width:<%weaponSharpness[6]%>px" class="purple"></span>
+									<span style="width:<%weaponSharpnessPlus[0]%>px" class="red plus<%sharpnessCSS%>"></span>
+									<span style="width:<%weaponSharpnessPlus[1]%>px" class="orange plus<%sharpnessCSS%>"></span>
+									<span style="width:<%weaponSharpnessPlus[2]%>px" class="yellow plus<%sharpnessCSS%>"></span>
+									<span style="width:<%weaponSharpnessPlus[3]%>px" class="green plus<%sharpnessCSS%>"></span>
+									<span style="width:<%weaponSharpnessPlus[4]%>px" class="blue plus<%sharpnessCSS%>"></span>
+									<span style="width:<%weaponSharpnessPlus[5]%>px" class="white plus<%sharpnessCSS%>"></span>
+									<span style="width:<%weaponSharpnessPlus[6]%>px" class="purple plus<%sharpnessCSS%>"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 text-center"><a href="<%weaponDetails.url_kiranico%>">Kiranico <i class="fa fa-external-link"></i></a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">Choose Target Monster</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 text-center">
+							<select id="monster_list" name="monster_list" ng-options="monster.id as monster.name for monster in monsters | orderBy:'name'" ng-model="monsterValue" ng-change="updateMonster()"></select>
+						</div>
+					</div>
+					<div ng-show="monsterValue">
+						<div class="row top_row">
+							<div class="col-xs-12 col-sm-12 text-center">
+								<div class="row"><a href="<%monsterDetails.url_kiranico%>">Kiranico <i class="fa fa-external-link"></i></a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Choose Modifiers</div>
+				<div class="panel-body modifiers">
+					<div class="col-xs-12 col-sm-4">
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Weapon Skills</strong></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Awaken</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_awaken" ng-model="modifiers.awaken" ng-checked="modifiers.awaken==1" ngTrueValue="modifiers.awaken=1" ngFalseValue="modifiers.awaken=0" ng-click="updateModifiers('awaken', 'awaken')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Sharpness +1</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_sharpness" ng-model="modifiers.sharpness" ng-checked="modifiers.sharpness==1" ngTrueValue="modifiers.sharpness=1" ngFalseValue="modifiers.sharpness=0" ng-click="updateModifiers('sharpness', 'sharpness')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Items</strong></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Powercharm</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_pc" ng-checked="modifiers.groupA.pc[0]==true" ng-click="updateModifiers('groupA', 'pc')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Powertalon</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_pt" ng-checked="modifiers.groupB.pt[0]==true" ng-click="updateModifiers('groupB', 'pt')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Consumables</strong></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Demon Drug</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_dd" ng-checked="modifiers.groupC.dd[0]==true" ng-click="updateModifiers('groupC', 'dd')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Mega Demon Drug</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_mdd" ng-checked="modifiers.groupC.mdd[0]==true" ng-click="updateModifiers('groupC', 'mdd')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Might Seed</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ms" ng-checked="modifiers.groupD.ms[0]==true" ng-click="updateModifiers('groupD', 'ms')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Might Pill</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_mp" ng-checked="modifiers.groupD.mp[0]==true" ng-click="updateModifiers('groupD', 'mp')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Exciteshroom (+Might Seed)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_es" ng-checked="modifiers.groupD.es[0]==true" ng-click="updateModifiers('groupD', 'es')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Demon Horn</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_dh" ng-checked="modifiers.groupD.dh[0]==true" ng-click="updateModifiers('groupD', 'dh')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Kitchen Skills</strong></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (S)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupsk" ng-checked="modifiers.groupC.aupsk[0]==true" ng-click="updateModifiers('groupC', 'aupsk')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (M)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupmk" ng-checked="modifiers.groupC.aupmk[0]==true" ng-click="updateModifiers('groupC', 'aupmk')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (L)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplk" ng-checked="modifiers.groupC.auplk[0]==true" ng-click="updateModifiers('groupC', 'auplk')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Felyne Heroics</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fh" ng-checked="modifiers.groupG.fh[0]==true" ng-click="updateModifiers('groupG', 'fh')"></div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Armor Skills</strong></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (S)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupss" ng-checked="modifiers.groupF.aupss[0]==true" ng-click="updateModifiers('groupF', 'aupss')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (M)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupms" ng-checked="modifiers.groupF.aupms[0]==true" ng-click="updateModifiers('groupF', 'aupms')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (L)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupls" ng-checked="modifiers.groupF.aupls[0]==true" ng-click="updateModifiers('groupF', 'aupls')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up (XL)</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupxls" ng-checked="modifiers.groupF.aupxls[0]==true" ng-click="updateModifiers('groupF', 'aupxls')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Honed Blade</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_hb" ng-checked="modifiers.groupF.hb[0]==true" ng-click="updateModifiers('groupF', 'hb')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Adrenaline +2</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ad" ng-checked="modifiers.groupG.ad[0]==true" ng-click="updateModifiers('groupG', 'ad')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Fortitude +1</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fort1" ng-checked="modifiers.groupI.fort1[0]==true" ng-click="updateModifiers('groupI', 'fort1')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Fortitude +2</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fort2" ng-checked="modifiers.groupI.fort2[0]==true" ng-click="updateModifiers('groupI', 'fort2')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Challenger +1</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_chal1" ng-checked="modifiers.groupJ.chal1[0]==true" ng-click="updateModifiers('groupJ', 'chal1')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Challenger +2</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_chal2" ng-checked="modifiers.groupJ.chal2[0]==true" ng-click="updateModifiers('groupJ', 'chal2')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical God</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critgod" ng-checked="modifiers.groupExpert.critgod[0]==true" ng-click="updateModifiers('groupExpert', 'critgod')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical +3</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_crit3" ng-checked="modifiers.groupExpert.crit3[0]==true" ng-click="updateModifiers('groupExpert', 'crit3')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical +2</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_crit2" ng-checked="modifiers.groupExpert.crit2[0]==true" ng-click="updateModifiers('groupExpert', 'crit2')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical +1</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_crit1" ng-checked="modifiers.groupExpert.crit1[0]==true" ng-click="updateModifiers('groupExpert', 'crit1')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical -1</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critn1" ng-checked="modifiers.groupExpert.critn1[0]==true" ng-click="updateModifiers('groupExpert', 'critn1')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical -2</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critn2" ng-checked="modifiers.groupExpert.critn2[0]==true" ng-click="updateModifiers('groupExpert', 'critn2')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Critical -3</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critn3" ng-checked="modifiers.groupExpert.critn3[0]==true" ng-click="updateModifiers('groupExpert', 'critn3')"></div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Hunting Horn Buffs</strong></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up S Song</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshh" ng-checked="modifiers.groupH.aupshh[0]==true" ng-click="updateModifiers('groupH', 'aupshh')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up S Song + Encore</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshhe" ng-checked="modifiers.groupH.aupshhe[0]==true" ng-click="updateModifiers('groupH', 'aupshhe')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up L Song</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhh" ng-checked="modifiers.groupH.auplhh[0]==true" ng-click="updateModifiers('groupH', 'auplhh')"></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right">Attack Up L Song + Encore</div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhhe" ng-checked="modifiers.groupH.auplhhe[0]==true" ng-click="updateModifiers('groupH', 'auplhhe')"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Damage Calculation</div>
+				<div ng-show="weaponValue && monsterValue" class="panel-body">
+					<table class="table table-condensed table-hover table-bordered table-striped">
+						<thead>
+							<td><strong><%weaponDetails.name%> vs <%monsterDetails.name%></strong></td>
+							<td></td>
+							<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><%monsterDamage.name%></td>
+						</thead>
+						<tr>
+							<td>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in weaponSharpnessDisplay" ng-model="sharpnessValue"></select>
+							<i class="fa fa-caret-square-o-down" ng-model="showMoves" ng-click="showMoves=!showMoves"></i> <i class="fa fa-caret-square-o-right" ng-model="showParts" ng-click="showParts=!showParts"></i>
+							</td>
+							<td class="dmg_td"><span class="dmg"><%calcDamage('all', 'lo', 0, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('all', 'lo', 1, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, $index)%></span> ~ <span class="dmg"><%calcDamage('all', 'hi', 0, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('all', 'hi', 1, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, $index)%></span></td>
+							<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%calcDamage('perPart', 'lo', 0, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDamage.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('perPart', 'lo', 1, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDamage.damage, weaponElements, sharpnessValue, modSummary, $index)%></span> ~ <span class="dmg"><%calcDamage('perPart', 'hi', 0, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDamage.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('perPart', 'hi', 1, '', weaponDetails, weaponTypeDetails, monsterDetails, monsterDamage.damage, weaponElements, sharpnessValue, modSummary, $index)%></span></td>
+						</tr>
+						<tr ng-show="showMoves" ng-repeat="weaponMotion in weaponTypeDetails.motions">
+							<td><%weaponMotion.name%></td>
+							<td class="dmg_td"><span class="dmg"><%calcDamage('perMove', 'lo', 0, weaponMotion, weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('perMove', 'lo', 1, weaponMotion, weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, $index)%></span> ~ <span class="dmg"><%calcDamage('perMove', 'hi', 0, weaponMotion, weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('perMove', 'hi', 1, weaponMotion, weaponDetails, weaponTypeDetails, monsterDetails, monsterDetails.damage, weaponElements, sharpnessValue, modSummary, $index)%></span></td>
+							<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%calcDamage('specific', '', 0, weaponMotion, weaponDetails, weaponTypeDetails, monsterDetails, monsterDamage.damage, weaponElements, sharpnessValue, modSummary, -1)%></span><span ng-repeat="element in weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && modifiers.awaken == true))"><%calcDamage('specific', '', 1, weaponMotion, weaponDetails, weaponTypeDetails, monsterDetails, monsterDamage.damage, weaponElements, sharpnessValue, modSummary, $index)%></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
