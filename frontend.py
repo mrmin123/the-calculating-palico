@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify
 from backend import CalculatingPalico
 from json import dumps
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__, static_url_path='/calculatingpalico/static')
 
 @app.route('/calculatingpalico/')
 def main():
