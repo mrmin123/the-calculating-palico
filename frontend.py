@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify
 from backend import CalculatingPalico
 from json import dumps
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 @app.route('/calculatingpalico/')
 def main():
@@ -38,4 +38,4 @@ def get_monster(id):
     return jsonify(cp.get_monster_data(id))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4999)
+    app.run(host='0.0.0.0', port=5001)

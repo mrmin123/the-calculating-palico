@@ -1,9 +1,24 @@
 body {
 	font-size: 1.4em;
+	background-color: #eee;
+}
+
+.panel {
+	box-shadow: 0 0 5px #bbb;
+	border-radius: 0;
+}
+
+.weakness_summary {
+	font-size: 0.85em;
+	font-weight: bold;
+}
+
+.weakness_summary div.row:first-child {
+	font-weight: normal;
 }
 
 .section_header {
-	padding-top: 0.5em;
+	margin-top: 0.6em;
 }
 
 .top_row {
@@ -11,7 +26,11 @@ body {
 }
 
 .modifiers {
-	font-size: 0.9em;
+	font-size: 0.8em;
+}
+
+.modifiers .text-right {
+	padding-top: 2px;
 }
 
 .table {
