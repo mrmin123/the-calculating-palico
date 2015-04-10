@@ -9,7 +9,8 @@ Features:
 
 Bugfixes:
 
-- Fix incorrect calculation of additive damage multipliers
+- Fixed incorrect calculation of additive damage multipliers
+- Fixed incorrect rendering on mobile
 
 ## 2015-04-08
 Initial Release
