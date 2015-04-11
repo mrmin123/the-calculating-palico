@@ -116,7 +116,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					etype = elements[0].id;
 				}
 				if (elements[1].id < 6) {
-					epwr = ePwr(elements[1].attack, sharpnessModE[sharpness]);
+					epwr2 = ePwr(elements[1].attack, sharpnessModE[sharpness]);
 					etype2 = elements[1].id;
 				}
 			}
