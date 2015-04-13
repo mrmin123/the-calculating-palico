@@ -45,13 +45,17 @@
 						</div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 text-right">Affinity</div>
-							<div class="col-xs-6 col-sm-6"><%weaponDetails.affinity%></div>
+							<div class="col-xs-6 col-sm-6"><%weaponDetails.affinity%>%<span ng-if="weaponDetails.affinity_virus"> / <%weaponDetails.affinity_virus%>%</span></div>
 						</div>
 						<div class="row" ng-repeat="weaponElement in weaponElements">
 							<div class="col-xs-6 col-sm-6 text-right">Element</div>
 							<div class="col-xs-6 col-sm-6">
 								<%weaponElement.attack%> <i class="fa fa-circle element_marker <%weaponElement.name%>" ng-if="weaponElement.awaken_required == 0"></i><i class="fa fa-circle-o element_marker <%weaponElement.name%>" ng-if="weaponElement.awaken_required == 1"></i> <%weaponElement.name%>
 							</div>
+						</div>
+						<div class="row" ng-if="weaponDetails.phial != null">
+							<div class="col-xs-6 col-sm-6 text-right">Phial</div>
+							<div class="col-xs-6 col-sm-6"><%weaponDetails.phial%></div>
 						</div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 text-right">Sharpness</div>
@@ -146,6 +150,14 @@
 				<div class="panel-body modifiers">
 					<div class="col-xs-12 col-md-3">
 						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Overcome Frenzy Virus</strong></div>
+						</div>
+						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupVirus.vo.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupVirus.vo.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_vo" ng-checked="modifiers.groupVirus.vo.on==true" ng-click="updateModifiers('groupVirus', 'vo')"></div>
+						</div>
+
+						<div class="row">
 							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Honed Weapon</strong></div>
 						</div>
 						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupHoned.ha.desc%>">
@@ -223,34 +235,6 @@
 						<div class="row groupG" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupG.fh.desc%>">
 							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupG.fh.name%></div>
 							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fh" ng-checked="modifiers.groupG.fh.on==true" ng-click="updateModifiers('groupG', 'fh')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Hunting Horn Buffs</strong></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.auplhhe.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.auplhhe.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhhe" ng-checked="modifiers.groupH.auplhhe.on==true" ng-click="updateModifiers('groupH', 'auplhhe')"></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.auplhh.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.auplhh.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhh" ng-checked="modifiers.groupH.auplhh.on==true" ng-click="updateModifiers('groupH', 'auplhh')"></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.aupshhe.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.aupshhe.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshhe" ng-checked="modifiers.groupH.aupshhe.on==true" ng-click="updateModifiers('groupH', 'aupshhe')"></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.aupshh.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.aupshh.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshh" ng-checked="modifiers.groupH.aupshh.on==true" ng-click="updateModifiers('groupH', 'aupshh')"></div>
-						</div>
-						<div class="row groupHE" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupHE.eabse.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupHE.eabse.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eabse" ng-checked="modifiers.groupHE.eabse.on==true" ng-click="updateModifiers('groupHE', 'eabse')"></div>
-						</div>
-						<div class="row groupHE" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupHE.eabs.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupHE.eabs.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eabs" ng-checked="modifiers.groupHE.eabs.on==true" ng-click="updateModifiers('groupHE', 'eabs')"></div>
 						</div>
 					</div>
 					<div class="col-xs-12 col-md-3">
@@ -519,6 +503,34 @@
 						<div class="row groupWeakEx" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupWeakEx.weakex.desc%>">
 							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupWeakEx.weakex.name%></div>
 							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_weakex" ng-checked="modifiers.groupWeakEx.weakex.on==true" ng-click="updateModifiers('groupWeakEx', 'weakex')"></div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Hunting Horn Buffs</strong></div>
+						</div>
+						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.auplhhe.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.auplhhe.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhhe" ng-checked="modifiers.groupH.auplhhe.on==true" ng-click="updateModifiers('groupH', 'auplhhe')"></div>
+						</div>
+						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.auplhh.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.auplhh.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhh" ng-checked="modifiers.groupH.auplhh.on==true" ng-click="updateModifiers('groupH', 'auplhh')"></div>
+						</div>
+						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.aupshhe.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.aupshhe.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshhe" ng-checked="modifiers.groupH.aupshhe.on==true" ng-click="updateModifiers('groupH', 'aupshhe')"></div>
+						</div>
+						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupH.aupshh.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupH.aupshh.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshh" ng-checked="modifiers.groupH.aupshh.on==true" ng-click="updateModifiers('groupH', 'aupshh')"></div>
+						</div>
+						<div class="row groupHE" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupHE.eabse.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupHE.eabse.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eabse" ng-checked="modifiers.groupHE.eabse.on==true" ng-click="updateModifiers('groupHE', 'eabse')"></div>
+						</div>
+						<div class="row groupHE" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%modifiers.groupHE.eabs.desc%>">
+							<div class="col-xs-8 col-sm-8 text-right"><%modifiers.groupHE.eabs.name%></div>
+							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eabs" ng-checked="modifiers.groupHE.eabs.on==true" ng-click="updateModifiers('groupHE', 'eabs')"></div>
 						</div>
 					</div>
 				</div>

@@ -51,6 +51,16 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
 			};
 
+			var affinityBase = 0
+			if (weapon.affinity_virus != null) {
+				if (modifiers.virusovercome == true) affinityBase = Math.abs(weapon.affinity) + weapon.affinity_virus;
+				else affinityBase = weapon.affinity + weapon.affinity_virus;
+			}
+			else {
+				if (modifiers.virusovercome == true) affinityBase = weapon.affinity + 15;
+				else affinityBase = weapon.affinity;
+			}
+
 			var tempShowValMin = 0;
 			var tempShowValMax = 0;
 			var tempShowValMinE = 0;
@@ -99,7 +109,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var sharpnessMod = [0.5, 0.75, 1.0, 1.125, 1.25, 1.32, 1.44];
 			var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
 
-			var pwr = pPwr(weapon.attack, weapon.affinity + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], modifiers.pMul, modifiers.pAdd);
+			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], modifiers.pMul, modifiers.pAdd);
 			var epwr = 0;
 			var etype = 0
 			var epwr2 = 0;;
@@ -215,6 +225,9 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 	$scope.sharpnessCSS = '';
 	$scope.sharpnesses = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'White', 'Purple'];
 	$scope.modifiers = {
+		'groupVirus': {
+			'vo': {'name': 'Virus Overcome', 'on': false, 'dAdd': 0, 'dMul': 0, 'eAdd': 0, 'eMul': 0, 'eType': -1, 'aff': 0, 'desc': 'increases affinity'}
+		},
 		'groupHoned': {
 			'ha': {'name': 'Honed Attack', 'on': false, 'dAdd': 20, 'dMul': 0, 'eAdd': 0, 'eMul': 0, 'eType': -1, 'aff': 0, 'desc': 'increases base +20'}
 		},
@@ -500,6 +513,9 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 					}
 				}
 			}
+		}
+		if ($scope.modifiers['groupVirus']['vo']['on'] == true) {
+			$scope.modSummary['virusovercome'] = true;
 		}
 		if ($scope.modifiers['groupWeakEx']['weakex']['on'] == true || $scope.modifiers['groupExpert']['ruth']['on'] == true) {
 			$scope.modSummary['weakex'] = true;

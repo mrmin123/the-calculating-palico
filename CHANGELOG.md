@@ -1,4 +1,10 @@
-## 2015-04-09
+## 0.1.2 (2015-04-12)
+Features:
+
+- Added support for overcoming frenzy virus
+- Added support for Chaotic Gore Magala dual-affinity states
+
+## 0.1.1 (2015-04-09)
 Features:
 
 - Added support for every skill but Elemental Crit
@@ -12,5 +18,5 @@ Bugfixes:
 - Fixed incorrect calculation of additive damage multipliers
 - Fixed incorrect rendering on mobile
 
-## 2015-04-08
+## 0.1 (2015-04-08)
 Initial Release
