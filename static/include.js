@@ -32,173 +32,145 @@ $(skillGroups.join(', ')).hover(
 	}
 );
 
-var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
-	.service('calculatorService', function() {
-		this.calcDamage = function(mode, range, elemental, motion, weapon, weaponType, monster, damage, elements, sharpness, modifiers, eindex) {
-			pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
-				if (affinity > 100) { affinity = 100; }
-				return (((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul);
-			};
-			ePwr = function(attack, sharpness) {
-				return (attack / 10) * sharpness;
-			};
-			pDmg = function(pwr, motionPower, res) {
-				if (modifiers.weakex == true && res > 44) { res += 5; }
-				return Math.round(pwr * (motionPower / 100) * (res / 100));
-			};
-			eDmg = function(pwr, res, modmul, modadd) {
-				if (modmul > 0.2) { modmul = 0.2; }
-				return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
-			};
+var calcServiceDef = function(){
+	this.calcDamage = function(motion, weapon, weaponType, damage, elements, sharpness, modifiers) {
+		pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
+			if (affinity > 100) { affinity = 100; }
+			return (((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul);
+		};
+		ePwr = function(attack, sharpness) {
+			return (attack / 10) * sharpness;
+		};
+		pDmg = function(pwr, motionPower, res) {
+			if (modifiers.weakex == true && res > 44) { res += 5; }
+			return Math.round(pwr * (motionPower / 100) * (res / 100));
+		};
+		eDmg = function(pwr, res, modmul, modadd) {
+			if (modmul > 0.2) { modmul = 0.2; }
+			return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
+		};
 
-			var tempShowValMin = 0;
-			var tempShowValMax = 0;
-			var tempShowValMinE = 0;
-			var tempShowValMaxE = 0;
-			var tempShowValMinE2 = 0;
-			var tempShowValMaxE2 = 0;
+		if (typeof motion === 'undefined' || typeof weapon === 'undefined' || typeof weaponType === 'undefined' || typeof damage === 'undefined') {
+			return '';
+		}
 
-			calculateRanges = function() {
-				var sum = raw.reduce(function(a, b) { return a + b; });
-				var sumE = rawE.reduce(function(a, b) { return a + b; });
-				var sumE2 = rawE2.reduce(function(a, b) { return a + b; })
-				if (sum + sumE + sumE2 < rangeMin || rangeMin == 0) {
-					rangeMin = sum + sumE + sumE2;
-					tempShowValMin = sum + 0;
-					tempShowValMinE = sumE + 0;
-					tempShowValMinE2 = sumE2 + 0;
-				}
-				if (sum + sumE + sumE2 > rangeMax) {
-					rangeMax = sum + sumE + sumE2;
-					tempShowValMax = sum + 0;
-					tempShowValMaxE = sumE + 0;
-					tempShowValMaxE2 = sumE2 + 0;
-				}
-			};
-			returnRangeVal = function() {
-				if (range == 'lo') {
-					if (elemental == 0) return tempShowValMin;
-					else if (elemental == 1) {
-						if (eindex == 0) return '+' + tempShowValMinE;
-						else if (eindex == 1) return '+' + tempShowValMinE2;
-					}
-				}
-				else if (range == 'hi') {
-					if (elemental == 0) return tempShowValMax;
-					else if (elemental == 1) {
-						if (eindex == 0) return '+' + tempShowValMaxE;
-						else if (eindex == 1) return '+' + tempShowValMaxE2;
-					}
-				}
-			};
+		var sharpnessMod = [0.5, 0.75, 1.0, 1.125, 1.25, 1.32, 1.44];
+		var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
 
-			if (typeof motion === 'undefined' || typeof weapon === 'undefined' || typeof weaponType === 'undefined' || typeof monster === 'undefined' || typeof damage === 'undefined') {
-				return '';
-			}
+		var pwr = pPwr(weapon.attack, weapon.affinity + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], modifiers.pMul, modifiers.pAdd);
+		var epwr = [];
+		var etype = [];
+		
+		for(var i = 0; i < elements.length; i++) {
+			epwr[i] = ePwr(elements[i].attack, sharpnessModE[sharpness]);
+			etype[i] = elements[i].id;
+		}
 
-			var sharpnessMod = [0.5, 0.75, 1.0, 1.125, 1.25, 1.32, 1.44];
-			var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
-
-			var pwr = pPwr(weapon.attack, weapon.affinity + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], modifiers.pMul, modifiers.pAdd);
-			var epwr = 0;
-			var etype = 0
-			var epwr2 = 0;;
-			var etype2 = 0;
-			if (elements.length == 1) {
-				if (elements[0].id < 6) {
-					epwr = ePwr(elements[0].attack, sharpnessModE[sharpness]);
-					etype = elements[0].id;
+		var raw = [0];
+		var rawE = [0];
+		for(i = 0; i < epwr.length; i++) {
+			rawE[i] = 0;
+		}
+		for (var i = 0; i < motion.power.length; i++) {
+			raw.push(pDmg(pwr, motion.power[i], damage[motion.type[i]]));
+			if(epwr.length > 0) {
+				 // assuming every motion triggers the next element in the sequence, for single element weapons(most blademaster weapons,)
+				 // will only have one element so each motion will trigger that. For dual blades with two elements it will trigger the first 
+				 // element on the first strike, second element on the second strike, then back to the first, etc.
+				var elementIndex = i % epwr.length;
+				var elementType = etype[elementIndex];
+				
+				if(elementType > modifiers.elem.length)
+				{
+					continue;
 				}
+				
+				rawE[elementIndex] += eDmg(epwr[elementIndex], damage[2 + elementType], 
+						modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd)						
 			}
-			else if (elements.length == 2) {
-				if (elements[0].id < 6) {
-					epwr = ePwr(elements[0].attack, sharpnessModE[sharpness]);
-					etype = elements[0].id;
+		}
+		var sum = raw.reduce(function(a, b) { return a + b; })
+		
+		var returnObject = {
+			"physicalDamage" : sum,
+			"elementalDamage" : rawE,
+			"totalDamage" : sum + rawE.reduce(function(a, b) { return a + b; })
+		};
+		
+		return returnObject;
+		
+		if(elemental == 1) {
+			return '+' + rawE[eindex];
+		}
+		else {
+			return sum;
+		}
+	};
+		
+	this.calcDamageFromRange = function(range, motions, weapon, weaponType, damage, elements, sharpness, modifiers, eindex) {
+		var returnObject = null;
+		calculateMin = function() {
+			for(var i = 0; i < damageValues.length; i++) {
+				if (returnObject == null || damageValues[i].totalDamage < returnObject.totalDamage) {
+					returnObject = damageValues[i];
 				}
-				if (elements[1].id < 6) {
-					epwr = ePwr(elements[1].attack, sharpnessModE[sharpness]);
-					etype2 = elements[1].id;
-				}
-			}
-
-			var raw = [0];
-			var rawE = [0];
-			var rawE2 = [0];
-			var rangeMin = 0;
-			var rangeMax = 0;
-			if (mode == 'specific') {
-				for (i = 0; i < motion.power.length; i++) {
-					raw.push(pDmg(pwr, motion.power[i], damage[motion.type[i]]));
-					if (elements.length > 1) {
-						if (i % 2 == 0) { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-						else { rawE2.push(eDmg(epwr2, damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
-					}
-					else { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-				}
-				var sum = raw.reduce(function(a, b) { return a + b; })
-				var sumE = rawE.reduce(function(a, b) { return a + b; })
-				var sumE2 = rawE2.reduce(function(a, b) { return a + b; })
-				if (elemental == 0) {return sum; }
-				else if (elemental == 1) {
-					if (eindex == 0) return '+' + sumE;
-					else if (eindex == 1) return '+' + sumE2;
-				}
-			}
-			else if (mode == 'perPart') {
-				for (i = 0; i < weaponType.motions.length; i++) {
-					raw = [0];
-					rawE = [0];
-					rawE2 = [0];
-					for (j = 0; j < weaponType.motions[i].power.length; j++) {
-						raw.push(pDmg(pwr, weaponType.motions[i].power[j], damage[weaponType.motions[i].type[j]]));
-						if (elements.length > 1) {
-							if (j % 2 == 0) { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-							else { rawE2.push(eDmg(epwr2, damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
-						}
-						else { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-					}
-					calculateRanges();
-				}
-				return returnRangeVal();
-			}
-			else if (mode == 'perMove') {
-				for (i = 0; i < damage.length; i++) {
-					raw = [0];
-					rawE = [0];
-					rawE2 = [0];
-					for (j = 0; j < motion.power.length; j++) {
-						raw.push(pDmg(pwr, motion.power[j], damage[i].damage[motion.type[j]]));
-						if (elements.length > 1) {
-							if (j % 2 == 0) { rawE.push(eDmg(epwr, damage[i].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-							else { rawE2.push(eDmg(epwr, damage[i].damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
-						}
-						else { rawE.push(eDmg(epwr, damage[i].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-					}
-					calculateRanges();
-				}
-				return returnRangeVal();
-			}
-			else if (mode == 'all') {
-				for (k = 0; k < damage.length; k ++) {
-					for (i = 0; i < weaponType.motions.length; i++) {
-						raw = [0];
-						rawE = [0];
-						rawE2 = [0];
-						for (j = 0; j < weaponType.motions[i].power.length; j++) {
-							raw.push(pDmg(pwr, weaponType.motions[i].power[j], damage[k].damage[weaponType.motions[i].type[j]]));
-							if (elements.length > 1) {
-								if (j % 2 == 0) { rawE.push(eDmg(epwr, damage[k].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-								else { rawE2.push(eDmg(epwr2, damage[k].damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
-							}
-							else { rawE.push(eDmg(epwr, damage[k].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
-						}
-						calculateRanges();
-					}
-				}
-				return returnRangeVal();
 			}
 		};
-	});
+		calculateMax = function() {
+			for(var i = 0; i < damageValues.length; i++) {
+				if (returnObject == null || damageValues[i].totalDamage > returnObject.totalDamage) {
+					returnObject = damageValues[i];
+				}
+			}
+		};
+		
+		if (typeof motions === 'undefined' ){
+			return "motions == undefined";
+		}
+		else if (typeof weaponType === 'undefined'){
+			return "weaponType == undefined";
+		}
+		else if(typeof damage === 'undefined') {
+			return "damage == undefined";
+		}
+		
+		var damageValues = [];
+		for(var i = 0; i < motions.length; i++){
+			for(var j = 0; j < damage.length; j++) {
+				damageValues.push(this.calcDamage(motions[i], weapon, weaponType, damage[j].damage, elements, sharpness, modifiers));
+			}
+		}
+		
+		if(range == 'hi') {
+			calculateMax();
+		}
+		else if (range == 'lo') {
+			calculateMin();
+		}
+		
+		if(eindex < 0) {
+			return returnObject.physicalDamage;
+		}
+		else {
+			return returnObject.elementalDamage[eindex];
+		}
+	};
+	
+	this.calcDamagePerPart = function(range, motions, weapon, weaponType, part, elements, sharpness, modifiers, eindex) {
+		return part;
+		var partWrapper = [{"damage": part}];
+		return this.calcDamageFromRange(range, motions, weapon, weaponType, partWrapper, elements, sharpness, modifiers, eindex);
+	}
+	
+	this.calcDamagePerMove = function(range, move, weapon, weaponType, damage, elements, sharpness, modifiers, eindex) {
+		motions = [move];
+		return this.calcDamageFromRange(range, motions, weapon, weaponType, damage, elements, sharpness, modifiers, eindex);
+	}
+};
+
+var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap']);
+
+calculatingPalico.service('calculatorService', calcServiceDef);
 
 calculatingPalico.config(function($interpolateProvider) {
 	$interpolateProvider.startSymbol('<%');
@@ -507,4 +479,5 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 	}
 
 	$scope.calcDamage = calculatorService.calcDamage;
+	$scope.calcDamageFromRange = calculatorService.calcDamageFromRange;
 });
