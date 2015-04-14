@@ -98,32 +98,9 @@ var calcServiceDef = function(){
 		};
 		
 		return returnObject;
-		
-		if(elemental == 1) {
-			return '+' + rawE[eindex];
-		}
-		else {
-			return sum;
-		}
 	};
 		
-	this.calcDamageFromRange = function(range, motions, weapon, weaponType, damage, elements, sharpness, modifiers, eindex) {
-		var returnObject = null;
-		calculateMin = function() {
-			for(var i = 0; i < damageValues.length; i++) {
-				if (returnObject == null || damageValues[i].totalDamage < returnObject.totalDamage) {
-					returnObject = damageValues[i];
-				}
-			}
-		};
-		calculateMax = function() {
-			for(var i = 0; i < damageValues.length; i++) {
-				if (returnObject == null || damageValues[i].totalDamage > returnObject.totalDamage) {
-					returnObject = damageValues[i];
-				}
-			}
-		};
-		
+	this.calcDamageFromRange = function(motions, weapon, weaponType, damage, elements, sharpness, modifiers) {		
 		if (typeof motions === 'undefined' ){
 			return "motions == undefined";
 		}
@@ -140,32 +117,26 @@ var calcServiceDef = function(){
 				damageValues.push(this.calcDamage(motions[i], weapon, weaponType, damage[j].damage, elements, sharpness, modifiers));
 			}
 		}
+		var minObject = null;
+		var maxObject = null;
 		
-		if(range == 'hi') {
-			calculateMax();
-		}
-		else if (range == 'lo') {
-			calculateMin();
+		for(var i = 0; i < damageValues.length; i++) {
+			if (minObject == null || damageValues[i].totalDamage < minObject.totalDamage) {
+				minObject = damageValues[i];
+			}
+			
+			if (maxObject == null || damageValues[i].totalDamage > maxObject.totalDamage) {
+				maxObject = damageValues[i];
+			}
 		}
 		
-		if(eindex < 0) {
-			return returnObject.physicalDamage;
-		}
-		else {
-			return returnObject.elementalDamage[eindex];
-		}
+		var returnObject = {
+			"max" : maxObject,
+			"min" : minObject
+		};
+		
+		return returnObject;
 	};
-	
-	this.calcDamagePerPart = function(range, motions, weapon, weaponType, part, elements, sharpness, modifiers, eindex) {
-		return part;
-		var partWrapper = [{"damage": part}];
-		return this.calcDamageFromRange(range, motions, weapon, weaponType, partWrapper, elements, sharpness, modifiers, eindex);
-	}
-	
-	this.calcDamagePerMove = function(range, move, weapon, weaponType, damage, elements, sharpness, modifiers, eindex) {
-		motions = [move];
-		return this.calcDamageFromRange(range, motions, weapon, weaponType, damage, elements, sharpness, modifiers, eindex);
-	}
 };
 
 var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap']);
