@@ -3,6 +3,10 @@ body {
 	background-color: #eee;
 }
 
+ul.nav i {
+	font-size: 1.9em;
+}
+
 .panel {
 	box-shadow: 0 0 5px #bbb;
 	border-radius: 0;
@@ -33,7 +37,27 @@ body {
 	padding-top: 2px;
 }
 
+.modifiers_list {
+	font-size: 0.8em;
+}
+
+.modifiers_list ul {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.modifiers_list ul li {
+	display: inline;
+	padding: 0 2px 0 2px;
+	margin: 0 5px 0 0;
+	border: 1px solid #000;
+	border-radius: 3px;
+}
+
 .table {
+	margin: 6px 0 15px 0;
 	font-size: 0.9em;
 }
 
@@ -60,7 +84,7 @@ table tr td:first-child {
 	font-weight: bold;
 }
 
-table tr td i.fa {
+table thead th i.fa {
 	cursor: pointer;
 }
 

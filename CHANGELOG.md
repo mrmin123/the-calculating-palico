@@ -1,3 +1,9 @@
+## 0.2.0 (2015-04-17)
+Features:
+
+- Added support for multiple weapon setups for damage output comparisons
+- Minor updates to UI
+
 ## 0.1.2 (2015-04-12)
 Features:
 
