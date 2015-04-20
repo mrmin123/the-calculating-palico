@@ -1,3 +1,10 @@
+## 0.3.0 (2015-04-19)
+Features:
+
+- Reworked to not require the Python/Flask backend
+- Added ability to minimize modifiers panel
+- Minor UI tweaks
+
 ## 0.2.0 (2015-04-17)
 Features:
 
