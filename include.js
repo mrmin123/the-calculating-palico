@@ -26,7 +26,7 @@ $(skillGroups.join(', ')).hover(
 
 // toggle -/+ icons for modifier panel
 $('.toggle_modifiers').click(function() {
-	$(this).toggleClass('fa-minus-square-o fa-plus-square-o');
+	$(this).find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
 });
 
 /* angular */
@@ -234,48 +234,12 @@ calculatingPalico.config(function($interpolateProvider) {
 
 // main calculatingPalico controller
 calculatingPalico.controller('calculatingPalicoController', function($scope, $http, $q, calculatingPalicoSetup, calculatorService) {
+	// collapse modifiers panel at page load
+	$scope.modPanelCollapse = true;
+
+	// define promises
 	var promises = [];
-	// get weapon types
-	/*
-	promises.push(
-		$http.get('/calculatingpalico/static/weapon_type.json', {cache: true}).then(function(res) {
-			$scope.weaponTypes = res.data;
-		});
-	);
-	// get weapon types
-	promises.push(
-		$http.get('/calculatingpalico/static/weapon_list.json', {cache: true}).then(function(res) {
-			$scope.weaponList = res.data;
-		});
-	);
-	// get weapon types
-	promises.push(
-	$http.get('/calculatingpalico/static/weapon_data.json', {cache: true})
-		.then(function(res) {
-			$scope.weaponData = res.data;
-	});
-	// get monster list
-	promises.push(
-	$http.get('/calculatingpalico/static/monster_list.json', {cache: true})
-		.then(function(res) {
-			$scope.monsters = res.data;
-	});
-		);
-	// get weapon types
-	promises.push(
-	$http.get('/calculatingpalico/static/monster_data.json', {cache: true})
-		.then(function(res) {
-			$scope.monsterData = res.data;
-	});
-		);
-	// get weapon types
-	promises.push(
-	$http.get('/calculatingpalico/static/modifiers.json', {cache: true})
-		.then(function(res) {
-			$scope.modifiersRaw = res.data;
-	});
-		);
-	*/
+
 	promises.push($http.get('json/weapon_type.json', {cache: true}));
 	promises.push($http.get('json/weapon_list.json', {cache: true}));
 	promises.push($http.get('json/weapon_data.json', {cache: true}));
@@ -283,6 +247,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 	promises.push($http.get('json/monster_data.json', {cache: true}));
 	promises.push($http.get('json/modifiers.json', {cache: true}));
 
+	// once all promises are met, initialize rest of variables
 	$q.all(promises).then(function(data) {
 		$scope.weaponTypes = data[0].data;
 		$scope.weaponList = data[1].data;
@@ -347,7 +312,6 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 			$scope.switchSetup(0);
 		};
 	});
-
 
 	// define calculatorService for damage calculations
 	$scope.calcDamage = calculatorService.calcDamage;
