@@ -257,7 +257,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 		$scope.modifiersRaw = data[5].data;
 
 		// define variables for multi-setup tracking
-		$scope.storedSetups = [new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, $scope.modifiersRaw)];
+		$scope.storedSetups = [new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, JSON.parse(JSON.stringify($scope.modifiersRaw)))];
 		$scope.currentSetup = $scope.storedSetups[0];
 		$scope.current = 0;
 		$scope.counter = [0];
@@ -302,7 +302,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 
 		// function to add new blank weapon/modifier setup and switch to it
 		$scope.addSetup = function() {
-			$scope.storedSetups.push(new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, $scope.modifiersRaw));
+			$scope.storedSetups.push(new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, JSON.parse(JSON.stringify($scope.modifiersRaw))));
 			$scope.switchSetup($scope.storedSetups.length - 1);
 		};
 
