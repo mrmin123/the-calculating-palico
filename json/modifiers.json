@@ -121,5 +121,10 @@
 		"datk2": {"name": "Dragon Atk +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 5, "aff": 0, "desc": "increase dragon element x1.1 +60"},
 		"datk1": {"name": "Dragon Atk +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 5, "aff": 0, "desc": "increase dragon element x1.05 +40"},
 		"datkd": {"name": "Dragon Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 5, "aff": 0, "desc": "decrease dragon element x0.75"}
+	},
+	"groupArty": {
+		"arty3": {"name": "Artillery Master", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.4, "eType": -1, "aff": 0, "desc": ""},
+		"arty2": {"name": "Artillery Expert", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.3, "eType": -1, "aff": 0, "desc": ""},
+		"arty1": {"name": "Artillery Novice", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": -1, "aff": 0, "desc": ""}
 	}
 }

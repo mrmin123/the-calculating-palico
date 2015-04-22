@@ -42,11 +42,11 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			// raw power calculation function
 			pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
 				if (affinity > 100) { affinity = 100; }
-				return (((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul);
+				return Math.round((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
 			};
 			// raw elemental power calculation function
 			ePwr = function(attack, sharpness) {
-				return (attack / 10) * sharpness;
+				return Math.round((attack / 10) * sharpness);
 			};
 			// true power calculation function
 			pDmg = function(pwr, motionPower, res) {
@@ -57,6 +57,44 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			eDmg = function(pwr, res, modmul, modadd) {
 				if (modmul > 0.2) { modmul = 0.2; }
 				return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
+			};
+
+			// special considerations: long swords
+			if (weaponType.id == 2) {
+				var pMul = modifiers.pMul + (0.1 * modifiers.lsspirit);
+			}
+			else {
+				var pMul = modifiers.pMul + 0;
+			}
+
+			// special considerations: charge blades
+			cb_Exp = function(attackName, attack, modifier, modmul, res, phialc, phialt) {
+				if (phialt == 'Impact') {
+					var modlo = 0.05;
+					var modhi = 0.1;
+				}
+				else if (phialt == 'Element') {
+					var modlo = 2.5;
+					var modhi = 3.5;
+				}
+				if (attackName == 'Sword: Return Stroke' || attackName == 'Shield Attack' || attackName == 'Axe: Element Discharge 1' || attackName == 'Axe: Element Discharge 1 (Boost Mode)' || attackName == 'Axe: Dash Element Discharge 1' || attackName == 'Axe: Dash Element Discharge 1 (Boost Mode)') {
+					return cb_ExpEq(attack, modifier, 0, res, modlo, 1, 1);
+				}
+				else if (attackName == 'Axe: Element Discharge 2' || attackName == 'Axe: Element Discharge 2 (Boost Mode)') {
+					return cb_ExpEq(attack, modifier, 0, res, modlo, 2, 1);
+				}
+				else if (attackName == 'Axe: Amped Element Discharge' || attackName == 'Axe: Amped Element Discharge (Boost Mode)') {
+					return cb_ExpEq(attack, modifier, 0, res, modhi, 3, 1);
+				}
+				else if (attackName == 'Axe: Super Amped Element Discharge') {
+					return cb_ExpEq(attack, modifier, 0, res, modhi, 3, phialc);
+				}
+				else {
+					return 0;
+				}
+			};
+			cb_ExpEq = function(attack, modifier, modmul, res, phialMulti, expCount, phialCount) {
+				return Math.round(Math.round((attack / modifier) * (1 + modmul) * (res / 100)) * phialMulti) * expCount * phialCount;
 			};
 
 			// function for keeping track of min/max damage values
@@ -119,7 +157,11 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
 
 			// calculate raw power
-			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], modifiers.pMul, modifiers.pAdd);
+			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], pMul, modifiers.pAdd);
+			// special considerations: switch axes
+			if (weaponType.id == 9) {
+				var pwrSACharge = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], pMul + 0.2, modifiers.pAdd);
+			}
 			var epwr = 0;
 			var etype = 0
 			var epwr2 = 0;;
@@ -130,6 +172,16 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				if (elements[0].id < 6) {
 					epwr = ePwr(elements[0].attack, sharpnessModE[sharpness]);
 					etype = elements[0].id;
+
+					// special considerations: great swords
+					if (weaponType.id == 1) {
+						var epwrLvl2 = ePwr(elements[0].attack * 2, sharpnessModE[sharpness]);
+						var epwrLvl3 = ePwr(elements[0].attack * 3, sharpnessModE[sharpness]);
+					}
+					// special considerations: switch axes
+					if (weaponType.id == 9) {
+						var epwrLvl2 = ePwr(elements[0].attack * 1.25, sharpnessModE[sharpness]);
+					}
 				}
 			}
 			else if (elements.length == 2) {
@@ -151,12 +203,47 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			if (mode == 'specific') {
 				// calculate damage for specific move and body part
 				for (i = 0; i < motion.power.length; i++) {
+					// raw damage
 					raw.push(pDmg(pwr, motion.power[i], damage[motion.type[i]]));
+					// switch axe charge damage
+					if (weaponType.id == 9 && weapon.phial == 'Power' && motion.name.indexOf('Sword:') > -1) {
+						raw.pop();
+						raw.push(pDmg(pwrSACharge, motion.power[i], damage[motion.type[i]]));
+					}
+					// charge blade phial damage
+					if (weaponType.id == 10 && weapon.phial == 'Impact') {
+						raw.push(cb_Exp(motion.name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
+					}
+					// elemental damage
 					if (elements.length > 1) {
+						// raw dual elemental damages
 						if (i % 2 == 0) { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
 						else { rawE2.push(eDmg(epwr2, damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
 					}
-					else { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
+					else {
+						// raw elemental damage
+						rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+						// great sword elemental charge damage
+						if (weaponType.id == 1) {
+							if (motion.name.indexOf('(Lvl 2)') > -1) {
+								rawE.pop();
+								rawE.push(eDmg(epwrLvl2, damage[2 + etype], modifiers.elem[etype].eMul + 1, modifiers.elem[etype].eAdd));
+							}
+							else if (motion.name.indexOf('(Lvl 3)') > -1) {
+								rawE.pop();
+								rawE.push(eDmg(epwrLvl3, damage[2 + etype], modifiers.elem[etype].eMul + 2, modifiers.elem[etype].eAdd));
+							}
+						}
+						// switch axe elemental charge damage
+						if (weaponType.id == 9 && weapon.phial == 'Element' && motion.name.indexOf('Sword:') > -1) {
+							rawE.pop();
+							rawE.push(eDmg(epwrLvl2, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+						}
+						// charge blade elemental phial damage
+						if (weaponType.id == 10 && weapon.phial == 'Element') {
+							rawE.push(cb_Exp(motion.name, elements[0].attack, 10, 0, damage[2 + etype], modifiers.phialc, weapon.phial));
+						}
+					}
 				}
 				var sum = arraySum(raw);
 				var sumE = arraySum(rawE);
@@ -174,12 +261,46 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					rawE = [0];
 					rawE2 = [0];
 					for (j = 0; j < weaponType.motions[i].power.length; j++) {
+						// raw damage
 						raw.push(pDmg(pwr, weaponType.motions[i].power[j], damage[weaponType.motions[i].type[j]]));
+						// switch axe charge damage
+						if (weaponType.id == 9 && weapon.phial == 'Power' && weaponType.motions[i].name.indexOf('Sword:') > -1) {
+							raw.pop();
+							raw.push(pDmg(pwrSACharge, weaponType.motions[i].power[j], damage[weaponType.motions[i].type[j]]));
+						}
+						// charge blade phial damage
+						if (weaponType.id == 10 && weapon.phial == 'Impact') {
+							raw.push(cb_Exp(weaponType.motions[i].name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
+						}
 						if (elements.length > 1) {
+							// raw dual elemental damages
 							if (j % 2 == 0) { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
 							else { rawE2.push(eDmg(epwr2, damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
 						}
-						else { rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
+						else {
+							// raw elemental damage
+							rawE.push(eDmg(epwr, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+							// great sword elemental charge damage
+							if (weaponType.id == 1) {
+								if (weaponType.motions[i].name.indexOf('(Lvl 2)') > -1) {
+									rawE.pop();
+									rawE.push(eDmg(epwrLvl2, damage[2 + etype], modifiers.elem[etype].eMul + 1, modifiers.elem[etype].eAdd));
+								}
+								else if (weaponType.motions[i].name.indexOf('(Lvl 3)') > -1) {
+									rawE.pop();
+									rawE.push(eDmg(epwrLvl3, damage[2 + etype], modifiers.elem[etype].eMul + 2, modifiers.elem[etype].eAdd));
+								}
+							}
+							// switch axe elemental charge damage
+							if (weaponType.id == 9 && weapon.phial == 'Element' && weaponType.motions[i].name.indexOf('Sword:') > -1) {
+								rawE.pop();
+								rawE.push(eDmg(epwrLvl2, damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+							}
+							// charge blade elemental phial damage
+							if (weaponType.id == 10 && weapon.phial == 'Element') {
+								rawE.push(cb_Exp(weaponType.motions[i].name, elements[0].attack, 10, 0, damage[2 + etype], modifiers.phialc, weapon.phial));
+							}
+						}
 					}
 					calculateRanges();
 				}
@@ -192,12 +313,46 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					rawE = [0];
 					rawE2 = [0];
 					for (j = 0; j < motion.power.length; j++) {
+						// raw damage
 						raw.push(pDmg(pwr, motion.power[j], damage[i].damage[motion.type[j]]));
+						// switch axe charge damage
+						if (weaponType.id == 9 && weapon.phial == 'Power' && motion.name.indexOf('Sword:') > -1) {
+							raw.pop();
+							raw.push(pDmg(pwrSACharge, motion.power[j], damage[i].damage[motion.type[j]]));
+						}
+						// charge blade phial damage
+						if (weaponType.id == 10 && weapon.phial == 'Impact') {
+							raw.push(cb_Exp(motion.name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
+						}
 						if (elements.length > 1) {
+							// raw dual elemental damages
 							if (j % 2 == 0) { rawE.push(eDmg(epwr, damage[i].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
 							else { rawE2.push(eDmg(epwr, damage[i].damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
 						}
-						else { rawE.push(eDmg(epwr, damage[i].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
+						else {
+							// raw elemental damage
+							rawE.push(eDmg(epwr, damage[i].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+							// great sword elemental charge damage
+							if (weaponType.id == 1) {
+								if (motion.name.indexOf('(Lvl 2)') > -1) {
+									rawE.pop();
+									rawE.push(eDmg(epwrLvl2, damage[i].damage[2 + etype], modifiers.elem[etype].eMul + 1, modifiers.elem[etype].eAdd));
+								}
+								else if (motion.name.indexOf('(Lvl 3)') > -1) {
+									rawE.pop();
+									rawE.push(eDmg(epwrLvl3, damage[i].damage[2 + etype], modifiers.elem[etype].eMul + 2, modifiers.elem[etype].eAdd));
+								}
+							}
+							// switch axe elemental charge damage
+							if (weaponType.id == 9 && weapon.phial == 'Element' && motion.name.indexOf('Sword:') > -1) {
+								rawE.pop();
+								rawE.push(eDmg(epwrLvl2, damage[i].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+							}
+							// charge blade elemental phial damage
+							if (weaponType.id == 10 && weapon.phial == 'Element') {
+								rawE.push(cb_Exp(motion.name, elements[0].attack, 10, 0, damage[i].damage[2 + etype], modifiers.phialc, weapon.phial));
+							}
+						}
 					}
 					calculateRanges();
 				}
@@ -211,12 +366,46 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 						rawE = [0];
 						rawE2 = [0];
 						for (j = 0; j < weaponType.motions[i].power.length; j++) {
+							// raw damage
 							raw.push(pDmg(pwr, weaponType.motions[i].power[j], damage[k].damage[weaponType.motions[i].type[j]]));
+							// switch axe charge damage
+							if (weaponType.id == 9 && weapon.phial == 'Power' && weaponType.motions[i].name.indexOf('Sword:') > -1) {
+								raw.pop();
+								raw.push(pDmg(pwrSACharge, weaponType.motions[i].power[j], damage[k].damage[weaponType.motions[i].type[j]]));
+							}
+							// charge blade phial damage
+							if (weaponType.id == 10 && weapon.phial == 'Impact') {
+								raw.push(cb_Exp(weaponType.motions[i].name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
+							}
 							if (elements.length > 1) {
+								// raw dual elemental damages
 								if (j % 2 == 0) { rawE.push(eDmg(epwr, damage[k].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
 								else { rawE2.push(eDmg(epwr2, damage[k].damage[2 + etype2], modifiers.elem[etype2].eMul, modifiers.elem[etype2].eAdd)); }
 							}
-							else { rawE.push(eDmg(epwr, damage[k].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd)); }
+							else {
+								// raw elemental damage
+								rawE.push(eDmg(epwr, damage[k].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+								// great sword elemental charge damage
+								if (weaponType.id == 1) {
+									if (weaponType.motions[i].name.indexOf('(Lvl 2)') > -1) {
+										rawE.pop();
+										rawE.push(eDmg(epwrLvl2, damage[k].damage[2 + etype], modifiers.elem[etype].eMul + 1, modifiers.elem[etype].eAdd));
+									}
+									else if (weaponType.motions[i].name.indexOf('(Lvl 3)') > -1) {
+										rawE.pop();
+										rawE.push(eDmg(epwrLvl3, damage[k].damage[2 + etype], modifiers.elem[etype].eMul + 2, modifiers.elem[etype].eAdd));
+									}
+								}
+								// switch axe elemental charge damage
+								if (weaponType.id == 9 && weapon.phial == 'Element' && weaponType.motions[i].name.indexOf('Sword:') > -1) {
+									rawE.pop();
+									rawE.push(eDmg(epwrLvl2, damage[k].damage[2 + etype], modifiers.elem[etype].eMul, modifiers.elem[etype].eAdd));
+								}
+								// charge blade elemental phial damage
+								if (weaponType.id == 10 && weapon.phial == 'Element') {
+									rawE.push(cb_Exp(weaponType.motions[i].name, elements[0].attack, 10, 0, damage[k].damage[2 + etype], modifiers.phialc, weapon.phial));
+								}
+							}
 						}
 						calculateRanges();
 					}
@@ -317,26 +506,44 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 	$scope.calcDamage = calculatorService.calcDamage;
 });
 
+// factory for generating custom setups
 calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 	var customSetup = function(weaponTypesRaw, weaponListRaw, weaponDataRaw, modifiersRaw) {
 		this.initialize = function() {
+			this.weaponTypes = weaponTypesRaw;
+			this.weaponList = weaponListRaw;
+			this.weaponData = weaponDataRaw;
+			this.modifiers = modifiersRaw;
+
 			this.weaponTypeValue = 0;
 			this.sharpnessCSS = '';
 			this.sharpnesses = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'White', 'Purple'];
 
 			this.modSummary = {
-				'pAdd': 0, 'pMul': 1, 'aff': 0, 'weakex': false,
-				'elem': [{'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}]
+				pAdd: 0, pMul: 0, aff: 0, weakex: false, lsspirit: 0, phialc: 1,
+				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
 			};
 
-			this.weaponTypes = weaponTypesRaw;
-			this.weaponList = weaponListRaw;
-			this.weaponData = weaponDataRaw;
-			this.modifiers = modifiersRaw;
+			this.ls_spirit_options = [
+				{name: 'None', value: 0},
+				{name: 'White', value: 1},
+				{name: 'Yellow', value: 2},
+				{name: 'Red', value: 3}
+			];
+
+			this.cb_phial_options = [
+				{name: '1', value: 1},
+				{name: '2', value: 2},
+				{name: '3', value: 3},
+				{name: '4', value: 4},
+				{name: '5', value: 5},
+				{name: '6', value: 6},
+			];
 		};
 
 		this.updateWeaponList = function() {
 			var temp = [];
+			//temp.push({"id": 0, "name": "-- Custom Relic --", "class": this.weaponTypeValue});
 			for (var i = 0; i < this.weaponList.length; i++) {
 				if (this.weaponList[i].class == this.weaponTypeValue) {
 					temp.push(this.weaponList[i]);
@@ -453,8 +660,8 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 
 		this.calculateModifiers = function() {
 			this.modSummary = {
-				'pAdd': 0, 'pMul': 1, 'aff': 0, 'weakex': false,
-				'elem': [{'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}]
+				pAdd: 0, pMul: 0, aff: 0, weakex: false, lsspirit: 0, phialc: 1,
+				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
 			};
 			for (var group in this.modifiers) {
 				for (var key in this.modifiers[group]) {
