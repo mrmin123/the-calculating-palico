@@ -64,11 +64,11 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			// raw power calculation function
 			pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
 				if (affinity > 100) { affinity = 100; }
-				return (((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul);
+				return Math.round((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
 			};
 			// raw elemental power calculation function
 			ePwr = function(attack, sharpness) {
-				return (attack / 10) * sharpness;
+				return Math.round((attack / 10) * sharpness);
 			};
 			// true power calculation function
 			pDmg = function(pwr, motionPower, res) {
@@ -79,6 +79,43 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			eDmg = function(pwr, res, modmul, modadd) {
 				if (modmul > 0.2) { modmul = 0.2; }
 				return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
+			};
+			
+			// special considerations: long swords
+			var pMul = modifiers.pMul;
+			if (weaponType.id == 2) {
+				pMul += (0.1 * modifiers.lsspirit);
+			}
+
+			// special considerations: charge blades
+			cb_Exp = function(attackName, attack, modifier, modmul, res, phialc, phialt) {
+				if (phialt == 'Impact') {
+					var modlo = 0.05;
+					var modhi = 0.1;
+				}
+				else if (phialt == 'Element') {
+					var modlo = 2.5;
+					var modhi = 3.5;
+				}
+				if (attackName == 'Sword: Return Stroke' || attackName == 'Shield Attack' || attackName == 'Axe: Element Discharge 1' || attackName == 'Axe: Element Discharge 1 (Boost Mode)' || attackName == 'Axe: Dash Element Discharge 1' || attackName == 'Axe: Dash Element Discharge 1 (Boost Mode)') {
+					return cb_ExpEq(attack, modifier, 0, res, modlo, 1, 1);
+				}
+				else if (attackName == 'Axe: Element Discharge 2' || attackName == 'Axe: Element Discharge 2 (Boost Mode)') {
+					return cb_ExpEq(attack, modifier, 0, res, modlo, 2, 1);
+				}
+				else if (attackName == 'Axe: Amped Element Discharge' || attackName == 'Axe: Amped Element Discharge (Boost Mode)') {
+					return cb_ExpEq(attack, modifier, 0, res, modhi, 3, 1);
+				}
+				else if (attackName == 'Axe: Super Amped Element Discharge') {
+					return cb_ExpEq(attack, modifier, 0, res, modhi, 3, phialc);
+				}
+				else {
+					return 0;
+				}
+			};
+			
+			cb_ExpEq = function(attack, modifier, modmul, res, phialMulti, expCount, phialCount) {
+				return Math.round(Math.round((attack / modifier) * (1 + modmul) * (res / 100)) * phialMulti) * expCount * phialCount;
 			};
 			
 			var affinityBase = 0
@@ -95,7 +132,11 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var sharpnessMod = [0.5, 0.75, 1.0, 1.125, 1.25, 1.32, 1.44];
 			var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
 
-			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], modifiers.pMul, modifiers.pAdd);
+			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], pMul, modifiers.pAdd);
+			// special considerations: switch axes
+			if (weaponType.id == 9) {
+				var pwrSACharge = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], pMul + 0.2, modifiers.pAdd);
+			}
 			var epwr = [];
 			var etype = [];
 			
@@ -113,21 +154,60 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				rawE[i] = 0;
 			}
 			for (var i = 0; i < motion.power.length; i++) {
-				raw.push(pDmg(pwr, motion.power[i], damage[motion.type[i]]));
+				var rawPower = pwr;
+				
+				// switch axe charge damage
+				if (weaponType.id == 9 && weapon.phial == 'Power' && motion.name.indexOf('Sword:') > -1) {
+					rawPower = pwrSACharge;
+				}
+				
+				// raw damage
+				raw.push(pDmg(rawPower, motion.power[i], damage[motion.type[i]]));
+
+				// charge blade phial damage
+				if (weaponType.id == 10 && weapon.phial == 'Impact') {
+					raw.push(cb_Exp(motion.name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
+				}
+				
 				if(epwr.length > 0) {
-					 // assuming every motion triggers the next element in the sequence, for single element weapons(most blademaster weapons,)
-					 // will only have one element so each motion will trigger that. For dual blades with two elements it will trigger the first 
-					 // element on the first strike, second element on the second strike, then back to the first, etc.
-					var elementIndex = i % epwr.length;
-					var elementType = etype[elementIndex].id;
+					var elementIndex = 0;
+					
+					if(!(typeof motion.elements === 'undefined')) {
+						elementIndex = motion.elements[i]; // Mainly for dual swords; Use the index of the element based on the motion data.
+					}
+					
+					var elementType = etype[elementIndex].id - 1;
+					
 					
 					if(elementType >= modifiers.elem.length)
 					{
+						// element Type is one of the various status effects, skip it.
 						continue;
 					}
 					
-					rawE[elementIndex] += eDmg(epwr[elementIndex], damage[2 + elementType], 
+					var finalElementalPower = epwr[elementIndex];
+					
+					if (weaponType.id == 1) {
+							if (motion.name.indexOf('(Lvl 2)') > -1) {
+								finalElementalPower *= 2; // TODO: Get this checked out, I don't think GS doubles or triples it's elemental damage(thing it's closer to 25%/50% more) based on charge
+							}
+							else if (motion.name.indexOf('(Lvl 3)') > -1) {
+								finalElementalPower *= 3;
+							}
+						}
+						// switch axe elemental charge damage
+						if (weaponType.id == 9 && weapon.phial == 'Element' && motion.name.indexOf('Sword:') > -1) {
+							finalElementalPower *= 1.25;
+						}
+					
+					rawE[elementIndex] += eDmg(finalElementalPower, damage[3 + elementType], 
 							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd);
+							
+					// charge blade elemental phial damage
+					if (weaponType.id == 10 && weapon.phial == 'Element') {
+						rawE[elementIndex] += cb_Exp(motion.name, weapon.elements[0].attack, 10, 0,
+							damage[3 + elementType], modifiers.phialc, weapon.phial);
+					}
 				}
 			}
 			var sum = raw.reduce(function(a, b) { return a + b; })
@@ -294,24 +374,42 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 	$scope.calcDamageFromRange = calculatorService.calcDamageFromRange;
 });
 
+// factory for generating custom setups
 calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 	var customSetup = function(weaponTypesRaw, weaponListRaw, weaponDataRaw, modifiersRaw) {
 		this.initialize = function() {
-			this.weaponTypeValue = 0;
-			this.sharpnessCSS = '';
-			this.sharpnesses = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'White', 'Purple'];
-
-			this.modSummary = {
-				'pAdd': 0, 'pMul': 1, 'aff': 0, 'weakex': false,
-				'elem': [{'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}]
-			};
-
 			this.weaponTypes = weaponTypesRaw;
 			this.weaponList = weaponListRaw;
 			this.weaponData = weaponDataRaw;
 			this.modifiers = GenerateModifiers(modifiersRaw);
 			this.modifierGroups = GenerateModifierGroups(modifiersRaw);
 			this.usableMoves = [];
+			
+			this.weaponTypeValue = 0;
+			this.sharpnessCSS = '';
+			this.sharpnesses = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'White', 'Purple'];
+
+			
+			this.modSummary = {
+				pAdd: 0, pMul: 0, aff: 0, weakex: false, awaken: false, lsspirit: 0, phialc: 1,
+				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
+			};
+			
+			this.ls_spirit_options = [
+				{name: 'None', value: 0},
+				{name: 'White', value: 1},
+				{name: 'Yellow', value: 2},
+				{name: 'Red', value: 3}
+			];
+
+			this.cb_phial_options = [
+				{name: '1', value: 1},
+				{name: '2', value: 2},
+				{name: '3', value: 3},
+				{name: '4', value: 4},
+				{name: '5', value: 5},
+				{name: '6', value: 6},
+			];
 		};
 
 		this.updateWeaponList = function() {
@@ -400,8 +498,8 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 		
 		this.calculateModifiers = function() {
 			this.modSummary = {
-				'pAdd': 0, 'pMul': 1, 'aff': 0, 'weakex': false, 'awaken': false,
-				'elem': [{'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}, {'eAdd': 0, 'eMul': 0}]
+				pAdd: 0, pMul: 0, aff: 0, weakex: false, awaken: false, lsspirit: 0, phialc: 1,
+				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
 			};
 			for (var modifierKey in this.modifiers) {
 				var modifier = this.modifiers[modifierKey];

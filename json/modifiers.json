@@ -73,5 +73,11 @@
 	{"name": "Dragon Atk +3", "key": "datk3", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 5, "aff": 0, "desc": "increase dragon element x1.15 +90"},
 	{"name": "Dragon Atk +2", "key": "datk2", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 5, "aff": 0, "desc": "increase dragon element x1.1 +60"},
 	{"name": "Dragon Atk +1", "key": "datk1", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 5, "aff": 0, "desc": "increase dragon element x1.05 +40"},
-	{"name": "Dragon Atk Down", "key": "datkd", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 5, "aff": 0, "desc": "decrease dragon element x0.75"}
+	{"name": "Dragon Atk Down", "key": "datkd", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 5, "aff": 0, "desc": "decrease dragon element x0.75"},
+	{"name": "Artillery Master", "key": "arty3", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.4, "eType": -1, "aff": 0, "desc": ""},
+	{"name": "Artillery Expert", "key": "arty2", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.3, "eType": -1, "aff": 0, "desc": ""},
+	{"name": "Artillery Novice", "key": "arty1", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": -1, "aff": 0, "desc": ""}
+
 ]
+
+

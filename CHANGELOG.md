@@ -1,3 +1,15 @@
+## 0.3.1 (2015-04-21)
+Features:
+
+- Added Long Sword Spirit Charge support
+- Added Charge Blade phial + phial damage support
+
+Bugfixes:
+
+- Fixed attack multiplier bug
+- Fixed Great Sword charge attack multipliers
+- Fixed Switch Axe sword mode attack multipliers
+
 ## 0.3.0 (2015-04-19)
 Features:
 

@@ -190,7 +190,14 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td></td>
+									<td>
+										<div ng-if="currentSetup.weaponTypeValue==2">
+											Spirit Gauge: <select id="ls_spirit_gauge" name="ls_phial_count" ng-init="setup.modSummary.lsspirit" ng-options="item.value as item.name for item in setup.ls_spirit_options" ng-model="setup.modSummary.lsspirit"></select>
+										</div>
+										<div ng-if="currentSetup.weaponTypeValue==10">
+											Phial Count: <select id="cb_phial_count" name="cb_phial_count" ng-init="setup.modSummary.phialc" ng-options="item.value as item.name for item in setup.cb_phial_options" ng-model="setup.modSummary.phialc"></select>
+										</div>
+									</td>
 									<td class="dmg_td">
 										<span class="dmg"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span>
 										~
