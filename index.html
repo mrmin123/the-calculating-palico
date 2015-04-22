@@ -5,12 +5,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>the Calculating Palico</title>
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/normalize.min.css">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/material.min.css">
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link rel=stylesheet href="style.css">
-	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/normalize.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.1.6/css/material.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
@@ -154,389 +154,15 @@
 			<div class="panel panel-default">
 				<div class="panel-heading toggle_modifiers" ng-click="modPanelCollapse=!modPanelCollapse" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle meowdifiers panel">Choose Meowdifiers <i class="fa fa-plus-square-o"></i></div>
 				<div class="panel-body modifiers" collapse="modPanelCollapse">
-					<div class="col-xs-12 col-md-3">
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Overcome Frenzy Virus</strong></div>
-						</div>
-						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupVirus.vo.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupVirus.vo.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_vo" ng-checked="currentSetup.modifiers.groupVirus.vo.on==true" ng-click="currentSetup.updateModifiers('groupVirus', 'vo')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Honed Weapon</strong></div>
-						</div>
-						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupHoned.ha.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupHoned.ha.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ha" ng-checked="currentSetup.modifiers.groupHoned.ha.on==true" ng-click="currentSetup.updateModifiers('groupHoned', 'ha')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Weapon Skills</strong></div>
-						</div>
-						<div class="row groupAwaken" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupAwaken.awaken.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupAwaken.awaken.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_sharpness" ng-checked="currentSetup.modifiers.groupAwaken.awaken.on==true" ng-click="currentSetup.updateModifiers('groupAwaken', 'awaken')"></div>
-						</div>
-						<div class="row groupSharpness" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupSharpness.sharpness.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupSharpness.sharpness.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_sharpness" ng-checked="currentSetup.modifiers.groupSharpness.sharpness.on==true" ng-click="currentSetup.updateModifiers('groupSharpness', 'sharpness')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Items</strong></div>
-						</div>
-						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupA.pc.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupA.pc.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_pc" ng-checked="currentSetup.modifiers.groupA.pc.on==true" ng-click="currentSetup.updateModifiers('groupA', 'pc')"></div>
-						</div>
-						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupB.pt.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupB.pt.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_pt" ng-checked="currentSetup.modifiers.groupB.pt.on==true" ng-click="currentSetup.updateModifiers('groupB', 'pt')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Consumables</strong></div>
-						</div>
-						<div class="row groupC" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupC.dd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupC.dd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_dd" ng-checked="currentSetup.modifiers.groupC.dd.on==true" ng-click="currentSetup.updateModifiers('groupC', 'dd')"></div>
-						</div>
-						<div class="row groupC" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupC.mdd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupC.mdd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_mdd" ng-checked="currentSetup.modifiers.groupC.mdd.on==true" ng-click="currentSetup.updateModifiers('groupC', 'mdd')"></div>
-						</div>
-						<div class="row groupD" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupD.ms.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupD.ms.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ms" ng-checked="currentSetup.modifiers.groupD.ms.on==true" ng-click="currentSetup.updateModifiers('groupD', 'ms')"></div>
-						</div>
-						<div class="row groupD" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupD.mp.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupD.mp.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_mp" ng-checked="currentSetup.modifiers.groupD.mp.on==true" ng-click="currentSetup.updateModifiers('groupD', 'mp')"></div>
-						</div>
-						<div class="row groupD" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupD.es.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupD.es.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_es" ng-checked="currentSetup.modifiers.groupD.es.on==true" ng-click="currentSetup.updateModifiers('groupD', 'es')"></div>
-						</div>
-						<div class="row groupD" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupD.dh.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupD.dh.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_dh" ng-checked="currentSetup.modifiers.groupD.dh.on==true" ng-click="currentSetup.updateModifiers('groupD', 'dh')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Kitchen Skills</strong></div>
-						</div>
-						<div class="row groupC" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupC.aupsk.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupC.aupsk.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupsk" ng-checked="currentSetup.modifiers.groupC.aupsk.on==true" ng-click="currentSetup.updateModifiers('groupC', 'aupsk')"></div>
-						</div>
-						<div class="row groupC" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupC.aupmk.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupC.aupmk.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupmk" ng-checked="currentSetup.modifiers.groupC.aupmk.on==true" ng-click="currentSetup.updateModifiers('groupC', 'aupmk')"></div>
-						</div>
-						<div class="row groupC" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupC.auplk.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupC.auplk.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplk" ng-checked="currentSetup.modifiers.groupC.auplk.on==true" ng-click="currentSetup.updateModifiers('groupC', 'auplk')"></div>
-						</div>
-						<div class="row groupG" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupG.fh.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupG.fh.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fh" ng-checked="currentSetup.modifiers.groupG.fh.on==true" ng-click="currentSetup.updateModifiers('groupG', 'fh')"></div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-md-3">
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Attack Skills</strong></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.aupxls.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.aupxls.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupxls" ng-checked="currentSetup.modifiers.groupF.aupxls.on==true" ng-click="currentSetup.updateModifiers('groupF', 'aupxls')"></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.aupls.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.aupls.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupls" ng-checked="currentSetup.modifiers.groupF.aupls.on==true" ng-click="currentSetup.updateModifiers('groupF', 'aupls')"></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.aupms.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.aupms.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupms" ng-checked="currentSetup.modifiers.groupF.aupms.on==true" ng-click="currentSetup.updateModifiers('groupF', 'aupms')"></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.aupss.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.aupss.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupss" ng-checked="currentSetup.modifiers.groupF.aupss.on==true" ng-click="currentSetup.updateModifiers('groupF', 'aupss')"></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.adnss.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.adnss.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_adnss" ng-checked="currentSetup.modifiers.groupF.adnss.on==true" ng-click="currentSetup.updateModifiers('groupF', 'adnss')"></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.adnms.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.adnms.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_adnms" ng-checked="currentSetup.modifiers.groupF.adnms.on==true" ng-click="currentSetup.updateModifiers('groupF', 'adnms')"></div>
-						</div>
-						<div class="row groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.adnls.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.adnls.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_adnls" ng-checked="currentSetup.modifiers.groupF.adnls.on==true" ng-click="currentSetup.updateModifiers('groupF', 'adnls')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Survivor Skills</strong></div>
-						</div>
-						<div class="row groupI" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupI.fort2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupI.fort2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fort2" ng-checked="currentSetup.modifiers.groupI.fort2.on==true" ng-click="currentSetup.updateModifiers('groupI', 'fort2')"></div>
-						</div>
-						<div class="row groupI" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupI.fort1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupI.fort1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fort1" ng-checked="currentSetup.modifiers.groupI.fort1.on==true" ng-click="currentSetup.updateModifiers('groupI', 'fort1')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Spirit Skills</strong></div>
-						</div>
-						<div class="row groupJ" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupJ.chal2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupJ.chal2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_chal2" ng-checked="currentSetup.modifiers.groupJ.chal2.on==true" ng-click="currentSetup.updateModifiers('groupJ', 'chal2')"></div>
-						</div>
-						<div class="row groupJ" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupJ.chal1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupJ.chal1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_chal1" ng-checked="currentSetup.modifiers.groupJ.chal1.on==true" ng-click="currentSetup.updateModifiers('groupJ', 'chal1')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Gloves Off Skills</strong></div>
-						</div>
-						<div class="row groupJ" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupJ.lp2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupJ.lp2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_lp2" ng-checked="currentSetup.modifiers.groupJ.lp2.on==true" ng-click="currentSetup.updateModifiers('groupJ', 'lp2')"></div>
-						</div>
-						<div class="row groupJ" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupJ.lp1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupJ.lp1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_lp1" ng-checked="currentSetup.modifiers.groupJ.lp1.on==true" ng-click="currentSetup.updateModifiers('groupJ', 'lp1')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Expert Skills</strong></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.critgod.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.critgod.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critgod" ng-checked="currentSetup.modifiers.groupExpert.critgod.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'critgod')"></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.crit3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.crit3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_crit3" ng-checked="currentSetup.modifiers.groupExpert.crit3.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'crit3')"></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.crit2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.crit2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_crit2" ng-checked="currentSetup.modifiers.groupExpert.crit2.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'crit2')"></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.crit1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.crit1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_crit1" ng-checked="currentSetup.modifiers.groupExpert.crit1.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'crit1')"></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.critn1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.critn1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critn1" ng-checked="currentSetup.modifiers.groupExpert.critn1.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'critn1')"></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.critn2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.critn2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critn2" ng-checked="currentSetup.modifiers.groupExpert.critn2.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'critn2')"></div>
-						</div>
-						<div class="row groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.critn3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.critn3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_critn3" ng-checked="currentSetup.modifiers.groupExpert.critn3.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'critn3')"></div>
-						</div>
-
-					</div>
-					<div class="col-xs-12 col-md-3">
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Fire Attack Skills</strong></div>
-						</div>
-						<div class="row groupEFire" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEFire.fatk3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEFire.fatk3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fatk3" ng-checked="currentSetup.modifiers.groupEFire.fatk3.on==true" ng-click="currentSetup.updateModifiers('groupEFire', 'fatk3')"></div>
-						</div>
-						<div class="row groupEFire" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEFire.fatk2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEFire.fatk2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fatk2" ng-checked="currentSetup.modifiers.groupEFire.fatk2.on==true" ng-click="currentSetup.updateModifiers('groupEFire', 'fatk2')"></div>
-						</div>
-						<div class="row groupEFire" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEFire.fatk1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEFire.fatk1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fatk1" ng-checked="currentSetup.modifiers.groupEFire.fatk1.on==true" ng-click="currentSetup.updateModifiers('groupEFire', 'fatk1')"></div>
-						</div>
-						<div class="row groupEFire" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEFire.fatkd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEFire.fatkd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_fatkd" ng-checked="currentSetup.modifiers.groupEFire.fatkd.on==true" ng-click="currentSetup.updateModifiers('groupEFire', 'fatkd')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Water Attack Skills</strong></div>
-						</div>
-						<div class="row groupEWater" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEWater.watk3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEWater.watk3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_watk3" ng-checked="currentSetup.modifiers.groupEWater.watk3.on==true" ng-click="currentSetup.updateModifiers('groupEWater', 'watk3')"></div>
-						</div>
-						<div class="row groupEWater" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEWater.watk2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEWater.watk2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_watk2" ng-checked="currentSetup.modifiers.groupEWater.watk2.on==true" ng-click="currentSetup.updateModifiers('groupEWater', 'watk2')"></div>
-						</div>
-						<div class="row groupEWater" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEWater.watk1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEWater.watk1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_watk1" ng-checked="currentSetup.modifiers.groupEWater.watk1.on==true" ng-click="currentSetup.updateModifiers('groupEWater', 'watk1')"></div>
-						</div>
-						<div class="row groupEWater" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEWater.watkd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEWater.watkd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_watkd" ng-checked="currentSetup.modifiers.groupEWater.watkd.on==true" ng-click="currentSetup.updateModifiers('groupEWater', 'watkd')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Ice Attack Skills</strong></div>
-						</div>
-						<div class="row groupEIce" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEIce.iatk3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEIce.iatk3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_iatk3" ng-checked="currentSetup.modifiers.groupEIce.iatk3.on==true" ng-click="currentSetup.updateModifiers('groupEIce', 'iatk3')"></div>
-						</div>
-						<div class="row groupEIce" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEIce.iatk2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEIce.iatk2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_iatk2" ng-checked="currentSetup.modifiers.groupEIce.iatk2.on==true" ng-click="currentSetup.updateModifiers('groupEIce', 'iatk2')"></div>
-						</div>
-						<div class="row groupEIce" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEIce.iatk1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEIce.iatk1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_iatk1" ng-checked="currentSetup.modifiers.groupEIce.iatk1.on==true" ng-click="currentSetup.updateModifiers('groupEIce', 'iatk1')"></div>
-						</div>
-						<div class="row groupEIce" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEIce.iatkd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEIce.iatkd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_iatkd" ng-checked="currentSetup.modifiers.groupEIce.iatkd.on==true" ng-click="currentSetup.updateModifiers('groupEIce', 'iatkd')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Thunder Attack Skills</strong></div>
-						</div>
-						<div class="row groupEThunder" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEThunder.tatk3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEThunder.tatk3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_tatk3" ng-checked="currentSetup.modifiers.groupEThunder.tatk3.on==true" ng-click="currentSetup.updateModifiers('groupEThunder', 'tatk3')"></div>
-						</div>
-						<div class="row groupEThunder" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEThunder.tatk2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEThunder.tatk2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_tatk2" ng-checked="currentSetup.modifiers.groupEThunder.tatk2.on==true" ng-click="currentSetup.updateModifiers('groupEThunder', 'tatk2')"></div>
-						</div>
-						<div class="row groupEThunder" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEThunder.tatk1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEThunder.tatk1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_tatk1" ng-checked="currentSetup.modifiers.groupEThunder.tatk1.on==true" ng-click="currentSetup.updateModifiers('groupEThunder', 'tatk1')"></div>
-						</div>
-						<div class="row groupEThunder" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEThunder.tatkd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEThunder.tatkd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_tatkd" ng-checked="currentSetup.modifiers.groupEThunder.tatkd.on==true" ng-click="currentSetup.updateModifiers('groupEThunder', 'tatkd')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Dragon Attack Skills</strong></div>
-						</div>
-						<div class="row groupEDragon" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEDragon.datk3.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEDragon.datk3.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_datk3" ng-checked="currentSetup.modifiers.groupEDragon.datk3.on==true" ng-click="currentSetup.updateModifiers('groupEDragon', 'datk3')"></div>
-						</div>
-						<div class="row groupEDragon" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEDragon.datk2.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEDragon.datk2.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_datk2" ng-checked="currentSetup.modifiers.groupEDragon.datk2.on==true" ng-click="currentSetup.updateModifiers('groupEDragon', 'datk2')"></div>
-						</div>
-						<div class="row groupEDragon" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEDragon.datk1.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEDragon.datk1.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_datk1" ng-checked="currentSetup.modifiers.groupEDragon.datk1.on==true" ng-click="currentSetup.updateModifiers('groupEDragon', 'datk1')"></div>
-						</div>
-						<div class="row groupEDragon" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupEDragon.datkd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupEDragon.datkd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_datkd" ng-checked="currentSetup.modifiers.groupEDragon.datkd.on==true" ng-click="currentSetup.updateModifiers('groupEDragon', 'datkd')"></div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-md-3">
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Elemental Attack Skills</strong></div>
-						</div>
-						<div class="row groupElem" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupElem.eau.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupElem.eau.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eau" ng-checked="currentSetup.modifiers.groupElem.eau.on==true" ng-click="currentSetup.updateModifiers('groupElem', 'eau')"></div>
-						</div>
-						<div class="row groupElem" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupElem.ead.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupElem.ead.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ead" ng-checked="currentSetup.modifiers.groupElem.ead.on==true" ng-click="currentSetup.updateModifiers('groupElem', 'ead')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Combo Armor Skills</strong></div>
-						</div>
-						<div class="row groupSharpness groupF" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupF.hb.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupF.hb.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_hb" ng-checked="currentSetup.modifiers.groupF.hb.on==true" ng-click="currentSetup.updateModifiers('groupF', 'hb')"></div>
-						</div>
-						<div class="row groupAwaken groupElem" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupElem.arc.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupElem.arc.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_arc" ng-checked="currentSetup.modifiers.groupElem.arc.on==true" ng-click="currentSetup.updateModifiers('groupElem', 'arc')"></div>
-						</div>
-						<div class="row groupElem" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupElem.amp.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupElem.amp.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_amp" ng-checked="currentSetup.modifiers.groupElem.amp.on==true" ng-click="currentSetup.updateModifiers('groupElem', 'amp')"></div>
-						</div>
-						<div class="row groupJ" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupJ.pru.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupJ.pru.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_pru" ng-checked="currentSetup.modifiers.groupJ.pru.on==true" ng-click="currentSetup.updateModifiers('groupJ', 'pru')"></div>
-						</div>
-						<div class="row groupG" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupG.wrao.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupG.wrao.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_wrao" ng-checked="currentSetup.modifiers.groupG.wrao.on==true" ng-click="currentSetup.updateModifiers('groupG', 'wrao')"></div>
-						</div>
-						<div class="row groupWeakEx groupExpert" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupExpert.ruth.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupExpert.ruth.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ruth" ng-checked="currentSetup.modifiers.groupExpert.ruth.on==true" ng-click="currentSetup.updateModifiers('groupExpert', 'ruth')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Misc Armor Skills</strong></div>
-						</div>
-						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupCritDraw.cd.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupCritDraw.cd.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_cd" ng-checked="currentSetup.modifiers.groupCritDraw.cd.on==true" ng-click="currentSetup.updateModifiers('groupCritDraw', 'cd')"></div>
-						</div>
-						<div class="row groupG" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupG.ad.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupG.ad.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_ad" ng-checked="currentSetup.modifiers.groupG.ad.on==true" ng-click="currentSetup.updateModifiers('groupG', 'ad')"></div>
-						</div>
-						<div class="row groupJ" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupJ.pp.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupJ.pp.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_pp" ng-checked="currentSetup.modifiers.groupJ.pp.on==true" ng-click="currentSetup.updateModifiers('groupJ', 'pp')"></div>
-						</div>
-						<div class="row" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupDest.dest.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupDest.dest.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_dest" ng-checked="currentSetup.modifiers.groupDest.dest.on==true" ng-click="currentSetup.updateModifiers('groupDest', 'dest')"></div>
-						</div>
-						<div class="row groupWeakEx" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupWeakEx.weakex.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupWeakEx.weakex.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_weakex" ng-checked="currentSetup.modifiers.groupWeakEx.weakex.on==true" ng-click="currentSetup.updateModifiers('groupWeakEx', 'weakex')"></div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong>Hunting Horn Buffs</strong></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupH.auplhhe.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupH.auplhhe.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhhe" ng-checked="currentSetup.modifiers.groupH.auplhhe.on==true" ng-click="currentSetup.updateModifiers('groupH', 'auplhhe')"></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupH.auplhh.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupH.auplhh.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_auplhh" ng-checked="currentSetup.modifiers.groupH.auplhh.on==true" ng-click="currentSetup.updateModifiers('groupH', 'auplhh')"></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupH.aupshhe.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupH.aupshhe.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshhe" ng-checked="currentSetup.modifiers.groupH.aupshhe.on==true" ng-click="currentSetup.updateModifiers('groupH', 'aupshhe')"></div>
-						</div>
-						<div class="row groupH" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupH.aupshh.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupH.aupshh.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_aupshh" ng-checked="currentSetup.modifiers.groupH.aupshh.on==true" ng-click="currentSetup.updateModifiers('groupH', 'aupshh')"></div>
-						</div>
-						<div class="row groupHE" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupHE.eabse.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupHE.eabse.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eabse" ng-checked="currentSetup.modifiers.groupHE.eabse.on==true" ng-click="currentSetup.updateModifiers('groupHE', 'eabse')"></div>
-						</div>
-						<div class="row groupHE" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers.groupHE.eabs.desc%>">
-							<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers.groupHE.eabs.name%></div>
-							<div class="col-xs-4 col-sm-4"><input type="checkbox" name="mod_eabs" ng-checked="currentSetup.modifiers.groupHE.eabs.on==true" ng-click="currentSetup.updateModifiers('groupHE', 'eabs')"></div>
+					<div ng-repeat="column in modifierHtmlDisplayGroups" class="col-xs-12 col-md-3">
+						<div ng-repeat="group in column">
+							<div class="row">
+								<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong><%group.displayName%></strong></strong></div>
+							</div>
+							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>">
+								<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers[modifier].name%></div>
+								<div class="col-xs-4 col-sm-4"><input type="checkbox" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier])"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -550,39 +176,52 @@
 				<div class="panel-heading">Damage Calculation</div>
 				<div ng-show="countersum > 0 && monsterValue" class="panel-body">
 					<div ng-repeat="setup in storedSetups">
-					<div><small><%setup.weaponTypeDetails.name%></small> <strong><%setup.weaponDetails.name%></strong> vs <strong><%monsterDetails.name%></strong> <span class="small" ng-if="current != $index">[<a role="button" ng-click="switchSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="edit this setup">edit <i class="fa fa-pencil-square-o"></i></a>]</span><span class="small" ng-if="current == $index">[<span data-toggle="tooltip" tooltip-placement="bottom" tooltip="you are currently editing this setup">edit <i class="fa fa-pencil-square-o"></i></span>]</span> <span class="small" ng-if="storedSetups.length > 1">[<a role="button" ng-click="removeSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="remove this setup">remove <i class="fa fa-trash"></i></a>]</span></div>
-					<div class="modifiers_list"><strong>Meowdifiers:</strong> <span ng-repeat="(group, items) in setup.modifiers"><ul><li ng-repeat="(item, values) in setup.modifiers[group]" ng-if="values.on == true"><%values.name%></span></li></ul></div>
+						<div><small><%setup.weaponTypeDetails.name%></small> <strong><%setup.weaponDetails.name%></strong> vs <strong><%monsterDetails.name%></strong> <span class="small" ng-if="current != $index">[<a role="button" ng-click="switchSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="edit this setup">edit <i class="fa fa-pencil-square-o"></i></a>]</span><span class="small" ng-if="current == $index">[<span data-toggle="tooltip" tooltip-placement="bottom" tooltip="you are currently editing this setup">edit <i class="fa fa-pencil-square-o"></i></span>]</span> <span class="small" ng-if="storedSetups.length > 1">[<a role="button" ng-click="removeSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="remove this setup">remove <i class="fa fa-trash"></i></a>]</span></div>
+						<div class="modifiers_list"><strong>Meowdifiers:</strong> <span><ul><li ng-repeat="modifier in setup.modifiers" ng-if="modifier.on == true"><%modifier.name%></li></ul></span></div>
 
-					<table class="table table-condensed table-hover table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue"></select>
-								<i class="fa fa-chevron-circle-down toggle_moves" ng-model="showMoves" ng-click="showMoves=!showMoves" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle move list"></i> <i class="fa fa-chevron-circle-right toggle_parts" ng-model="showParts" ng-click="showParts=!showParts" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle body parts"></i></th>
-								<th></th>
-								<th ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><%monsterDamage.name%></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<div ng-if="currentSetup.weaponTypeValue==2">
-										Spirit Gauge: <select id="ls_spirit_gauge" name="ls_phial_count" ng-init="setup.modSummary.lsspirit" ng-options="item.value as item.name for item in setup.ls_spirit_options" ng-model="setup.modSummary.lsspirit"></select>
-									</div>
-									<div ng-if="currentSetup.weaponTypeValue==10">
-										Phial Count: <select id="cb_phial_count" name="cb_phial_count" ng-init="setup.modSummary.phialc" ng-options="item.value as item.name for item in setup.cb_phial_options" ng-model="setup.modSummary.phialc"></select>
-									</div>
-								</td>
-								<td class="dmg_td"><span class="dmg"><%calcDamage('all', 'lo', 0, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('all', 'lo', 1, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span> ~ <span class="dmg"><%calcDamage('all', 'hi', 0, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('all', 'hi', 1, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span></td>
-								<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%calcDamage('perPart', 'lo', 0, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDamage.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('perPart', 'lo', 1, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDamage.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span> ~ <span class="dmg"><%calcDamage('perPart', 'hi', 0, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDamage.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('perPart', 'hi', 1, '', setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDamage.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span></td>
-							</tr>
-							<tr ng-show="showMoves" ng-repeat="weaponMotion in setup.weaponTypeDetails.motions">
-								<td><%weaponMotion.name%></td>
-								<td class="dmg_td"><span class="dmg"><%calcDamage('perMove', 'lo', 0, weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('perMove', 'lo', 1, weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span> ~ <span class="dmg"><%calcDamage('perMove', 'hi', 0, weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('perMove', 'hi', 1, weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDetails.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span></td>
-								<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%calcDamage('specific', '', 0, weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDamage.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, -1)%></span><span ng-repeat="element in setup.weaponElements" class="element_dmg <%element.name%>" ng-if="element.id < 6 && (element.awaken_required == 0 || (element.awaken_required == 1 && (setup.modifiers.groupAwaken.awaken.on == true || setup.modifiers.groupElem.arc.on == true)))"><%calcDamage('specific', '', 1, weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails, monsterDamage.damage, setup.weaponElements, setup.sharpnessValue, setup.modSummary, $index)%></span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div></div>
+						<table class="table table-condensed table-hover table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue"></select>
+									<i class="fa fa-chevron-circle-down toggle_moves" ng-model="showMoves" ng-click="showMoves=!showMoves" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle move list"></i> <i class="fa fa-chevron-circle-right toggle_parts" ng-model="showParts" ng-click="showParts=!showParts" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle body parts"></i></th>
+									<th></th>
+									<th ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><%monsterDamage.name%></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div ng-if="currentSetup.weaponTypeValue==2">
+											Spirit Gauge: <select id="ls_spirit_gauge" name="ls_phial_count" ng-init="setup.modSummary.lsspirit" ng-options="item.value as item.name for item in setup.ls_spirit_options" ng-model="setup.modSummary.lsspirit"></select>
+										</div>
+										<div ng-if="currentSetup.weaponTypeValue==10">
+											Phial Count: <select id="cb_phial_count" name="cb_phial_count" ng-init="setup.modSummary.phialc" ng-options="item.value as item.name for item in setup.cb_phial_options" ng-model="setup.modSummary.phialc"></select>
+										</div>
+									</td>
+									<td class="dmg_td">
+										<span class="dmg"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span>
+										~
+										<span class="dmg"><%allDamageRange.max.physicalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" class="element_dmg <%element.name%>"><%"+" + allDamageRange.max.elementalDamage[$index]%></span>
+									</td>
+									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
+										<span class="dmg"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + partDamageRange.min.elementalDamage[$index]%></span> 
+										~
+										<span class="dmg"><%partDamageRange.max.physicalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" class="element_dmg <%element.name%>" ><%"+" + partDamageRange.max.elementalDamage[$index]%></span> 
+									</td>
+								</tr>
+								<tr ng-show="showMoves" ng-repeat="weaponMotion in setup.usableMoves">
+									<td><%weaponMotion.name%></td>
+									<td class="dmg_td">
+									<span class="dmg"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.min.elementalDamage[$index]%></span>
+									~
+									<span class="dmg"><%motionDamageRange.max.physicalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.max.elementalDamage[$index]%></span>
+									</td>
+									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%(calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

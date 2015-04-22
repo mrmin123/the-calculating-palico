@@ -1,0 +1,185 @@
+[
+	[
+		{
+		"displayName": "Overcome Frenzy Virus",
+		"modifiers": [
+			"vo"
+			]
+		},
+		{
+		"displayName": "Honed Weapon",
+		"modifiers": [
+			"ha"
+			]
+		},
+		{
+		"displayName": "Weapon Skills",
+		"modifiers": [
+			"awaken",
+			"sharpness"
+			]
+		},
+		{
+		"displayName": "Items",
+		"modifiers": [
+			"pc",
+			"pt"
+			]
+		},
+		{
+		"displayName": "Consumables",
+		"modifiers": [
+			"dd",
+			"mdd",
+			"ms",
+			"mp",
+			"es",
+			"dh"
+			]
+		},
+		{
+		"displayName": "Kitchen Skills",
+		"modifiers": [
+			"aupsk",
+			"aupmk",
+			"auplk",
+			"fh"
+			]
+		}
+	],
+	[
+		{
+		"displayName": "Attack Skills",
+		"modifiers": [
+			"aupxls",
+			"aupls",
+			"aupms",
+			"aupss",
+			"adnss",
+			"adnms",
+			"adnls"
+			]
+		},
+		{
+		"displayName": "Survivor Skills",
+		"modifiers": [
+			"fort2",
+			"fort1"
+			]
+		},
+		{
+		"displayName": "Spirit Skills",
+		"modifiers": [
+			"chal2",
+			"chal1"
+			]
+		},
+		{
+		"displayName": "Gloves Off Skills",
+		"modifiers": [
+			"lp2",
+			"lp1"
+			]
+		},
+		{
+		"displayName": "Expert Skills",
+		"modifiers": [
+			"critgod",
+			"crit3",
+			"crit2",
+			"crit1",
+			"critn1",
+			"critn2",
+			"critn3"
+			]
+		}
+	],
+	[
+		{
+		"displayName": "Fire Attack Skills",
+		"modifiers": [
+			"fatk3",
+			"fatk2",
+			"fatk1",
+			"fatkd"
+			]
+		},
+		{
+		"displayName": "Water Attack Skills",
+		"modifiers": [
+			"watk3",
+			"watk2",
+			"watk1",
+			"watkd"
+			]
+		},
+		{
+		"displayName": "Ice Attack Skills",
+		"modifiers": [
+			"iatk3",
+			"iatk2",
+			"iatk1",
+			"iatkd"
+			]
+		},
+		{
+		"displayName": "Thunder Attack Skills",
+		"modifiers": [
+			"tatk3",
+			"tatk2",
+			"tatk1",
+			"tatkd"
+			]
+		},
+		{
+		"displayName": "Dragon Attack Skills",
+		"modifiers": [
+			"datk3",
+			"datk2",
+			"datk1",
+			"datkd"
+			]
+		}
+	],
+	[
+		{
+		"displayName": "Elemental Attack Skills",
+		"modifiers": [
+			"eau",
+			"ead"
+			]
+		},
+		{
+		"displayName": "Combo Skills",
+		"modifiers": [
+			"hb",
+			"arc",
+			"amp",
+			"pru",
+			"wrao",
+			"ruth"
+			]
+		},
+		{
+		"displayName": "Misc. Skills",
+		"modifiers": [
+			"cd",
+			"ad",
+			"pp",
+			"dest",
+			"weakex"
+			]
+		},
+		{
+		"displayName": "Hunting Horn Buffs",
+		"modifiers": [
+			"auplhhe",
+			"auplhh",
+			"aupshhe",
+			"aupshh",
+			"eabse",
+			"eabs"
+			]
+		}
+	]
+]

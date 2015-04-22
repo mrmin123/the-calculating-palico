@@ -1,130 +1,83 @@
-{
-	"groupVirus": {
-		"vo": {"name": "Virus Overcome", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases affinity"}
-	},
-	"groupHoned": {
-		"ha": {"name": "Honed Attack", "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"}
-	},
-	"groupAwaken": {
-		"awaken": {"name": "Awaken", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "adds elemental attributes to certain weapons"}
-	},
-	"groupSharpness": {
-		"sharpness": {"name": "Sharpness +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases weapon sharpness level"}
-	},
-	"groupWeakEx": {
-		"weakex": {"name": "Weakness Exploit +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases damage +5% on monster weak points"}
-	},
-	"groupA": {
-		"pc": {"name": "Powercharm", "on": false, "dAdd": 6, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +6"}
-	},
-	"groupB": {
-		"pt": {"name": "Powertalon", "on": false, "dAdd": 9, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +9"}
-	},
-	"groupC": {
-		"dd": {"name": "Demondrug", "on": false, "dAdd": 5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +5 until death"},
-		"mdd": {"name": "Mega Demondrug", "on": false, "dAdd": 7, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +7 until death"},
-		"aupsk": {"name": "Attack Up (S)", "on": false, "dAdd": 3, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +3 until death"},
-		"aupmk": {"name": "Attack Up (M)", "on": false, "dAdd": 5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +5 until death"},
-		"auplk": {"name": "Attack Up (L)", "on": false, "dAdd": 7, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +7 until death"}
-	},
-	"groupD": {
-		"ms": {"name": "Might Seed", "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +10 for 3m"},
-		"mp": {"name": "Might Pill", "on": false, "dAdd": 25, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +25 for 20s"},
-		"es": {"name": "Exciteshroom (+Might Seed)", "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20 for 20s"},
-		"dh": {"name": "Demon Horn", "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20 for 3m"}
-	},
-	"groupF": {
-		"aupxls": {"name": "Attack Up (XL)", "on": false, "dAdd": 25, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +25"},
-		"aupls": {"name": "Attack Up (L)", "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"},
-		"aupms": {"name": "Attack Up (M)", "on": false, "dAdd": 15, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +15"},
-		"aupss": {"name": "Attack Up (S)", "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +10"},
-		"adnss": {"name": "Attack Down (S)", "on": false, "dAdd": -5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -5"},
-		"adnms": {"name": "Attack Down (M)", "on": false, "dAdd": -10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -10"},
-		"adnls": {"name": "Attack Down (L)", "on": false, "dAdd": -15, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -15"},
-		"hb": {"name": "Honed Blade", "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Attack Up (L) + Sharpness +1"}
-	},
-	"groupG": {
-		"ad": {"name": "Adrenaline +2", "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3"},
-		"fh": {"name": "Felyne Heroics", "on": false, "dAdd": 0, "dMul": 0.35, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.35"},
-		"wrao": {"name": "Wrath Awoken", "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3; same as Guts + Adrenaline +2"}
-	},
-	"groupH": {
-		"auplhh": {"name": "Attack Up (L) Song", "on": false, "dAdd": 0, "dMul": 0.15, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.15 for 90~120s"},
-		"auplhhe": {"name": "Attack Up (L) Song + Encore", "on": false, "dAdd": 0, "dMul": 0.2, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.2 for 150~210s"},
-		"aupshh": {"name": "Attack Up (S) Song", "on": false, "dAdd": 0, "dMul": 0.1, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.1 for 120~150s"},
-		"aupshhe": {"name": "Attack Up (S) Song + Encore", "on": false, "dAdd": 0, "dMul": 0.15, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.15 for 210~270s"}
-	},
-	"groupHE": {
-		"eabs": {"name": "Elemental Atk Boost Song", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": 0, "aff": 0, "desc": "increases all elements x1.15 for 90~120s"},
-		"eabse": {"name": "Elemental Atk Boost Song + Encore", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0.2, "eMul": 0, "eType": 0, "aff": 0, "desc": "increases all elements x1.2 for 150~210s"}
-	},
-	"groupI": {
-		"fort2": {"name": "Fortify +2", "on": false, "dAdd": 0, "dMul": 0.2, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.2"},
-		"fort1": {"name": "Fortify +1", "on": false, "dAdd": 0, "dMul": 0.1, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.1"}
-	},
-	"groupJ": {
-		"chal2": {"name": "Challenger +2", "on": false, "dAdd": 25, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 20, "desc": "increases base +25, affinity +20%"},
-		"chal1": {"name": "Challenger +1", "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 10, "desc": "increases base +10, affinity +10%"},
-		"pru": {"name": "Prudence", "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Peak Performance + Evade Extender"},
-		"pp": {"name": "Peak Performance", "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"},
-		"lp2": {"name": "Latent Power +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 50, "desc": "increases affinity +50%"},
-		"lp1": {"name": "Latent Power +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"}
-	},
-	"groupCritDraw": {
-		"cd": {"name": "Critical Draw", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 100, "desc": "increases affinity to 100% for all draw attacks; NOTE: all attacks assumed to be draw attacks by calculator!"}
-	},
-	"groupDest": {
-		"dest": {"name": "Destroyer", "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3 on breakable parts; NOTE: all parts assumed breakable by calculator!"}
-	},
-	"groupExpert": {
-		"ruth": {"name": "Ruthlessness", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 15, "desc": "increases damage +5% on monster weakpoints and affinity +15%; same as Weakness Exploit + Critical Eye +2"},
-		"critgod": {"name": "Critical God", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"},
-		"crit3": {"name": "Critical Eye +3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 20, "desc": "increases affinity +20%"},
-		"crit2": {"name": "Critical Eye +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 15, "desc": "increases affinity +15%"},
-		"crit1": {"name": "Critical Eye +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 10, "desc": "increases affinity +10%"},
-		"critn1": {"name": "Critical Eye -1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": -10, "desc": "decrease affinity -10%"},
-		"critn2": {"name": "Critical Eye -2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": -15, "desc": "decrease affinity -15%"},
-		"critn3": {"name": "Critical Eye -3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": -20, "desc": "decrease affinity -20%"}
-	},
-	"groupElem": {
-		"amp": {"name": "Amplify", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1; same as Element Atk Up + Item Use Up"},
-		"arc": {"name": "Arcana", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1; same as Awaken + Element Atk Up + Status Atk Up"},
-		"eau": {"name": "Element Atk Up", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1"},
-		"ead": {"name": "Element Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.1, "eType": 0, "aff": 0, "desc": "decrease all elements x0.9"}
-	},
-	"groupEFire": {
-		"fatk3": {"name": "Fire Atk +3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 1, "aff": 0, "desc": "increase fire element x1.15 +90"},
-		"fatk2": {"name": "Fire Atk +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 1, "aff": 0, "desc": "increase fire element x1.1 +60"},
-		"fatk1": {"name": "Fire Atk +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 1, "aff": 0, "desc": "increase fire element x1.05 +40"},
-		"fatkd": {"name": "Fire Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 1, "aff": 0, "desc": "decrease fire element x0.75"}
-	},
-	"groupEWater": {
-		"watk3": {"name": "Water Atk +3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 2, "aff": 0, "desc": "increase water element x1.15 +90"},
-		"watk2": {"name": "Water Atk +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 2, "aff": 0, "desc": "increase water element x1.1 +60"},
-		"watk1": {"name": "Water Atk +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 2, "aff": 0, "desc": "increase water element x1.05 +40"},
-		"watkd": {"name": "Water Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 2, "aff": 0, "desc": "decrease water element x0.75"}
-	},
-	"groupEIce": {
-		"iatk3": {"name": "Ice Atk +3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 3, "aff": 0, "desc": "increase ice element x1.15 +90"},
-		"iatk2": {"name": "Ice Atk +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 3, "aff": 0, "desc": "increase ice element x1.1 +60"},
-		"iatk1": {"name": "Ice Atk +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 3, "aff": 0, "desc": "increase ice element x1.05 +40"},
-		"iatkd": {"name": "Ice Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 3, "aff": 0, "desc": "decrease ice element x0.75"}
-	},
-	"groupEThunder": {
-		"tatk3": {"name": "Thunder Atk +3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 4, "aff": 0, "desc": "increase thunder element x1.15 +90"},
-		"tatk2": {"name": "Thunder Atk +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 4, "aff": 0, "desc": "increase thunder element x1.1 +60"},
-		"tatk1": {"name": "Thunder Atk +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 4, "aff": 0, "desc": "increase thunder element x1.05 +40"},
-		"tatkd": {"name": "Thunder Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 4, "aff": 0, "desc": "decrease thunder element x0.75"}
-	},
-	"groupEDragon": {
-		"datk3": {"name": "Dragon Atk +3", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 5, "aff": 0, "desc": "increase dragon element x1.15 +90"},
-		"datk2": {"name": "Dragon Atk +2", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 5, "aff": 0, "desc": "increase dragon element x1.1 +60"},
-		"datk1": {"name": "Dragon Atk +1", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 5, "aff": 0, "desc": "increase dragon element x1.05 +40"},
-		"datkd": {"name": "Dragon Atk Down", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 5, "aff": 0, "desc": "decrease dragon element x0.75"}
-	},
-	"groupArty": {
-		"arty3": {"name": "Artillery Master", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.4, "eType": -1, "aff": 0, "desc": ""},
-		"arty2": {"name": "Artillery Expert", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.3, "eType": -1, "aff": 0, "desc": ""},
-		"arty1": {"name": "Artillery Novice", "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": -1, "aff": 0, "desc": ""}
-	}
-}
+[
+	{"name": "Virus Overcome", "key": "vo", "effectGroups": ["groupVirus"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases affinity"},
+	{"name": "Honed Attack", "key": "ha", "effectGroups": ["groupHoned"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"},
+	{"name": "Awaken", "key": "awaken", "effectGroups": ["groupAwaken"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "adds elemental attributes to certain weapons"},
+	{"name": "Sharpness +1", "key": "sharpness", "effectGroups": ["groupSharpness"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases weapon sharpness level"},
+	{"name": "Weakness Exploit +1", "key": "weakex", "effectGroups": ["groupWeakEx"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases damage +5% on monster weak points"},
+	{"name": "Powercharm", "key": "pc", "effectGroups": ["groupA"], "on": false, "dAdd": 6, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +6"},
+	{"name": "Powertalon", "key": "pt", "effectGroups": ["groupB"], "on": false, "dAdd": 9, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +9"},
+	{"name": "Demondrug", "key": "dd", "effectGroups": ["groupC"], "on": false, "dAdd": 5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +5 until death"},
+	{"name": "Mega Demondrug", "key": "mdd", "effectGroups": ["groupC"], "on": false, "dAdd": 7, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +7 until death"},
+	{"name": "Attack Up (S)", "key": "aupsk", "effectGroups": ["groupC"], "on": false, "dAdd": 3, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +3 until death"},
+	{"name": "Attack Up (M)", "key": "aupmk", "effectGroups": ["groupC"], "on": false, "dAdd": 5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +5 until death"},
+	{"name": "Attack Up (L)", "key": "auplk", "effectGroups": ["groupC"], "on": false, "dAdd": 7, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +7 until death"},
+	{"name": "Might Seed", "key": "ms", "effectGroups": ["groupD"], "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +10 for 3m"},
+	{"name": "Might Pill", "key": "mp", "effectGroups": ["groupD"], "on": false, "dAdd": 25, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +25 for 20s"},
+	{"name": "Exciteshroom (+Might Seed)", "key": "es", "effectGroups": ["groupD"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20 for 20s"},
+	{"name": "Demon Horn", "key": "dh", "effectGroups": ["groupD"], "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20 for 3m"},
+	{"name": "Attack Up (XL)", "key": "aupxls", "effectGroups": ["groupF"], "on": false, "dAdd": 25, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +25"},
+	{"name": "Attack Up (L)", "key": "aupls", "effectGroups": ["groupF"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"},
+	{"name": "Attack Up (M)", "key": "aupms", "effectGroups": ["groupF"], "on": false, "dAdd": 15, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +15"},
+	{"name": "Attack Up (S)", "key": "aupss", "effectGroups": ["groupF"], "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +10"},
+	{"name": "Attack Down (S)", "key": "adnss", "effectGroups": ["groupF"], "on": false, "dAdd": -5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -5"},
+	{"name": "Attack Down (M)", "key": "adnms", "effectGroups": ["groupF"], "on": false, "dAdd": -10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -10"},
+	{"name": "Attack Down (L)", "key": "adnls", "effectGroups": ["groupF"], "on": false, "dAdd": -15, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -15"},
+	{"name": "Honed Blade", "key": "hb", "effectGroups": ["groupF", "groupSharpness"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Attack Up (L) + Sharpness +1"},
+	{"name": "Adrenaline +2", "key": "ad", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3"},
+	{"name": "Felyne Heroics", "key": "fh", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.35, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.35"},
+	{"name": "Wrath Awoken", "key": "wrao", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3; same as Guts + Adrenaline +2"},
+	{"name": "Attack Up (L) Song", "key": "auplhh", "effectGroups": ["groupH"], "on": false, "dAdd": 0, "dMul": 0.15, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.15 for 90~120s"},
+	{"name": "Attack Up (L) Song + Encore", "key": "auplhhe", "effectGroups": ["groupH"], "on": false, "dAdd": 0, "dMul": 0.2, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.2 for 150~210s"},
+	{"name": "Attack Up (S) Song", "key": "aupshh", "effectGroups": ["groupH"], "on": false, "dAdd": 0, "dMul": 0.1, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.1 for 120~150s"},
+	{"name": "Attack Up (S) Song + Encore", "key": "aupshhe", "effectGroups": ["groupH"], "on": false, "dAdd": 0, "dMul": 0.15, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.15 for 210~270s"},
+	{"name": "Elemental Atk Boost Song", "key": "eabs", "effectGroups": ["groupHE"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": 0, "aff": 0, "desc": "increases all elements x1.15 for 90~120s"},
+	{"name": "Elemental Atk Boost Song + Encore", "key": "eabse", "effectGroups": ["groupHE"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0.2, "eMul": 0, "eType": 0, "aff": 0, "desc": "increases all elements x1.2 for 150~210s"},
+	{"name": "Fortify +2", "key": "fort2", "effectGroups": ["groupI"], "on": false, "dAdd": 0, "dMul": 0.2, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.2"},
+	{"name": "Fortify +1", "key": "fort1", "effectGroups": ["groupI"], "on": false, "dAdd": 0, "dMul": 0.1, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.1"},
+	{"name": "Challenger +2", "key": "chal2", "effectGroups": ["groupJ"], "on": false, "dAdd": 25, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 20, "desc": "increases base +25, affinity +20%"},
+	{"name": "Challenger +1", "key": "chal1", "effectGroups": ["groupJ"], "on": false, "dAdd": 10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 10, "desc": "increases base +10, affinity +10%"},
+	{"name": "Prudence", "key": "pru", "effectGroups": ["groupJ"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Peak Performance + Evade Extender"},
+	{"name": "Peak Performance", "key": "pp", "effectGroups": ["groupJ"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"},
+	{"name": "Latent Power +2", "key": "lp2", "effectGroups": ["groupJ"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 50, "desc": "increases affinity +50%"},
+	{"name": "Latent Power +1", "key": "lp1", "effectGroups": ["groupJ"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"},
+	{"name": "Critical Draw", "key": "cd", "effectGroups": ["groupCritDraw"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 100, "desc": "increases affinity to 100% for all draw attacks; NOTE: all attacks assumed to be draw attacks by calculator!"},
+	{"name": "Destroyer", "key": "dest", "effectGroups": ["groupDest"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3 on breakable parts; NOTE: all parts assumed breakable by calculator!"},
+	{"name": "Ruthlessness", "key": "ruth", "effectGroups": ["groupExpert", "groupWeakEx"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 15, "desc": "increases damage +5% on monster weakpoints and affinity +15%; same as Weakness Exploit + Critical Eye +2"},
+	{"name": "Critical God", "key": "critgod", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"},
+	{"name": "Critical Eye +3", "key": "crit3", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 20, "desc": "increases affinity +20%"},
+	{"name": "Critical Eye +2", "key": "crit2", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 15, "desc": "increases affinity +15%"},
+	{"name": "Critical Eye +1", "key": "crit1", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 10, "desc": "increases affinity +10%"},
+	{"name": "Critical Eye -1", "key": "critn1", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": -10, "desc": "decrease affinity -10%"},
+	{"name": "Critical Eye -2", "key": "critn2", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": -15, "desc": "decrease affinity -15%"},
+	{"name": "Critical Eye -3", "key": "critn3", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": -20, "desc": "decrease affinity -20%"},
+	{"name": "Amplify", "key": "amp", "effectGroups": ["groupElem"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1; same as Element Atk Up + Item Use Up"},
+	{"name": "Arcana", "key": "arc", "effectGroups": ["groupElem", "groupAwaken"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1; same as Awaken + Element Atk Up + Status Atk Up"},
+	{"name": "Element Atk Up", "key": "eau", "effectGroups": ["groupElem"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1"},
+	{"name": "Element Atk Down", "key": "ead", "effectGroups": ["groupElem"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.1, "eType": 0, "aff": 0, "desc": "decrease all elements x0.9"},
+	{"name": "Fire Atk +3", "key": "fatk3", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 1, "aff": 0, "desc": "increase fire element x1.15 +90"},
+	{"name": "Fire Atk +2", "key": "fatk2", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 1, "aff": 0, "desc": "increase fire element x1.1 +60"},
+	{"name": "Fire Atk +1", "key": "fatk1", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 1, "aff": 0, "desc": "increase fire element x1.05 +40"},
+	{"name": "Fire Atk Down", "key": "fatkd", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 1, "aff": 0, "desc": "decrease fire element x0.75"},
+	{"name": "Water Atk +3", "key": "watk3", "effectGroups": ["groupEWater"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 2, "aff": 0, "desc": "increase water element x1.15 +90"},
+	{"name": "Water Atk +2", "key": "watk2", "effectGroups": ["groupEWater"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 2, "aff": 0, "desc": "increase water element x1.1 +60"},
+	{"name": "Water Atk +1", "key": "watk1", "effectGroups": ["groupEWater"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 2, "aff": 0, "desc": "increase water element x1.05 +40"},
+	{"name": "Water Atk Down", "key": "watkd", "effectGroups": ["groupEWater"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 2, "aff": 0, "desc": "decrease water element x0.75"},
+	{"name": "Ice Atk +3", "key": "iatk3", "effectGroups": ["groupEIce"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 3, "aff": 0, "desc": "increase ice element x1.15 +90"},
+	{"name": "Ice Atk +2", "key": "iatk2", "effectGroups": ["groupEIce"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 3, "aff": 0, "desc": "increase ice element x1.1 +60"},
+	{"name": "Ice Atk +1", "key": "iatk1", "effectGroups": ["groupEIce"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 3, "aff": 0, "desc": "increase ice element x1.05 +40"},
+	{"name": "Ice Atk Down", "key": "iatkd", "effectGroups": ["groupEIce"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 3, "aff": 0, "desc": "decrease ice element x0.75"},
+	{"name": "Thunder Atk +3", "key": "tatk3", "effectGroups": ["groupEThunder"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 4, "aff": 0, "desc": "increase thunder element x1.15 +90"},
+	{"name": "Thunder Atk +2", "key": "tatk2", "effectGroups": ["groupEThunder"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 4, "aff": 0, "desc": "increase thunder element x1.1 +60"},
+	{"name": "Thunder Atk +1", "key": "tatk1", "effectGroups": ["groupEThunder"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 4, "aff": 0, "desc": "increase thunder element x1.05 +40"},
+	{"name": "Thunder Atk Down", "key": "tatkd", "effectGroups": ["groupEThunder"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 4, "aff": 0, "desc": "decrease thunder element x0.75"},
+	{"name": "Dragon Atk +3", "key": "datk3", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 5, "aff": 0, "desc": "increase dragon element x1.15 +90"},
+	{"name": "Dragon Atk +2", "key": "datk2", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 5, "aff": 0, "desc": "increase dragon element x1.1 +60"},
+	{"name": "Dragon Atk +1", "key": "datk1", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 5, "aff": 0, "desc": "increase dragon element x1.05 +40"},
+	{"name": "Dragon Atk Down", "key": "datkd", "effectGroups": ["groupEDragon"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.25, "eType": 5, "aff": 0, "desc": "decrease dragon element x0.75"},
+	{"name": "Artillery Master", "key": "arty3", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.4, "eType": -1, "aff": 0, "desc": ""},
+	{"name": "Artillery Expert", "key": "arty2", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.3, "eType": -1, "aff": 0, "desc": ""},
+	{"name": "Artillery Novice", "key": "arty1", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": -1, "aff": 0, "desc": ""}
+
+]
+
+
