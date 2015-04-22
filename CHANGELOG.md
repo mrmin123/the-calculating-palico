@@ -1,3 +1,12 @@
+## 0.3.2 (2015-04-22)
+Features:
+
+- Refactored and optimized JS and HTML code (Harkoni)
+
+Bugfixes:
+
+- Fixed incorrect damage calculation for un-awakened weapons (Harkoni)
+
 ## 0.3.1 (2015-04-21)
 Features:
 
