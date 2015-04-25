@@ -1,3 +1,10 @@
+## 0.3.3 (2015-04-24)
+Bugfixes:
+
+- Fix Sharpness + 1 modifier not applying
+- Fix elemental boosts modifiers not applying correctly
+- Re-added modifier tooltips
+
 ## 0.3.2 (2015-04-22)
 Features:
 

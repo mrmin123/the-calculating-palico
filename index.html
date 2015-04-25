@@ -159,7 +159,7 @@
 							<div class="row">
 								<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong><%group.displayName%></strong></strong></div>
 							</div>
-							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>">
+							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers[modifier].desc%>">
 								<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers[modifier].name%></div>
 								<div class="col-xs-4 col-sm-4"><input type="checkbox" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier])"></div>
 							</div>
@@ -199,24 +199,24 @@
 										</div>
 									</td>
 									<td class="dmg_td">
-										<span class="dmg"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span>
+										<span class="dmg"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span>
 										~
-										<span class="dmg"><%allDamageRange.max.physicalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" class="element_dmg <%element.name%>"><%"+" + allDamageRange.max.elementalDamage[$index]%></span>
+										<span class="dmg"><%allDamageRange.max.physicalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.max.elementalDamage[$index]%></span>
 									</td>
 									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
-										<span class="dmg"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + partDamageRange.min.elementalDamage[$index]%></span> 
+										<span class="dmg"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + partDamageRange.min.elementalDamage[$index]%></span>
 										~
-										<span class="dmg"><%partDamageRange.max.physicalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" class="element_dmg <%element.name%>" ><%"+" + partDamageRange.max.elementalDamage[$index]%></span> 
+										<span class="dmg"><%partDamageRange.max.physicalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>" ><%"+" + partDamageRange.max.elementalDamage[$index]%></span>
 									</td>
 								</tr>
 								<tr ng-show="showMoves" ng-repeat="weaponMotion in setup.usableMoves">
 									<td><%weaponMotion.name%></td>
 									<td class="dmg_td">
-									<span class="dmg"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.min.elementalDamage[$index]%></span>
+									<span class="dmg"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.min.elementalDamage[$index]%></span>
 									~
-									<span class="dmg"><%motionDamageRange.max.physicalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.max.elementalDamage[$index]%></span>
+									<span class="dmg"><%motionDamageRange.max.physicalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.max.elementalDamage[$index]%></span>
 									</td>
-									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%(calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span></td>
+									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%(calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span></td>
 								</tr>
 							</tbody>
 						</table>
