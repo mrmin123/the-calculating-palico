@@ -22,7 +22,7 @@
 	{"name": "Attack Down (S)", "key": "adnss", "effectGroups": ["groupF"], "on": false, "dAdd": -5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -5"},
 	{"name": "Attack Down (M)", "key": "adnms", "effectGroups": ["groupF"], "on": false, "dAdd": -10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -10"},
 	{"name": "Attack Down (L)", "key": "adnls", "effectGroups": ["groupF"], "on": false, "dAdd": -15, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -15"},
-	{"name": "Honed Blade", "key": "hb", "effectGroups": ["groupF", "groupSharpness"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Attack Up (L) + Sharpness +1"},
+	{"name": "Honed Blade", "key": "hb", "effectGroups": ["groupSharpness"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Attack Up (L) + Sharpness +1"},
 	{"name": "Adrenaline +2", "key": "ad", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3"},
 	{"name": "Felyne Heroics", "key": "fh", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.35, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.35"},
 	{"name": "Wrath Awoken", "key": "wrao", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3; same as Guts + Adrenaline +2"},

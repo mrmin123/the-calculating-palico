@@ -1,27 +1,12 @@
-// function for summing up numeric arrays
+// sums up numeric arrays
 arraySum = function (array) {
 	return array.reduce(function(a, b) { return a + b; });
 }
 
-// toggle -/+ icons for modifier panel
+// toggles -/+ icons for modifier panel
 $('.toggle_modifiers').click(function() {
 	$(this).find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
 });
-
-AddGroupHoverHighlight = function(groupNames) {
-	jQuery(document).ready(function($){
-		$(groupNames.join(', ')).hover(function() {
-			var temp = $(this).attr('class').split(' ');
-			temp.shift();
-			$('.' + temp.join(', .')).css({'background': '#eee'});
-		},
-		function() {
-			var temp = $(this).attr('class').split(' ');
-			temp.shift();
-			$('.' + temp.join(', .')).css({'background': 'none'});
-		});
-	});
-}
 
 GenerateModifiers = function(modifiersRaw) {
 	var retVal = {};
@@ -29,7 +14,6 @@ GenerateModifiers = function(modifiersRaw) {
 		var modifier = modifiersRaw[i];
 		retVal[modifier.key] = modifier;
 	}
-
 	return retVal;
 }
 
@@ -45,8 +29,12 @@ GenerateModifierGroups = function(modifiersRaw) {
 			retVal[group].push(modifier);
 		}
 	}
-
 	return retVal;
+}
+
+// gets parameters from url; courtesy of http://stackoverflow.com/questions/11582512/how-to-get-url-parameters-with-javascript/11582513#11582513
+function getUrlParam(key) {
+	return decodeURIComponent((new RegExp('[?|&]' + key + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
 }
 
 /* angular */
@@ -63,21 +51,21 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
 				if (affinity > 100) { affinity = 100; }
 				return Math.round((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
-			};
+			}
 			// raw elemental power calculation function
 			ePwr = function(attack, sharpness) {
 				return Math.round((attack / 10) * sharpness);
-			};
+			}
 			// true power calculation function
 			pDmg = function(pwr, motionPower, res) {
 				if (modifiers.weakex == true && res > 44) { res += 5; }
 				return Math.round(pwr * (motionPower / 100) * (res / 100));
-			};
+			}
 			// true elemental power calculation function
 			eDmg = function(pwr, res, modmul, modadd) {
 				if (modmul > 0.2) { modmul = 0.2; }
 				return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
-			};
+			}
 
 			// special considerations: long swords
 			var pMul = modifiers.pMul;
@@ -176,9 +164,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 					var elementType = etype[elementIndex].id - 1;
 
-
-					if(elementType >= modifiers.elem.length)
-					{
+					if(elementType >= modifiers.elem.length) {
 						// element Type is one of the various status effects, skip it.
 						continue;
 					}
@@ -219,10 +205,10 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				"elementalDamage" : rawE,
 				"elementalTypes" : etype,
 				"totalDamage" : totalDamage,
-			};
+			}
 
 			return returnObject;
-		};
+		}
 
 		this.calcDamageFromRange = function(motions, weapon, weaponType, damage, sharpness, modifiers) {
 			if (typeof motions === 'undefined' ){
@@ -257,10 +243,10 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var returnObject = {
 				"max" : maxObject,
 				"min" : minObject
-			};
+			}
 
 			return returnObject;
-		};
+		}
 	});
 
 // custom angularjs interpolation markup
@@ -271,12 +257,14 @@ calculatingPalico.config(function($interpolateProvider) {
 
 // main calculatingPalico controller
 calculatingPalico.controller('calculatingPalicoController', function($scope, $http, $q, calculatingPalicoSetup, calculatorService) {
+	// errors messages for th error panel goes here
+	$scope.errors = [];
+	// get the base url for the calculating palico page
+	$scope.baseUrl = location.protocol + '//' + location.host + location.pathname;
 	// collapse modifiers panel at page load
 	$scope.modPanelCollapse = true;
-
 	// define promises
 	var promises = [];
-
 	promises.push($http.get('json/weapon_type.json', {cache: true}));
 	promises.push($http.get('json/weapon_list.json', {cache: true}));
 	promises.push($http.get('json/weapon_data.json', {cache: true}));
@@ -295,30 +283,44 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 		$scope.modifiersRaw = data[5].data;
 		$scope.modifierHtmlDisplayGroups = data[6].data;
 
-		// define variables for multi-setup tracking
-		$scope.storedSetups = [new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, JSON.parse(JSON.stringify($scope.modifiersRaw)))];
-		$scope.currentSetup = $scope.storedSetups[0];
 		$scope.current = 0;
 		$scope.counter = [0];
 		$scope.countersum = 0;
+
+		// function to switch to weapon/modifier setup
+		$scope.switchSetup = function(id) {
+			$scope.current = id;
+			$scope.currentSetup = $scope.storedSetups[id];
+		}
+		// function to add new blank weapon/modifier setup and switch to it
+		$scope.addSetup = function(preset) {
+			$scope.storedSetups.push(new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, JSON.parse(JSON.stringify($scope.modifiersRaw)), preset));
+			$scope.switchSetup($scope.storedSetups.length - 1);
+			$scope.joinUrls();
+		}
+		// function to remove weapon/modifier setup and switch to new first setup in list
+		$scope.removeSetup = function(id) {
+			$scope.storedSetups.splice(id, 1);
+			$scope.switchSetup(0);
+			$scope.joinUrls();
+		}
 
 		// get weapons for chosen weapon type
 		$scope.chooseWeaponType = function() {
 			$scope.currentSetup.weapons = $scope.currentSetup.updateWeaponList();
 			$scope.counter[$scope.current] = 0;
 			$scope.countersum = arraySum($scope.counter);
+			$scope.joinUrls();
 		}
-
 		// get weapon details and weapon type details (motion values) for chosen weapon
 		$scope.chooseWeapon = function() {
 			$scope.currentSetup.weaponDetails = $scope.currentSetup.updateWeapon();
 			$scope.currentSetup.updateWeaponExtras();
 			$scope.counter[$scope.current] = 1;
 			$scope.countersum = arraySum($scope.counter);
-
 			$scope.currentSetup.weaponTypeDetails = $scope.currentSetup.updateWeaponType();
+			$scope.joinUrls();
 		}
-
 		// get details for chosen monster
 		$scope.updateMonster = function() {
 			$scope.monsterDetails = $scope.monsterData[$scope.monsterValue];
@@ -331,40 +333,128 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 			for (var i = 0; i < $scope.monsterWeaknesses.length; i++) {
 				$scope.monsterWeaknesses[i] = ($scope.monsterWeaknesses[i] / $scope.monsterDetails.damage.length).toFixed(2);
 			}
-		};
-
-		// function to switch to weapon/modifier setup
-		$scope.switchSetup = function(id) {
-			$scope.current = id;
-			$scope.currentSetup = $scope.storedSetups[id];
-		};
-
-		// function to add new blank weapon/modifier setup and switch to it
-		$scope.addSetup = function() {
-			$scope.storedSetups.push(new calculatingPalicoSetup($scope.weaponTypes, $scope.weaponList, $scope.weaponData, JSON.parse(JSON.stringify($scope.modifiersRaw))));
-			$scope.switchSetup($scope.storedSetups.length - 1);
-		};
-
-		// function to remove weapon/modifier setup and switch to new first setup in list
-		$scope.removeSetup = function(id) {
-			$scope.storedSetups.splice(id, 1);
-			$scope.switchSetup(0);
-		};
+			$scope.joinUrls();
+		}
 
 		var modifierGroups = GenerateModifierGroups($scope.modifiersRaw);
 		var skillGroupNames = [];
-
 		for(var groupName in modifierGroups) {
 			skillGroupNames.push('.' + groupName);
 		}
 
-		AddGroupHoverHighlight(skillGroupNames);
+		// validates monster url parameter - THIS NEEDS WORK
+		$scope.validateMonsterParam = function(param) {
+			var stop = false;
+			// fail if monster id is larger than size of monster list
+			if (parseInt(param) > $scope.monsters.length) stop = true;
+			// return validation results
+			if (!stop) return true;
+			else return false;
+		}
+		// validates setup (weapons + modifiers) parameter - THIS NEEDS WORK
+		$scope.validateSetupParam = function(param) {
+			var stop = false;
+			var paramSplit = param.split(".");
+			// fail if weapon type id is larger than size of weapon type list
+			if (parseInt(paramSplit[0]) > $scope.weaponTypes.length) stop = true;
+			// fail if weapon id is invalid (???)
+			if (parseInt(paramSplit[1]) % 1 !== 0) stop = true;
+			// fail if sharpness is invalid (???)
+			if (parseInt(paramSplit[2]) % 1 !== 0) stop = true;
+			// fail if longsword spirit value is invalid (???)
+			if (parseInt(paramSplit[3]) % 1 !== 0) stop = true;
+			// fail if charge axe phialcount is invalid (???)
+			if (parseInt(paramSplit[4]) % 1 !== 0) stop = true;
+			// fail if length of modifiers string is not the length of number of modifiers
+			if (paramSplit[5].length != JSON.parse(JSON.stringify($scope.modifiersRaw)).length) stop = true;
+			// return validation results
+			if (!stop) return true;
+			else return false;
+		}
 
+		// define variables for multi-setup tracking
+		$scope.storedSetups = [];
 
+		// check for parameters in url
+		if (location.search.length > 0) {
+			if (getUrlParam('m') && getUrlParam('s')) {
+				try {
+					var inputMonster = JSON.parse(getUrlParam('m'));
+					var inputSetups = JSON.parse(getUrlParam('s'));
+					// make sure monster param is valid
+					if ($scope.validateMonsterParam(inputMonster)) {
+						$scope.monsterValue = parseInt(inputMonster);
+						$scope.updateMonster();
+						for (var i = 0; i < inputSetups.length; i++) {
+							// make sure setup param is valid
+							if ($scope.validateSetupParam(inputSetups[i])) {
+								var paramSplit = inputSetups[i].split(".");
+								$scope.addSetup(paramSplit);
+								$scope.chooseWeaponType();
+								$scope.chooseWeapon();
+								$scope.currentSetup.sharpnessValue = parseInt(paramSplit[2]);
+								$scope.currentSetup.calculateModifiers();
+							}
+							else {
+								$scope.errors.push('"' + inputSetups[i] + '" is not a valid custom setup string');
+							}
+						}
+					}
+					else {
+						$scope.errors.push('"' + inputMonster + '" is not a valid monster entry');
+					}
+				}
+				catch(e) { }
+			}
+			else {
+				$scope.errors.push('invalid custom parameters');
+			}
+		}
+
+		$scope.joinUrls();
+
+		if ($scope.storedSetups.length == 0) {
+			$scope.addSetup();
+		}
 	});
 
+	// modifier-group highlight functions:
+	// sets which group to highlight
+	$scope.highlightGroupSelection = [];
+	$scope.highlightGroup = function(input) {
+		$scope.highlightGroupSelection = input;
+	}
+	// highlights groups set to be highlighted
+	$scope.highlightGroupCheck = function(input) {
+		for (var i = 0; i < input.length; i++) {
+			for (var j = 0; j < $scope.highlightGroupSelection.length; j++) {
+				if ($scope.highlightGroupSelection[j] == input[i]) {
+					return 'gray';
+				}
+			}
+		}
+	}
+	// joins css classes
 	$scope.joinTags = function(tags) {
 		return tags.join(" ");
+	}
+	// joins setup urls
+	$scope.joinUrls = function() {
+		if ($scope.monsterDetails !== undefined) {
+			$scope.urlAll = $scope.baseUrl + '?m=' + $scope.monsterDetails.id + '&s=';
+			var tempSetupUrls = [];
+			var tempSetupUrl = '';
+			for (var i = 0; i < $scope.storedSetups.length; i++) {
+				if ($scope.storedSetups[i].weaponValue !== undefined) {
+					tempSetupUrls.push($scope.storedSetups[i].setupUrl);
+					tempSetupUrl = JSON.stringify(tempSetupUrls);
+					if ($scope.urlAll.length + tempSetupUrl.length > 2048) {
+						break;
+					}
+				}
+			}
+			$scope.urlAll += tempSetupUrl;
+		}
 	}
 
 	// define calculatorService for damage calculations
@@ -374,33 +464,31 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 
 // factory for generating custom setups
 calculatingPalico.factory("calculatingPalicoSetup", function($http) {
-	var customSetup = function(weaponTypesRaw, weaponListRaw, weaponDataRaw, modifiersRaw) {
+	var customSetup = function(weaponTypesRaw, weaponListRaw, weaponDataRaw, modifiersRaw, preset) {
+		// initialize setup object
 		this.initialize = function() {
+			// get data from json calls
 			this.weaponTypes = weaponTypesRaw;
 			this.weaponList = weaponListRaw;
 			this.weaponData = weaponDataRaw;
+			// generate modifier/modifier groups
 			this.modifiers = GenerateModifiers(modifiersRaw);
 			this.modifierGroups = GenerateModifierGroups(modifiersRaw);
+			// define per-setup variables
 			this.usableMoves = [];
-
 			this.weaponTypeValue = 0;
 			this.sharpnessCSS = '';
+			this.setupUrl = '';
+			this.showUrl = false;
+			// define sharpness, spirit, and phial options
 			this.sharpnesses = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'White', 'Purple'];
-
-
-			this.modSummary = {
-				pAdd: 0, pMul: 0, aff: 0, weakex: false, awaken: false, lsspirit: 0, phialc: 1,
-				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
-			};
-
-			this.ls_spirit_options = [
+			this.lsSpiritOptions = [
 				{name: 'None', value: 0},
 				{name: 'White', value: 1},
 				{name: 'Yellow', value: 2},
 				{name: 'Red', value: 3}
 			];
-
-			this.cb_phial_options = [
+			this.cbPhialOptions = [
 				{name: '1', value: 1},
 				{name: '2', value: 2},
 				{name: '3', value: 3},
@@ -408,8 +496,19 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 				{name: '5', value: 5},
 				{name: '6', value: 6},
 			];
+			// define setup modifier setting default
+			this.modSummary = {
+				pAdd: 0, pMul: 0, aff: 0, weakex: false, awaken: false, lsspirit: 0, phialc: 1,
+				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
+			};
+			this.calculateModifiers();
+
+			if (preset !== undefined) {
+				this.prefillPreset(preset);
+			}
 		};
 
+		// updates the weapon list when the weapon type selection changes
 		this.updateWeaponList = function() {
 			var temp = [];
 			for (var i = 0; i < this.weaponList.length; i++) {
@@ -418,8 +517,8 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 				}
 			}
 			return temp;
-		};
-
+		}
+		// updates the the usable movelist when the weapon type selection changes
 		this.updateWeaponType = function() {
 			for (var i = 0; i < this.weaponTypes.length; i++) {
 				if (this.weaponTypes[i].id == this.weaponTypeValue) {
@@ -427,16 +526,18 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 					return this.weaponTypes[i];
 				}
 			}
-		};
-
+		}
+		// updates the selected weapon data when the weapon selection changes
 		this.updateWeapon = function() {
 			for (var i = 0; i < this.weaponData.length; i++) {
 				if (this.weaponData[i].id == this.weaponValue) {
 					return this.weaponData[i];
 				}
 			}
-		};
-
+			// update setup URL when weapon selection is changed
+			this.updateUrl();
+		}
+		// updates displayed weapon data when the weapon selection changes
 		this.updateWeaponExtras = function() {
 			this.weaponElements = this.weaponDetails.elements;
 			this.weaponSharpness = this.weaponDetails.sharpness;
@@ -446,6 +547,7 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			this.weaponSharpnessMax = 0;
 			this.weaponSharpnessPlusScale = [];
 			this.weaponSharpnessPlusMax = 0;
+			// modify the sharpness ranges for the weapon with or without Sharpness +1
 			for (var i = 0; i < this.weaponSharpness.length; i++) {
 				if (this.weaponSharpness[i] > 0) {
 					this.weaponSharpnessScale.push({'id': i, 'name': this.sharpnesses[i]});
@@ -458,9 +560,10 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 					this.weaponSharpnessPlusMax = i + 0;
 				}
 			}
+			// update the default sharpness value and CSS after the weapon changes
 			this.updateSharpnessRange();
-		};
-
+		}
+		// updates default sharpness value and CSS
 		this.updateSharpnessRange = function() {
 			if (this.modifiers['sharpness'].on == true || this.modifiers['hb'].on == true) {
 				this.weaponSharpnessDisplay = this.weaponSharpnessPlusScale;
@@ -472,9 +575,10 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 				this.sharpnessValue = this.weaponSharpnessMax;
 				this.sharpnessCSS = '';
 			}
-		};
-
-
+			// update setup URL after Sharpness +1 toggle/weapon change
+			this.updateUrl();
+		}
+		// updates setup modifier settings when modifiers are toggled
 		this.updateModifiers = function(toggledModifier) {
 			for (var i = 0; i < toggledModifier.effectGroups.length; i++) {
 				var groupName = toggledModifier.effectGroups[i];
@@ -486,23 +590,27 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 						modifier.on = false;
 					}
 				}
-
 				if (groupName == 'groupSharpness') {
+					// update sharpness information if Sharpness +1 is toggled
 					this.updateSharpnessRange();
 				}
 			}
-
+			// calculate all aggregate modifier settings
 			this.calculateModifiers();
 		}
-
+		// calculates all aggregate modifier settings
 		this.calculateModifiers = function() {
-			this.modSummary = {
-				pAdd: 0, pMul: 0, aff: 0, weakex: false, awaken: false, lsspirit: 0, phialc: 1,
-				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
-			};
+			this.urlMod = '';
+			this.modSummary.pAdd = 0;
+			this.modSummary.pMul = 0;
+			this.modSummary.aff = 0;
+			this.modSummary.weakex = false;
+			this.modSummary.awaken = false;
+			this.modSummary.elem = [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}];
 			for (var modifierKey in this.modifiers) {
 				var modifier = this.modifiers[modifierKey];
 				if (modifier.on == true) {
+					this.urlMod += '1';
 					this.modSummary['pAdd'] += modifier.dAdd;
 					this.modSummary['pMul'] += modifier.dMul;
 					this.modSummary['aff'] += modifier.aff;
@@ -529,13 +637,23 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 						}
 					}
 				}
+				else {
+					this.urlMod += '0';
+				}
 			}
-
-			this.UpdateUsableMoves(this.weaponDetails, this.weaponTypeDetails, this.modSummary);
+			// if the modifiers change (and weapons are defined), update the move list
+			if (typeof this.weaponTypes !== 'undefined' && typeof this.weaponTypeDetails !== 'undefined') {
+				this.UpdateUsableMoves(this.weaponDetails, this.weaponTypeDetails, this.modSummary);
+			}
+			// update setup URL on modifier change
+			this.updateUrl();
 		}
-
+		// updates the setup URL
+		this.updateUrl = function() {
+			this.setupUrl = '' + this.weaponTypeValue + '.' + this.weaponValue + '.' + this.sharpnessValue + '.' + this.modSummary.lsspirit + '.' + this.modSummary.phialc + '.' + this.urlMod;
+		}
 		this.UpdateUsableMoves = function(weaponDetails, weaponTypeDetails, modSummary) {
-			if(weaponTypeDetails.id < 12) {
+			if (weaponTypeDetails.id < 12) {
 				// As far as I'm aware no blademaster weapon type has moves that only certain weapons of the class can do.
 				// So if it's a blademaster weapon class then just return all the possible moves for that weapon type.
 				this.usableMoves = weaponTypeDetails.motions;
@@ -543,21 +661,30 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			else if (weaponTypeDetails.id == 12 || weaponTypeDetails.id == 13) {
 				// 12 is LBG & 13 is HBG. They can share the logic to determine if they can fire specific shot types.
 				var retVal = [];
-
 				for(var motion in weaponTypeDetails.motions) {
 					if(weaponDetails.bowgun_config[motion.shotIndex] > 0) {
 						retVal.push(motion);
 					}
 				}
-
 				this.usableMoves = retVal;
 			}
 			//TODO: Add bows here.
-
+		}
+		this.prefillPreset = function(presetSplit) {
+			this.weaponTypeValue = parseInt(presetSplit[0]);
+			this.weaponValue = parseInt(presetSplit[1]);
+			this.modSummary.lsspirit = parseInt(presetSplit[3]);
+			this.modSummary.phialc = parseInt(presetSplit[4]);
+			var i = 0;
+			for (var modifierKey in this.modifiers) {
+				if (parseInt(presetSplit[5].charAt(i)) == 1) {
+					this.modifiers[modifierKey].on = true;
+				}
+				i++;
+			}
 		}
 
 		this.initialize();
-	};
-
+	}
 	return customSetup;
 });

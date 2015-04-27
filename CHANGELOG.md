@@ -1,8 +1,18 @@
+## 0.3.4 (2015-04-27)
+Features:
+
+- Added ability to save/share setups using URL parameters
+
+Bugfixes:
+
+- Fixed modifier group highlighting
+- Fixed being unable to stack Honed Blade and Attack Up/Down armor skills
+
 ## 0.3.3 (2015-04-24)
 Bugfixes:
 
-- Fix Sharpness + 1 modifier not applying
-- Fix elemental boosts modifiers not applying correctly
+- Fixed Sharpness + 1 modifier not applying
+- Fixed elemental boosts modifiers not applying correctly
 - Re-added modifier tooltips
 
 ## 0.3.2 (2015-04-22)

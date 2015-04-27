@@ -17,6 +17,10 @@ ul.nav i {
 	font-weight: bold;
 }
 
+.gray {
+	background-color: #eee;
+}
+
 .weakness_summary div.row:first-child {
 	font-weight: normal;
 }
@@ -54,6 +58,16 @@ ul.nav i {
 	margin: 0 5px 0 0;
 	border: 1px solid #000;
 	border-radius: 3px;
+}
+
+.url_box {
+	margin: 5px;
+	padding: 5px 10px;
+	border: 1px dashed #000;
+	background-color: #efefef;
+	font-family: 'Courier New', monospace;
+	font-size: 0.8em;
+	word-wrap: break-word;
 }
 
 .table {

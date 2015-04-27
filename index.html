@@ -19,7 +19,7 @@
 <nav class="navbar navbar-material-brown navbar-static-top" role="navigation" data-swiftype-index="false">
 	<div class="container">
 		<div class="navbar-header">
-			<a href="/calculatingpalico/" class="navbar-brand">the Calculating Palico</a>
+			<a href="/calculatingpalico/" class="navbar-brand">the Calculating Palico (beta)</a>
 		</div>
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
@@ -30,6 +30,15 @@
 </nav>
 
 <div class="container" ng-controller="calculatingPalicoController">
+	<div class="row" ng-if="errors.length > 0">
+		<div class="col-xs-12">
+			<div class="alert alert-danger" role="alert">
+				<ul>
+					<li ng-repeat="error in errors"><%error%></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-8">
 			<div class="panel panel-default">
@@ -159,7 +168,7 @@
 							<div class="row">
 								<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong><%group.displayName%></strong></strong></div>
 							</div>
-							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers[modifier].desc%>">
+							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>" ng-mouseover="highlightGroup(currentSetup.modifiers[modifier].effectGroups)" ng-mouseleave="highlightGroup([])" ng-class="highlightGroupCheck(currentSetup.modifiers[modifier].effectGroups)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers[modifier].desc%>">
 								<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers[modifier].name%></div>
 								<div class="col-xs-4 col-sm-4"><input type="checkbox" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier])"></div>
 							</div>
@@ -176,13 +185,20 @@
 				<div class="panel-heading">Damage Calculation</div>
 				<div ng-show="countersum > 0 && monsterValue" class="panel-body">
 					<div ng-repeat="setup in storedSetups">
-						<div><small><%setup.weaponTypeDetails.name%></small> <strong><%setup.weaponDetails.name%></strong> vs <strong><%monsterDetails.name%></strong> <span class="small" ng-if="current != $index">[<a role="button" ng-click="switchSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="edit this setup">edit <i class="fa fa-pencil-square-o"></i></a>]</span><span class="small" ng-if="current == $index">[<span data-toggle="tooltip" tooltip-placement="bottom" tooltip="you are currently editing this setup">edit <i class="fa fa-pencil-square-o"></i></span>]</span> <span class="small" ng-if="storedSetups.length > 1">[<a role="button" ng-click="removeSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="remove this setup">remove <i class="fa fa-trash"></i></a>]</span></div>
+						<div>
+							<small><%setup.weaponTypeDetails.name%></small> <strong><%setup.weaponDetails.name%></strong> vs <strong><%monsterDetails.name%></strong>
+							<span class="small" ng-if="current != $index"> [<a role="button" ng-click="switchSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="edit this setup">edit <i class="fa fa-pencil-square-o"></i></a>]</span>
+							<span class="small" ng-if="current == $index"> [<span data-toggle="tooltip" tooltip-placement="bottom" tooltip="you are currently editing this setup">edit <i class="fa fa-pencil-square-o"></i></span>]</span>
+							<span class="small" ng-if="setup.weaponDetails"> [<a role="button" ng-model="setup.showUrl" ng-click="setup.showUrl=!setup.showUrl" data-toggle="tooltip" tooltip-placement="bottom" tooltip="see this setup's url">share/save <i class="fa fa-bookmark"></i></a>]</span>
+							<span class="small" ng-if="storedSetups.length > 1"> [<a role="button" ng-click="removeSetup($index)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="remove this setup">remove <i class="fa fa-trash"></i></a>]</span>
+						</div>
+						<div class="url_box url$index" ng-show="setup.showUrl"><%baseUrl%>?m=<%monsterDetails.id%>&s=["<%setup.setupUrl%>"]</div>
 						<div class="modifiers_list"><strong>Meowdifiers:</strong> <span><ul><li ng-repeat="modifier in setup.modifiers" ng-if="modifier.on == true"><%modifier.name%></li></ul></span></div>
 
 						<table class="table table-condensed table-hover table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue"></select>
+									<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue" ng-change="setup.updateUrl()"></select>
 									<i class="fa fa-chevron-circle-down toggle_moves" ng-model="showMoves" ng-click="showMoves=!showMoves" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle move list"></i> <i class="fa fa-chevron-circle-right toggle_parts" ng-model="showParts" ng-click="showParts=!showParts" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle body parts"></i></th>
 									<th></th>
 									<th ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><%monsterDamage.name%></th>
@@ -192,10 +208,10 @@
 								<tr>
 									<td>
 										<div ng-if="currentSetup.weaponTypeValue==2">
-											Spirit Gauge: <select id="ls_spirit_gauge" name="ls_phial_count" ng-init="setup.modSummary.lsspirit" ng-options="item.value as item.name for item in setup.ls_spirit_options" ng-model="setup.modSummary.lsspirit"></select>
+											Spirit Gauge: <select id="ls_spirit_gauge" name="ls_phial_count" ng-init="setup.modSummary.lsspirit" ng-options="item.value as item.name for item in setup.lsSpiritOptions" ng-model="setup.modSummary.lsspirit" ng-change="setup.updateUrl()"></select>
 										</div>
 										<div ng-if="currentSetup.weaponTypeValue==10">
-											Phial Count: <select id="cb_phial_count" name="cb_phial_count" ng-init="setup.modSummary.phialc" ng-options="item.value as item.name for item in setup.cb_phial_options" ng-model="setup.modSummary.phialc"></select>
+											Phial Count: <select id="cb_phial_count" name="cb_phial_count" ng-init="setup.modSummary.phialc" ng-options="item.value as item.name for item in setup.cbPhialOptions" ng-model="setup.modSummary.phialc" ng-change="setup.updateUrl()"></select>
 										</div>
 									</td>
 									<td class="dmg_td">
@@ -220,6 +236,11 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div ng-show="storedSetups.length > 1">
+						[<a role="button" ng-model="showUrlAll" ng-click="showUrlAll=!showUrlAll" data-toggle="tooltip" tooltip-placement="bottom" tooltip="see the url for all setups">share/save all setups <i class="fa fa-bookmark"></i></a>]
+						[<a role="button" ng-click="joinUrls()" data-toggle="tooltip" tooltip-placement="bottom" tooltip="refresh url">refresh <i class="fa fa-refresh"></i></a>]
+						<div class="url_box" ng-show="showUrlAll"><%urlAll%></div>
 					</div>
 				</div>
 			</div>
