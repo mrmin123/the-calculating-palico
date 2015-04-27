@@ -238,7 +238,7 @@
 						</table>
 					</div>
 					<div ng-show="storedSetups.length > 1">
-						[<a role="button" ng-model="showUrlAll" ng-click="showUrlAll=!showUrlAll" data-toggle="tooltip" tooltip-placement="bottom" tooltip="see the url for all setups">share/save all setups <i class="fa fa-bookmark"></i></a>]
+						[<a role="button" ng-model="showUrlAll" ng-click="showUrlAll=!showUrlAll;joinUrls()" data-toggle="tooltip" tooltip-placement="bottom" tooltip="see the url for all setups">share/save all setups <i class="fa fa-bookmark"></i></a>]
 						[<a role="button" ng-click="joinUrls()" data-toggle="tooltip" tooltip-placement="bottom" tooltip="refresh url">refresh <i class="fa fa-refresh"></i></a>]
 						<div class="url_box" ng-show="showUrlAll"><%urlAll%></div>
 					</div>
