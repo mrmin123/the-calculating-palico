@@ -136,7 +136,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 			var raw = [];
 			var rawE = [];
-			for(i = 0; i < epwr.length; i++) {
+			for (i = 0; i < epwr.length; i++) {
 				rawE[i] = 0;
 			}
 			for (var i = 0; i < motion.power.length; i++) {
@@ -155,11 +155,11 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					raw.push(cb_Exp(motion.name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
 				}
 
-				if(epwr.length > 0) {
-					var elementIndex = 0;
+				if (epwr.length > 0) {
 
-					if(!(typeof motion.elements === 'undefined')) {
-						elementIndex = motion.elements[i]; // Mainly for dual swords; Use the index of the element based on the motion data.
+					var elementIndex = 0;
+					if(!(typeof motion.element === 'undefined')) {
+						elementIndex = motion.element[i]; // Mainly for dual swords; Use the index of the element based on the motion data.
 					}
 
 					var elementType = etype[elementIndex].id - 1;
@@ -201,10 +201,10 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			}
 
 			var returnObject = {
-				"physicalDamage" : sum,
-				"elementalDamage" : rawE,
-				"elementalTypes" : etype,
-				"totalDamage" : totalDamage,
+				"physicalDamage": sum,
+				"elementalDamage": [rawE[0], rawE[1]],
+				"elementalTypes": etype,
+				"totalDamage": totalDamage,
 			}
 
 			return returnObject;
