@@ -156,9 +156,8 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				}
 
 				if (epwr.length > 0) {
-
 					var elementIndex = 0;
-					if(!(typeof motion.element === 'undefined')) {
+					if(!(typeof motion.element === 'undefined') && epwr.length > 1) {
 						elementIndex = motion.element[i]; // Mainly for dual swords; Use the index of the element based on the motion data.
 					}
 
@@ -202,7 +201,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 			var returnObject = {
 				"physicalDamage": sum,
-				"elementalDamage": [rawE[0], rawE[1]],
+				"elementalDamage": rawE,
 				"elementalTypes": etype,
 				"totalDamage": totalDamage,
 			}
