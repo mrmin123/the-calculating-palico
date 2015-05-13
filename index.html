@@ -55,26 +55,30 @@
 					<div ng-show="currentSetup.weaponValue">
 						<div class="row top_row">
 							<div class="col-xs-6 col-sm-6 text-right">Damage</div>
-							<div class="col-xs-6 col-sm-6"><%currentSetup.weaponDetails.attack%></div>
+							<div class="col-xs-6 col-sm-6"><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.attack%></span><input type="number" class="relic_input" ng-model="currentSetup.weaponDetails.attack" min="1" max="2000" ng-show="currentSetup.weaponValue < 0" ng-change="currentSetup.updateUrl()"></div>
 						</div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 text-right">Affinity</div>
-							<div class="col-xs-6 col-sm-6"><%currentSetup.weaponDetails.affinity%>%<span ng-if="currentSetup.weaponDetails.affinity_virus"> / <%currentSetup.weaponDetails.affinity_virus%>%</span></div>
+							<div class="col-xs-6 col-sm-6"><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.affinity%></span><input type="number" class="relic_input" ng-model="currentSetup.weaponDetails.affinity" min="-100" max="100" ng-show="currentSetup.weaponValue < 0" ng-change="currentSetup.updateUrl()">%<span ng-if="currentSetup.weaponDetails.affinity_virus"> / <%currentSetup.weaponDetails.affinity_virus%>%</span></div>
 						</div>
-						<div class="row" ng-repeat="weaponElement in currentSetup.weaponElements">
+						<div class="row" ng-repeat="weaponElement in currentSetup.weaponElements" ng-show="currentSetup.weaponValue > -1">
 							<div class="col-xs-6 col-sm-6 text-right">Element</div>
 							<div class="col-xs-6 col-sm-6">
 								<%weaponElement.attack%> <i class="fa fa-circle element_marker <%weaponElement.name%>" ng-if="weaponElement.awaken_required == 0"></i><i class="fa fa-circle-o element_marker <%weaponElement.name%>" ng-if="weaponElement.awaken_required == 1"></i> <%weaponElement.name%>
 							</div>
 						</div>
+						<div class="row" ng-show="currentSetup.weaponValue < 0">
+							<div class="col-xs-6 col-sm-6 text-right">Element</div>
+							<div class="col-xs-6 col-sm-6"><input type="number" class="relic_input" ng-model="currentSetup.weaponElements[0].attack" min="0" max="1000" ng-change="currentSetup.updateUrl()"> <i class="fa fa-circle element_marker <%currentSetup.weaponElements[0].name%>" ng-if="currentSetup.weaponElements[0].awaken_required == 0"></i><i class="fa fa-circle-o element_marker <%currentSetup.weaponElements[0].name%>" ng-if="currentSetup.weaponElements[0].awaken_required == 1"></i> <select ng-init="currentSetup.weaponElements[0].id" ng-options="elementalType.id as elementalType.name for elementalType in currentSetup.elementalTypes" ng-model="currentSetup.weaponElements[0].id" ng-change="currentSetup.relicElementUpdate();currentSetup.updateUrl()"></select> <label>awaken required <input type="checkbox" ng-model="currentSetup.weaponElements[0].awaken_required" ng-true-value=1 ng-false-value=0 ng-change="currentSetup.updateUrl()"></label></div>
+						</div>
 						<div class="row" ng-if="currentSetup.weaponDetails.phial != null">
 							<div class="col-xs-6 col-sm-6 text-right">Phial</div>
-							<div class="col-xs-6 col-sm-6"><%currentSetup.weaponDetails.phial%></div>
+							<div class="col-xs-6 col-sm-6"><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.phial%></span><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.phial%></span><span ng-show="currentSetup.weaponValue == -9"><select ng-init="currentSetup.weaponDetails.phial" ng-options="phial for phial in currentSetup.saxePhials" ng-model="currentSetup.weaponDetails.phial" ng-change="currentSetup.updateUrl()"></select></span><span ng-show="currentSetup.weaponValue == -10"><select ng-init="currentSetup.weaponDetails.phial" ng-options="phial for phial in currentSetup.cbladePhials" ng-model="currentSetup.weaponDetails.phial" ng-change="currentSetup.updateUrl()"></select></span></div>
 						</div>
-						<div class="row">
+						<div class="row" ng-show="currentSetup.weaponValue > -1">
 							<div class="col-xs-6 col-sm-6 text-right">Sharpness</div>
 							<div class="col-xs-6 col-sm-6">
-								<div id="sharpness">
+								<div id="sharpness_bar">
 									<span style="width:<%currentSetup.weaponSharpness[0]%>px" class="red"></span>
 									<span style="width:<%currentSetup.weaponSharpness[1]%>px" class="orange"></span>
 									<span style="width:<%currentSetup.weaponSharpness[2]%>px" class="yellow"></span>
@@ -92,8 +96,12 @@
 								</div>
 							</div>
 						</div>
+						<div class="row" ng-show="currentSetup.weaponValue < 0">
+							<div class="col-xs-6 col-sm-6 text-right">Max Sharpness</div>
+							<div class="col-xs-6 col-sm-6"><select ng-init="currentSetup.relicSharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in currentSetup.sharpnesses" ng-model="currentSetup.relicSharpnessValue" ng-change="currentSetup.relicSharpnessUpdate();currentSetup.updateUrl()"></select></div>
+						</div>
 						<div class="row top_row">
-							<div class="col-xs-12 col-sm-12 text-center"><a href="<%currentSetup.weaponDetails.url_kiranico%>" class="btn btn-default btn-xs" target="_blank">Kiranico <i class="fa fa-external-link"></i></a> <button class="btn btn-primary btn-xs" ng-click="addSetup()" data-toggle="tooltip" tooltip-placement="bottom" tooltip="add a new weapon setup to compare damage output">Add New Setup</button></div>
+							<div class="col-xs-12 col-sm-12 text-center"><a href="<%currentSetup.weaponDetails.url_kiranico%>" class="btn btn-default btn-xs" target="_blank" ng-show="currentSetup.weaponValue > -1">Kiranico <i class="fa fa-external-link"></i></a> <button class="btn btn-primary btn-xs" ng-click="addSetup()" data-toggle="tooltip" tooltip-placement="bottom" tooltip="add a new weapon setup to compare damage output">Add New Setup</button></div>
 						</div>
 					</div>
 				</div>
@@ -169,8 +177,8 @@
 								<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong><%group.displayName%></strong></strong></div>
 							</div>
 							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>" ng-mouseover="highlightGroup(currentSetup.modifiers[modifier].effectGroups)" ng-mouseleave="highlightGroup([])" ng-class="highlightGroupCheck(currentSetup.modifiers[modifier].effectGroups)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers[modifier].desc%>">
-								<div class="col-xs-8 col-sm-8 text-right"><%currentSetup.modifiers[modifier].name%></div>
-								<div class="col-xs-4 col-sm-4"><input type="checkbox" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier])"></div>
+								<div class="col-xs-8 col-sm-8 text-right"><label for="<%modifier%>"><%currentSetup.modifiers[modifier].name%></label></div>
+								<div class="col-xs-4 col-sm-4"><input type="checkbox" id="<%modifier%>" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier])"></div>
 							</div>
 						</div>
 					</div>

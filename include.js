@@ -118,16 +118,21 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var sharpnessMod = [0.5, 0.75, 1.0, 1.125, 1.25, 1.32, 1.44];
 			var sharpnessModE = [0.25, 0.5, 0.75, 1.0, 1.0625, 1.125, 1.2];
 
-			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], pMul, modifiers.pAdd);
+			var pwr = pPwr(weapon.attack, affinityBase + modifiers.aff, weaponType.modifier, sharpnessMod[sharpness], pMul, modifiers.pAdd);
 			// special considerations: switch axes
 			if (weaponType.id == 9) {
-				var pwrSACharge = pPwr(weapon.attack, affinityBase + modifiers.aff, weapon.modifier, sharpnessMod[sharpness], pMul + 0.2, modifiers.pAdd);
+				var pwrSACharge = pPwr(weapon.attack, affinityBase + modifiers.aff, weaponType.modifier, sharpnessMod[sharpness], pMul + 0.2, modifiers.pAdd);
 			}
 			var epwr = [];
 			var etype = [];
 
 			for(var i = 0; i < weapon.elements.length; i++) {
+				if (weapon.elements[i].id == 0) {
+					// skip elemental damage calculation if elemental damage type is None (for relic weapons)
+					continue;
+				}
 				if (weapon.elements[i].awaken_required != 0 && modifiers.awaken != true) {
+					// skip elemental damage calculation if weapon requires awaken and, but awaken skill is not active
 					continue;
 				}
 				epwr.push(ePwr(weapon.elements[i].attack, sharpnessModE[sharpness]));
@@ -152,7 +157,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 				// charge blade phial damage
 				if (weaponType.id == 10 && weapon.phial == 'Impact') {
-					raw.push(cb_Exp(motion.name, weapon.attack, weapon.modifier, 0, 100, modifiers.phialc, weapon.phial));
+					raw.push(cb_Exp(motion.name, weapon.attack, weaponType.modifier, 0, 100, modifiers.phialc, weapon.phial));
 				}
 
 				if (epwr.length > 0) {
@@ -187,7 +192,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd);
 
 					// charge blade elemental phial damage
-					if (weaponType.id == 10 && weapon.phial == 'Element') {
+					if (weaponType.id == 10 && weapon.phial == 'Element' && weapon.elements[0].id != 0) {
 						rawE[elementIndex] += cb_Exp(motion.name, weapon.elements[0].attack, 10, 0,
 							damage[3 + elementType], modifiers.phialc, weapon.phial);
 					}
@@ -393,6 +398,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 								$scope.chooseWeapon();
 								$scope.currentSetup.sharpnessValue = parseInt(paramSplit[2]);
 								$scope.currentSetup.calculateModifiers();
+								$scope.currentSetup.prefillRelicPreset(paramSplit);
 							}
 							else {
 								$scope.errors.push('"' + inputSetups[i] + '" is not a valid custom setup string');
@@ -479,8 +485,31 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			this.sharpnessCSS = '';
 			this.setupUrl = '';
 			this.showUrl = false;
+			this.relicSharpnessValue = 6;
 			// define sharpness, spirit, and phial options
-			this.sharpnesses = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'White', 'Purple'];
+			this.sharpnesses = [
+				{id: 0, name: 'Red'},
+				{id: 1, name: 'Orange'},
+				{id: 2, name: 'Yellow'},
+				{id: 3, name: 'Green'},
+				{id: 4, name: 'Blue'},
+				{id: 5, name: 'White'},
+				{id: 6, name: 'Purple'}
+			];
+			this.elementalTypes = [
+				{id: 0, name: 'None'},
+				{id: 1, name: 'Fire'},
+				{id: 2, name: 'Water'},
+				{id: 3, name: 'Ice'},
+				{id: 4, name: 'Thunder'},
+				{id: 5, name: 'Dragon'},
+				{id: 6, name: 'Poison'},
+				{id: 7, name: 'Sleep'},
+				{id: 8, name: 'Para'},
+				{id: 9, name: 'Blast'}
+			];
+			this.saxePhials = ['Power', 'Element'];
+			this.cbladePhials = ['Impact', 'Element'];
 			this.lsSpiritOptions = [
 				{name: 'None', value: 0},
 				{name: 'White', value: 1},
@@ -530,7 +559,7 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 		this.updateWeapon = function() {
 			for (var i = 0; i < this.weaponData.length; i++) {
 				if (this.weaponData[i].id == this.weaponValue) {
-					return this.weaponData[i];
+					return jQuery.extend(true, {}, this.weaponData[i]);
 				}
 			}
 			// update setup URL when weapon selection is changed
@@ -549,13 +578,13 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			// modify the sharpness ranges for the weapon with or without Sharpness +1
 			for (var i = 0; i < this.weaponSharpness.length; i++) {
 				if (this.weaponSharpness[i] > 0) {
-					this.weaponSharpnessScale.push({'id': i, 'name': this.sharpnesses[i]});
+					this.weaponSharpnessScale.push(this.sharpnesses[i]);
 					this.weaponSharpnessMax = i + 0;
-					this.weaponSharpnessPlusScale.push({'id': i, 'name': this.sharpnesses[i]});
+					this.weaponSharpnessPlusScale.push(this.sharpnesses[i]);
 					this.weaponSharpnessPlusMax = i + 0;
 				}
 				else if (this.weaponSharpnessPlus[i] > 0) {
-					this.weaponSharpnessPlusScale.push({'id': i, 'name': this.sharpnesses[i]});
+					this.weaponSharpnessPlusScale.push(this.sharpnesses[i]);
 					this.weaponSharpnessPlusMax = i + 0;
 				}
 			}
@@ -576,6 +605,20 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			}
 			// update setup URL after Sharpness +1 toggle/weapon change
 			this.updateUrl();
+		}
+		this.relicSharpnessUpdate = function() {
+			this.weaponSharpnessMax = parseInt(this.relicSharpnessValue);
+			this.weaponSharpnessPlusMax = parseInt(this.relicSharpnessValue);
+			this.weaponSharpnessPlusScale = [];
+			this.weaponSharpnessScale = [];
+			for (var i = 0; i <= parseInt(this.relicSharpnessValue); i++) {
+				this.weaponSharpnessPlusScale.push(this.sharpnesses[i]);
+				this.weaponSharpnessScale.push(this.sharpnesses[i]);
+			}
+			this.updateSharpnessRange();
+		}
+		this.relicElementUpdate = function() {
+			this.weaponElements[0].name = this.elementalTypes[this.weaponElements[0].id].name;
 		}
 		// updates setup modifier settings when modifiers are toggled
 		this.updateModifiers = function(toggledModifier) {
@@ -625,7 +668,6 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 							this.modSummary.elem[i].eMul = modifier.eMul;
 						}
 					}
-
 					for(var i = 0; i < modifier.effectGroups.length; i++) {
 						var groupName = modifier.effectGroups[i];
 						if(groupName == 'groupWeakEx') {
@@ -650,6 +692,18 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 		// updates the setup URL
 		this.updateUrl = function() {
 			this.setupUrl = '' + this.weaponTypeValue + '.' + this.weaponValue + '.' + this.sharpnessValue + '.' + this.modSummary.lsspirit + '.' + this.modSummary.phialc + '.' + this.urlMod;
+			if (this.weaponValue < 0) {
+				// additional relic weapon data, if relevant
+				this.setupUrl = this.setupUrl + '.' + this.weaponDetails.attack + '.' + this.weaponDetails.affinity + '.' + this.weaponElements[0].id + '.' + this.weaponElements[0].attack + '.' + this.weaponElements[0].awaken_required + '.' + this.relicSharpnessValue;
+				if (this.weaponValue == -9) {
+					// additional switch axe relic weapon data, if relevant
+					this.setupUrl = this.setupUrl + '.' + this.saxePhials.indexOf(this.weaponDetails.phial);
+				}
+				else if (this.weaponValue == -10) {
+					// additional charge blade relic weapon data, if relevant
+					this.setupUrl = this.setupUrl + '.' + this.cbladePhials.indexOf(this.weaponDetails.phial);
+				}
+			}
 		}
 		this.UpdateUsableMoves = function(weaponDetails, weaponTypeDetails, modSummary) {
 			if (weaponTypeDetails.id < 12) {
@@ -669,18 +723,43 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			}
 			//TODO: Add bows here.
 		}
+		// pre-fill setups from URL
 		this.prefillPreset = function(presetSplit) {
-			this.weaponTypeValue = parseInt(presetSplit[0]);
-			this.weaponValue = parseInt(presetSplit[1]);
-			this.modSummary.lsspirit = parseInt(presetSplit[3]);
-			this.modSummary.phialc = parseInt(presetSplit[4]);
-			var i = 0;
-			for (var modifierKey in this.modifiers) {
-				if (parseInt(presetSplit[5].charAt(i)) == 1) {
-					this.modifiers[modifierKey].on = true;
+			if (presetSplit.length > 5) {
+				this.weaponTypeValue = parseInt(presetSplit[0]);
+				this.weaponValue = parseInt(presetSplit[1]);
+				this.modSummary.lsspirit = parseInt(presetSplit[3]);
+				this.modSummary.phialc = parseInt(presetSplit[4]);
+				var i = 0;
+				for (var modifierKey in this.modifiers) {
+					if (parseInt(presetSplit[5].charAt(i)) == 1) {
+						this.modifiers[modifierKey].on = true;
+					}
+					i++;
 				}
-				i++;
 			}
+		}
+		// pre-fill relic information from URL
+		this.prefillRelicPreset = function(presetSplit) {
+			if (presetSplit.length > 11 || presetSplit.length == 13) {
+				this.weaponDetails.attack = parseInt(presetSplit[6]);
+				this.weaponDetails.affinity = parseInt(presetSplit[7]);
+				this.weaponElements[0].id = parseInt(presetSplit[8]);
+				this.relicElementUpdate();
+				this.weaponElements[0].attack = parseInt(presetSplit[9]);
+				this.weaponElements[0].awaken_required = parseInt(presetSplit[10]);
+				this.relicSharpnessValue = parseInt(presetSplit[11]);
+				this.relicSharpnessUpdate();
+				if (presetSplit.length > 12) {
+					if (this.weaponValue == -9) {
+						this.weaponDetails.phial = this.saxePhials[parseInt(presetSplit[12])];
+					}
+					else if (this.weaponValue == -10) {
+						this.weaponDetails.phial = this.cbladePhials[parseInt(presetSplit[12])];
+					}
+				}
+			}
+			this.updateUrl();
 		}
 
 		this.initialize();

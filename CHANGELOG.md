@@ -1,3 +1,10 @@
+## 0.4.0 (2015-05-12)
+Features:
+
+- Added support for Relic weapons
+- Made modifiers easier to toggle on and off
+- Update JSON data files
+
 ## 0.3.4 (2015-04-27)
 Features:
 

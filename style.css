@@ -3,6 +3,10 @@ body {
 	background-color: #eee;
 }
 
+label {
+	font-weight: normal;
+}
+
 ul.nav i {
 	font-size: 1.9em;
 }
@@ -10,6 +14,11 @@ ul.nav i {
 .panel {
 	box-shadow: 0 0 5px #bbb;
 	border-radius: 0;
+}
+
+.relic_input {
+	width: 4em;
+	text-align: right;
 }
 
 .weakness_summary {
@@ -121,7 +130,7 @@ table tr td:first-child {
 }
 
 
-#sharpness {
+#sharpness_bar {
 	width: 94px;
 	height: 20px;
 	background-color: #d3d3d3;
@@ -129,7 +138,7 @@ table tr td:first-child {
 	clear: both;
 }
 
-#sharpness span {
+#sharpness_bar span {
 	display: inline-block;
 	height: 100%;
 	float: left;
@@ -137,45 +146,45 @@ table tr td:first-child {
 	border-bottom: 4px solid #d3d3d3;
 }
 
-#sharpness span:first-child {
+#sharpness_bar span:first-child {
 	border-left: 4px solid #d3d3d3;
 }
 
-#sharpness .plus {
+#sharpness_bar .plus {
 	border-top: 4px solid #939393;
 	border-bottom: 4px solid #939393;
 }
 
-#sharpness .plus-active {
+#sharpness_bar .plus-active {
 	border-top: 4px solid #000;
 	border-bottom: 4px solid #000;
 }
 
-#sharpness .red {
+#sharpness_bar .red {
 	background-color: #c00c38;
 }
 
-#sharpness .orange {
+#sharpness_bar .orange {
 	background-color: #e85018;
 }
 
-#sharpness .yellow {
+#sharpness_bar .yellow {
 	background-color: #f0c830;
 }
 
-#sharpness .green {
+#sharpness_bar .green {
 	background-color: #58d000;
 }
 
-#sharpness .blue {
+#sharpness_bar .blue {
 	background-color: #3068e8;
 }
 
-#sharpness .white {
+#sharpness_bar .white {
 	background-color: #f0f0f0;
 }
 
-#sharpness .purple {
+#sharpness_bar .purple {
 	background-color: #c3c;
 }
 
