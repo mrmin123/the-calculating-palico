@@ -1,9 +1,9 @@
 [
 	{"name": "Virus Overcome", "key": "vo", "effectGroups": ["groupVirus"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases affinity"},
 	{"name": "Honed Attack", "key": "ha", "effectGroups": ["groupHoned"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20"},
-	{"name": "Awaken", "key": "awaken", "effectGroups": ["groupAwaken"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "adds elemental attributes to certain weapons"},
-	{"name": "Sharpness +1", "key": "sharpness", "effectGroups": ["groupSharpness"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases weapon sharpness level"},
-	{"name": "Weakness Exploit +1", "key": "weakex", "effectGroups": ["groupWeakEx"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases damage +5% on monster weak points"},
+	{"name": "Awaken", "key": "awk", "effectGroups": ["groupAwaken"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "adds elemental attributes to certain weapons"},
+	{"name": "Sharpness +1", "key": "shp", "effectGroups": ["groupSharpness"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases weapon sharpness level"},
+	{"name": "Weakness Exploit +1", "key": "wex", "effectGroups": ["groupWeakEx"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases damage +5% on monster weak points"},
 	{"name": "Powercharm", "key": "pc", "effectGroups": ["groupA"], "on": false, "dAdd": 6, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +6"},
 	{"name": "Powertalon", "key": "pt", "effectGroups": ["groupB"], "on": false, "dAdd": 9, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +9"},
 	{"name": "Demondrug", "key": "dd", "effectGroups": ["groupC"], "on": false, "dAdd": 5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +5 until death"},
@@ -22,7 +22,7 @@
 	{"name": "Attack Down (S)", "key": "adnss", "effectGroups": ["groupF"], "on": false, "dAdd": -5, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -5"},
 	{"name": "Attack Down (M)", "key": "adnms", "effectGroups": ["groupF"], "on": false, "dAdd": -10, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -10"},
 	{"name": "Attack Down (L)", "key": "adnls", "effectGroups": ["groupF"], "on": false, "dAdd": -15, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "decrease base -15"},
-	{"name": "Honed Blade", "key": "hb", "effectGroups": ["groupSharpness"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Attack Up (L) + Sharpness +1"},
+	{"name": "Honed Blade", "key": "hb", "effectGroups": ["groupSharpness", "groupF"], "on": false, "dAdd": 20, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base +20; same as Attack Up (L) + Sharpness +1"},
 	{"name": "Adrenaline +2", "key": "ad", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3"},
 	{"name": "Felyne Heroics", "key": "fh", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.35, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.35"},
 	{"name": "Wrath Awoken", "key": "wrao", "effectGroups": ["groupG"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3; same as Guts + Adrenaline +2"},
@@ -41,9 +41,8 @@
 	{"name": "Latent Power +2", "key": "lp2", "effectGroups": ["groupJ"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 50, "desc": "increases affinity +50%"},
 	{"name": "Latent Power +1", "key": "lp1", "effectGroups": ["groupJ"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"},
 	{"name": "Critical Draw", "key": "cd", "effectGroups": ["groupCritDraw"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 100, "desc": "increases affinity to 100% for all draw attacks; NOTE: all attacks assumed to be draw attacks by calculator!"},
-	{"name": "Destroyer", "key": "dest", "effectGroups": ["groupDest"], "on": false, "dAdd": 0, "dMul": 0.3, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 0, "desc": "increases base x1.3 on breakable parts; NOTE: all parts assumed breakable by calculator!"},
 	{"name": "Ruthlessness", "key": "ruth", "effectGroups": ["groupExpert", "groupWeakEx"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 15, "desc": "increases damage +5% on monster weakpoints and affinity +15%; same as Weakness Exploit + Critical Eye +2"},
-	{"name": "Critical God", "key": "critgod", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"},
+	{"name": "Critical God", "key": "cgod", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 30, "desc": "increases affinity +30%"},
 	{"name": "Critical Eye +3", "key": "crit3", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 20, "desc": "increases affinity +20%"},
 	{"name": "Critical Eye +2", "key": "crit2", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 15, "desc": "increases affinity +15%"},
 	{"name": "Critical Eye +1", "key": "crit1", "effectGroups": ["groupExpert"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": -1, "aff": 10, "desc": "increases affinity +10%"},
@@ -54,6 +53,7 @@
 	{"name": "Arcana", "key": "arc", "effectGroups": ["groupElem", "groupAwaken"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1; same as Awaken + Element Atk Up + Status Atk Up"},
 	{"name": "Element Atk Up", "key": "eau", "effectGroups": ["groupElem"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.1, "eType": 0, "aff": 0, "desc": "increase all elements x1.1"},
 	{"name": "Element Atk Down", "key": "ead", "effectGroups": ["groupElem"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": -0.1, "eType": 0, "aff": 0, "desc": "decrease all elements x0.9"},
+	{"name": "Element Crit", "key": "ec", "effectGroups": ["groupElemC"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0, "eType": 0, "aff": 0, "desc": "increases elmental damage (fire, water, thunder, ice, dragon) of critical hits"},
 	{"name": "Fire Atk +3", "key": "fatk3", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 90, "eMul": 0.15, "eType": 1, "aff": 0, "desc": "increase fire element x1.15 +90"},
 	{"name": "Fire Atk +2", "key": "fatk2", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 60, "eMul": 0.1, "eType": 1, "aff": 0, "desc": "increase fire element x1.1 +60"},
 	{"name": "Fire Atk +1", "key": "fatk1", "effectGroups": ["groupEFire"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 40, "eMul": 0.05, "eType": 1, "aff": 0, "desc": "increase fire element x1.05 +40"},
@@ -77,7 +77,4 @@
 	{"name": "Artillery Master", "key": "arty3", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.4, "eType": -1, "aff": 0, "desc": ""},
 	{"name": "Artillery Expert", "key": "arty2", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.3, "eType": -1, "aff": 0, "desc": ""},
 	{"name": "Artillery Novice", "key": "arty1", "effectGroups": ["groupArty"], "on": false, "dAdd": 0, "dMul": 0, "eAdd": 0, "eMul": 0.15, "eType": -1, "aff": 0, "desc": ""}
-
 ]
-
-

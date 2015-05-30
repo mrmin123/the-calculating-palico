@@ -1,3 +1,17 @@
+## 0.4.1 (2015-05-30)
+Features:
+
+- Added link to Trello bugtracking/to-do list
+- Re-worked URL generator to use keys for enabled skills, making it more future-proof (sorry if your bookmarks stopped working!)
+- Made all-setup URL update consistently, display all the time to raise awareness/visibility, and removed its refresh option
+- Added Elemental Crit skill
+- Minor UI tweaks
+- Minor changes to JSON files
+
+Bugfixes:
+- Fixed being able to stack Honed Blade and Attack Up/Down armor skills
+- Remove Destroyer (Partbreaker) armor skill
+
 ## 0.4.0 (2015-05-12)
 Features:
 

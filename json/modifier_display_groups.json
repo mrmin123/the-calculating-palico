@@ -15,8 +15,8 @@
 		{
 		"displayName": "Weapon Skills",
 		"modifiers": [
-			"awaken",
-			"sharpness"
+			"awk",
+			"shp"
 			]
 		},
 		{
@@ -84,7 +84,7 @@
 		{
 		"displayName": "Expert Skills",
 		"modifiers": [
-			"critgod",
+			"cgod",
 			"crit3",
 			"crit2",
 			"crit1",
@@ -146,7 +146,8 @@
 		"displayName": "Elemental Attack Skills",
 		"modifiers": [
 			"eau",
-			"ead"
+			"ead",
+			"ec"
 			]
 		},
 		{
@@ -166,8 +167,7 @@
 			"cd",
 			"ad",
 			"pp",
-			"dest",
-			"weakex"
+			"wex"
 			]
 		},
 		{

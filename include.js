@@ -49,6 +49,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 			// raw power calculation function
 			pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
+				// limit affinity to max 100%
 				if (affinity > 100) { affinity = 100; }
 				return Math.round((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
 			}
@@ -58,13 +59,15 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			}
 			// true power calculation function
 			pDmg = function(pwr, motionPower, res) {
-				if (modifiers.weakex == true && res > 44) { res += 5; }
+				// modify resistance as needed if Weakness Exploit skill is active
+				if (modifiers.wex == true && res > 44) { res += 5; }
 				return Math.round(pwr * (motionPower / 100) * (res / 100));
 			}
 			// true elemental power calculation function
-			eDmg = function(pwr, res, modmul, modadd) {
+			eDmg = function(pwr, res, modmul, modadd, ecmod) {
+				// limit elemental damage modifier to max 1.2x
 				if (modmul > 0.2) { modmul = 0.2; }
-				return Math.round(((pwr + (modadd / 10)) * (1 + modmul) ) * (res / 100));
+				return Math.round((pwr * (1 + modmul) * ecmod + (modadd / 10)) * (res / 100));
 			}
 
 			// special considerations: long swords
@@ -107,11 +110,11 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			var affinityBase = 0
 			// modify affinity based on frenzy virus modifiers (and frenzy virus weapons)
 			if (weapon.affinity_virus != null) {
-				if (modifiers.virusovercome == true) affinityBase = Math.abs(weapon.affinity) + weapon.affinity_virus;
+				if (modifiers.vo == true) affinityBase = Math.abs(weapon.affinity) + weapon.affinity_virus;
 				else affinityBase = weapon.affinity + weapon.affinity_virus;
 			}
 			else {
-				if (modifiers.virusovercome == true) affinityBase = weapon.affinity + 15;
+				if (modifiers.vo == true) affinityBase = weapon.affinity + 15;
 				else affinityBase = weapon.affinity;
 			}
 
@@ -125,18 +128,36 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			}
 			var epwr = [];
 			var etype = [];
+			var ecmod = 1;
 
-			for(var i = 0; i < weapon.elements.length; i++) {
+			for (var i = 0; i < weapon.elements.length; i++) {
 				if (weapon.elements[i].id == 0) {
 					// skip elemental damage calculation if elemental damage type is None (for relic weapons)
 					continue;
 				}
-				if (weapon.elements[i].awaken_required != 0 && modifiers.awaken != true) {
+				if (weapon.elements[i].awaken_required != 0 && modifiers.awk != true) {
 					// skip elemental damage calculation if weapon requires awaken and, but awaken skill is not active
 					continue;
 				}
 				epwr.push(ePwr(weapon.elements[i].attack, sharpnessModE[sharpness]));
 				etype.push(weapon.elements[i]);
+			}
+
+			// set Elemental Crit (weapon-type dependent)
+			if (modifiers.ec == true) {
+				switch (weaponType.id) {
+					case 1:
+						ecmod = 1.2;
+						break;
+					case 3:
+						ecmod = 1.35;
+						break;
+					case 4:
+						ecmod = 1.35;
+						break;
+					default:
+						ecmod = 1.25;
+				}
 			}
 
 			var raw = [];
@@ -189,7 +210,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 						}
 
 					rawE[elementIndex] += eDmg(finalElementalPower, damage[3 + elementType],
-							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd);
+							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd, ecmod);
 
 					// charge blade elemental phial damage
 					if (weaponType.id == 10 && weapon.phial == 'Element' && weapon.elements[0].id != 0) {
@@ -226,15 +247,15 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			}
 
 			var damageValues = [];
-			for(var i = 0; i < motions.length; i++){
-				for(var j = 0; j < damage.length; j++) {
+			for (var i = 0; i < motions.length; i++){
+				for (var j = 0; j < damage.length; j++) {
 					damageValues.push(this.calcDamage(motions[i], weapon, weaponType, damage[j].damage, sharpness, modifiers));
 				}
 			}
 			var minObject = null;
 			var maxObject = null;
 
-			for(var i = 0; i < damageValues.length; i++) {
+			for (var i = 0; i < damageValues.length; i++) {
 				if (minObject == null || damageValues[i].totalDamage < minObject.totalDamage) {
 					minObject = damageValues[i];
 				}
@@ -342,7 +363,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 
 		var modifierGroups = GenerateModifierGroups($scope.modifiersRaw);
 		var skillGroupNames = [];
-		for(var groupName in modifierGroups) {
+		for (var groupName in modifierGroups) {
 			skillGroupNames.push('.' + groupName);
 		}
 
@@ -369,8 +390,6 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 			if (parseInt(paramSplit[3]) % 1 !== 0) stop = true;
 			// fail if charge axe phialcount is invalid (???)
 			if (parseInt(paramSplit[4]) % 1 !== 0) stop = true;
-			// fail if length of modifiers string is not the length of number of modifiers
-			if (paramSplit[5].length != JSON.parse(JSON.stringify($scope.modifiersRaw)).length) stop = true;
 			// return validation results
 			if (!stop) return true;
 			else return false;
@@ -526,7 +545,7 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			];
 			// define setup modifier setting default
 			this.modSummary = {
-				pAdd: 0, pMul: 0, aff: 0, weakex: false, awaken: false, lsspirit: 0, phialc: 1,
+				pAdd: 0, pMul: 0, aff: 0, vo: false, wex: false, awk: false, ec: false, lsspirit: 0, phialc: 1,
 				elem: [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}]
 			};
 			this.calculateModifiers();
@@ -593,7 +612,7 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 		}
 		// updates default sharpness value and CSS
 		this.updateSharpnessRange = function() {
-			if (this.modifiers['sharpness'].on == true || this.modifiers['hb'].on == true) {
+			if (this.modifiers['shp'].on == true || this.modifiers['hb'].on == true) {
 				this.weaponSharpnessDisplay = this.weaponSharpnessPlusScale;
 				this.sharpnessValue = this.weaponSharpnessPlusMax;
 				this.sharpnessCSS = '-active';
@@ -643,16 +662,19 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 		// calculates all aggregate modifier settings
 		this.calculateModifiers = function() {
 			this.urlMod = '';
+			this.urlModArray = [];
 			this.modSummary.pAdd = 0;
 			this.modSummary.pMul = 0;
 			this.modSummary.aff = 0;
-			this.modSummary.weakex = false;
-			this.modSummary.awaken = false;
+			this.modSummary.vo = false;
+			this.modSummary.wex = false;
+			this.modSummary.awk = false;
+			this.modSummary.ec = false;
 			this.modSummary.elem = [{eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}, {eAdd: 0, eMul: 0}];
 			for (var modifierKey in this.modifiers) {
 				var modifier = this.modifiers[modifierKey];
 				if (modifier.on == true) {
-					this.urlMod += '1';
+					this.urlModArray.push(modifier.key);
 					this.modSummary['pAdd'] += modifier.dAdd;
 					this.modSummary['pMul'] += modifier.dMul;
 					this.modSummary['aff'] += modifier.aff;
@@ -668,19 +690,25 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 							this.modSummary.elem[i].eMul = modifier.eMul;
 						}
 					}
-					for(var i = 0; i < modifier.effectGroups.length; i++) {
+					for (var i = 0; i < modifier.effectGroups.length; i++) {
 						var groupName = modifier.effectGroups[i];
-						if(groupName == 'groupWeakEx') {
-							this.modSummary.weakex = true;
+						if (groupName == 'groupVirus') {
+							this.modSummary.vo = true;
 						}
-						if(groupName == 'groupAwaken') {
-							this.modSummary.awaken = true;
+						if (groupName == 'groupWeakEx') {
+							this.modSummary.wex = true;
+						}
+						if (groupName == 'groupAwaken') {
+							this.modSummary.awk = true;
+						}
+						if (groupName == 'groupElemC') {
+							this.modSummary.ec = true;
 						}
 					}
 				}
-				else {
-					this.urlMod += '0';
-				}
+			}
+			if (this.urlModArray.length > 0) {
+				this.urlMod = this.urlModArray.join();
 			}
 			// if the modifiers change (and weapons are defined), update the move list
 			if (typeof this.weaponTypes !== 'undefined' && typeof this.weaponTypeDetails !== 'undefined') {
@@ -714,7 +742,7 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 			else if (weaponTypeDetails.id == 12 || weaponTypeDetails.id == 13) {
 				// 12 is LBG & 13 is HBG. They can share the logic to determine if they can fire specific shot types.
 				var retVal = [];
-				for(var motion in weaponTypeDetails.motions) {
+				for (var motion in weaponTypeDetails.motions) {
 					if(weaponDetails.bowgun_config[motion.shotIndex] > 0) {
 						retVal.push(motion);
 					}
@@ -730,6 +758,14 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 				this.weaponValue = parseInt(presetSplit[1]);
 				this.modSummary.lsspirit = parseInt(presetSplit[3]);
 				this.modSummary.phialc = parseInt(presetSplit[4]);
+				console.log(presetSplit[5]);
+				if (presetSplit[5].length > 0) {
+					var modifiersSplit = presetSplit[5].split(",");
+					for (var i = 0; i < modifiersSplit.length; i++) {
+						this.modifiers[modifiersSplit[i]].on = true;
+					}
+				}
+				/*
 				var i = 0;
 				for (var modifierKey in this.modifiers) {
 					if (parseInt(presetSplit[5].charAt(i)) == 1) {
@@ -737,6 +773,7 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 					}
 					i++;
 				}
+				*/
 			}
 		}
 		// pre-fill relic information from URL

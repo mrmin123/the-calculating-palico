@@ -11,6 +11,10 @@ ul.nav i {
 	font-size: 1.9em;
 }
 
+.navbar .navbar-brand:hover, .navbar .navbar-nav > li > a:hover {
+	color: rgba(255, 255, 255, 0.95)
+}
+
 .panel {
 	box-shadow: 0 0 5px #bbb;
 	border-radius: 0;
