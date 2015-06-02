@@ -307,6 +307,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 		$scope.monsterData = data[4].data;
 		$scope.modifiersRaw = data[5].data;
 		$scope.modifierHtmlDisplayGroups = data[6].data;
+		$scope.showAggregateDmg = true;
 
 		$scope.current = 0;
 		$scope.counter = [0];
@@ -349,16 +350,52 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 		// get details for chosen monster
 		$scope.updateMonster = function() {
 			$scope.monsterDetails = $scope.monsterData[$scope.monsterValue];
-			$scope.monsterWeaknesses = [0, 0, 0, 0, 0, 0, 0, 0];
-			for (var part in $scope.monsterDetails.damage) {
-				for (var i = 0; i < $scope.monsterDetails.damage[part]['damage'].length; i++) {
-					$scope.monsterWeaknesses[i] += $scope.monsterDetails.damage[part]['damage'][i];
+			$scope.monsterStateValue = $scope.monsterDetails.damage_states[0].name;
+			$scope.monsterWeaknesses = [
+				{'type': 'Cut', 'val': 0, 'count': 0},
+				{'type': 'Impact', 'val': 0, 'count': 0},
+				{'type': 'Shot', 'val': 0, 'count': 0},
+				{'type': 'Fire', 'val': 0, 'count': 0},
+				{'type': 'Water', 'val': 0, 'count': 0},
+				{'type': 'Ice', 'val': 0, 'count': 0},
+				{'type': 'Thunder', 'val': 0, 'count': 0},
+				{'type': 'Dragon', 'val': 0, 'count': 0}
+			];
+
+			// get sum and count of resistances of monster
+			for (var i = 0; i < $scope.monsterDetails.damage_states.length; i++) {
+				for (var j = 0; j < $scope.monsterDetails['damage_' + $scope.monsterDetails.damage_states[i].name].length; j++) {
+					for (var k = 0; k < $scope.monsterDetails['damage_' + $scope.monsterDetails.damage_states[i].name][j].damage.length; k++) {
+						$scope.monsterWeaknesses[k].val += $scope.monsterDetails['damage_' + $scope.monsterDetails.damage_states[i].name][j].damage[k];
+						$scope.monsterWeaknesses[k].count += 1;
+					}
 				}
 			}
+
+			// divide total resistance by resistance count for average resistance
 			for (var i = 0; i < $scope.monsterWeaknesses.length; i++) {
-				$scope.monsterWeaknesses[i] = ($scope.monsterWeaknesses[i] / $scope.monsterDetails.damage.length).toFixed(2);
+				$scope.monsterWeaknesses[i].val = ($scope.monsterWeaknesses[i].val / $scope.monsterWeaknesses[i].count).toFixed(2);
 			}
+
+			$scope.updateMonsterDamage();
 			$scope.joinUrls();
+		}
+
+		$scope.updateMonsterDamage = function() {
+			$scope.monsterDetails.damage = [];
+			for (var i = 0; i < $scope.monsterDetails['damage_' + $scope.monsterStateValue].length; i++) {
+				if (typeof $scope.monsterDetails['damage_' + $scope.monsterStateValue][i].broken !== 'undefined') {
+					if ($scope.monsterDetails['damage_' + $scope.monsterStateValue][i].broken == true) {
+						$scope.monsterDetails.damage.push({'damage': $scope.monsterDetails['damage_' + $scope.monsterStateValue][i].damage_broken});
+					}
+					else {
+						$scope.monsterDetails.damage.push({'damage': $scope.monsterDetails['damage_' + $scope.monsterStateValue][i].damage});
+					}
+				}
+				else {
+					$scope.monsterDetails.damage.push({'damage': $scope.monsterDetails['damage_' + $scope.monsterStateValue][i].damage});
+				}
+			}
 		}
 
 		var modifierGroups = GenerateModifierGroups($scope.modifiersRaw);
@@ -758,22 +795,12 @@ calculatingPalico.factory("calculatingPalicoSetup", function($http) {
 				this.weaponValue = parseInt(presetSplit[1]);
 				this.modSummary.lsspirit = parseInt(presetSplit[3]);
 				this.modSummary.phialc = parseInt(presetSplit[4]);
-				console.log(presetSplit[5]);
 				if (presetSplit[5].length > 0) {
 					var modifiersSplit = presetSplit[5].split(",");
 					for (var i = 0; i < modifiersSplit.length; i++) {
 						this.modifiers[modifiersSplit[i]].on = true;
 					}
 				}
-				/*
-				var i = 0;
-				for (var modifierKey in this.modifiers) {
-					if (parseInt(presetSplit[5].charAt(i)) == 1) {
-						this.modifiers[modifierKey].on = true;
-					}
-					i++;
-				}
-				*/
 			}
 		}
 		// pre-fill relic information from URL

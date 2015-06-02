@@ -23,8 +23,8 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="https://trello.com/b/5AqB1IAP/the-calculating-palico"><i class="fa fa-trello fa-lg"></i> to-do</a></li>
-				<li><a href="https://github.com/mrmin123/the-calculating-palico"><i class="fa fa-github fa-lg"></i> github</a></li>
+				<li data-toggle="tooltip" tooltip-placement="bottom" tooltip="view the to-do/changelog"><a href="https://trello.com/b/5AqB1IAP/the-calculating-palico"><i class="fa fa-trello fa-lg"></i> trello</a></li>
+				<li data-toggle="tooltip" tooltip-placement="bottom" tooltip="view the source code"><a href="https://github.com/mrmin123/the-calculating-palico"><i class="fa fa-github fa-lg"></i> github</a></li>
 			</ul>
 		</div>
 	</div>
@@ -42,7 +42,7 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-8">
-			<div class="panel panel-default">
+			<div class="panel panel-default weapon_panel">
 				<div class="panel-heading">Choose Weapon</div>
 				<div class="panel-body">
 					<div class="row">
@@ -70,11 +70,11 @@
 						</div>
 						<div class="row" ng-show="currentSetup.weaponValue < 0">
 							<div class="col-xs-6 col-sm-6 text-right">Element</div>
-							<div class="col-xs-6 col-sm-6"><input type="number" class="relic_input" ng-model="currentSetup.weaponElements[0].attack" min="0" max="1000" ng-change="currentSetup.updateUrl();joinUrls()"> <i class="fa fa-circle element_marker <%currentSetup.weaponElements[0].name%>" ng-if="currentSetup.weaponElements[0].awaken_required == 0"></i><i class="fa fa-circle-o element_marker <%currentSetup.weaponElements[0].name%>" ng-if="currentSetup.weaponElements[0].awaken_required == 1"></i> <select ng-init="currentSetup.weaponElements[0].id" ng-options="elementalType.id as elementalType.name for elementalType in currentSetup.elementalTypes" ng-model="currentSetup.weaponElements[0].id" ng-change="currentSetup.relicElementUpdate();currentSetup.updateUrl();joinUrls()"></select> <label>awaken required <input type="checkbox" ng-model="currentSetup.weaponElements[0].awaken_required" ng-true-value=1 ng-false-value=0 ng-change="currentSetup.updateUrl();joinUrls()"></label></div>
+							<div class="col-xs-6 col-sm-6 checkbox checkbox-primary"><input type="number" class="relic_input" ng-model="currentSetup.weaponElements[0].attack" min="0" max="1000" ng-change="currentSetup.updateUrl();joinUrls()"> <i class="fa fa-circle element_marker <%currentSetup.weaponElements[0].name%>" ng-if="currentSetup.weaponElements[0].awaken_required == 0"></i><i class="fa fa-circle-o element_marker <%currentSetup.weaponElements[0].name%>" ng-if="currentSetup.weaponElements[0].awaken_required == 1"></i> <select ng-init="currentSetup.weaponElements[0].id" ng-options="elementalType.id as elementalType.name for elementalType in currentSetup.elementalTypes" ng-model="currentSetup.weaponElements[0].id" ng-change="currentSetup.relicElementUpdate();currentSetup.updateUrl();joinUrls()"></select> <input type="checkbox" id="awaken_required" ng-model="currentSetup.weaponElements[0].awaken_required" ng-true-value=1 ng-false-value=0 ng-change="currentSetup.updateUrl();joinUrls()"><label for="awaken_required">awaken required</label></div>
 						</div>
 						<div class="row" ng-if="currentSetup.weaponDetails.phial != null">
 							<div class="col-xs-6 col-sm-6 text-right">Phial</div>
-							<div class="col-xs-6 col-sm-6"><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.phial%></span><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.phial%></span><span ng-show="currentSetup.weaponValue == -9"><select ng-init="currentSetup.weaponDetails.phial" ng-options="phial for phial in currentSetup.saxePhials" ng-model="currentSetup.weaponDetails.phial" ng-change="currentSetup.updateUrl();joinUrls()"></select></span><span ng-show="currentSetup.weaponValue == -10"><select ng-init="currentSetup.weaponDetails.phial" ng-options="phial for phial in currentSetup.cbladePhials" ng-model="currentSetup.weaponDetails.phial" ng-change="currentSetup.updateUrl();joinUrls()"></select></span></div>
+							<div class="col-xs-6 col-sm-6"><span ng-show="currentSetup.weaponValue > -1"><%currentSetup.weaponDetails.phial%></span><span ng-show="currentSetup.weaponValue == -9"><select ng-init="currentSetup.weaponDetails.phial" ng-options="phial for phial in currentSetup.saxePhials" ng-model="currentSetup.weaponDetails.phial" ng-change="currentSetup.updateUrl();joinUrls()"></select></span><span ng-show="currentSetup.weaponValue == -10"><select ng-init="currentSetup.weaponDetails.phial" ng-options="phial for phial in currentSetup.cbladePhials" ng-model="currentSetup.weaponDetails.phial" ng-change="currentSetup.updateUrl();joinUrls()"></select></span></div>
 						</div>
 						<div class="row" ng-show="currentSetup.weaponValue > -1">
 							<div class="col-xs-6 col-sm-6 text-right">Sharpness</div>
@@ -114,45 +114,23 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 text-center">
-							<select id="monster_list" name="monster_list" ng-options="monster.id as monster.name for monster in monsters | orderBy:'sort_name'" ng-model="monsterValue" ng-change="updateMonster()"></select>
+							<select id="monster_state_list" name="monster_state_list" ng-options="monster.id as monster.name for monster in monsters | orderBy:'sort_name'" ng-model="monsterValue" ng-change="updateMonster()"></select>
 						</div>
 					</div>
 					<div ng-show="monsterValue">
 						<div class="weakness_summary">
 							<div class="row top_row">
+								<div class="col-xs-6 col-sm-6 text-right">Monster State</div>
+								<div class="col-xs-6 col-sm-6">
+									<select id="monster_list" name="monster_list" ng-options="state.name as state.display_name for state in monsterDetails.damage_states" ng-model="monsterStateValue" ng-change="updateMonsterDamage()"></select>
+								</div>
+							</div>
+							<div class="row top_row">
 								<div class="col-xs-12 col-sm-12 text-center"><div class="row">Weakness Averages</div></div>
 							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right">Cut</div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[0]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right">Impact</div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[1]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right">Shot</div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[2]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right"><span class="Fire">Fire</span></div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[3]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right"><span class="Water">Water</span></div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[4]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right"><span class="Ice">Ice</span></div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[5]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right"><span class="Thunder">Thunder</span></div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[6]%></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 text-right"><span class="Dragon">Dragon</span></div>
-								<div class="col-xs-6 col-sm-6"><%monsterWeaknesses[7]%></div>
+							<div class="row" ng-repeat="monsterWeakness in monsterWeaknesses">
+								<div class="col-xs-6 col-sm-6 text-right"><span class="<%monsterWeakness.type%>"><%monsterWeakness.type%></span></div>
+								<div class="col-xs-6 col-sm-6"><%monsterWeakness.val%></div>
 							</div>
 						</div>
 						<div class="row">
@@ -178,8 +156,10 @@
 								<div class="col-xs-8 col-sm-8 text-right section_header"><i class="fa fa-cog"></i> <strong><%group.displayName%></strong></strong></div>
 							</div>
 							<div ng-repeat="modifier in group.modifiers" class="row <%joinTags(currentSetup.modifiers[modifier].effectGroups)%>" ng-mouseover="highlightGroup(currentSetup.modifiers[modifier].effectGroups)" ng-mouseleave="highlightGroup([])" ng-class="highlightGroupCheck(currentSetup.modifiers[modifier].effectGroups)" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%currentSetup.modifiers[modifier].desc%>">
-								<div class="col-xs-8 col-sm-8 text-right"><label for="<%modifier%>" ng-click="joinUrls()"><%currentSetup.modifiers[modifier].name%></label></div>
-								<div class="col-xs-4 col-sm-4"><input type="checkbox" id="<%modifier%>" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier]);joinUrls()"></div>
+								<div class="col-xs-9 col-sm-9 text-right checkbox checkbox-primary">
+									<input type="checkbox" id="<%modifier%>" ng-model="currentSetup.modifiers[modifier].on" ng-click="currentSetup.updateModifiers(currentSetup.modifiers[modifier]);joinUrls()">
+									<label for="<%modifier%>" ng-click="joinUrls()"><%currentSetup.modifiers[modifier].name%></label></div>
+								<div class="col-xs-3 col-sm-3"></div>
 							</div>
 						</div>
 					</div>
@@ -190,8 +170,8 @@
 
 	<div class="row">
 		<div class="col-xs-12 col-sm-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">Damage Calculation</div>
+			<div class="panel panel-default damage_panel">
+				<div class="panel-heading checkbox checkbox-primary">Damage Calculation <small><i class="fa fa-chevron-right"></i> <input type="checkbox" id="showAggregateDmg" ng-model="showAggregateDmg"> <label for="showAggregateDmg">show aggregate damage values</label></small></div>
 				<div ng-show="countersum > 0 && monsterValue" class="panel-body">
 					<div ng-repeat="setup in storedSetups">
 						<div>
@@ -210,7 +190,13 @@
 									<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue" ng-change="setup.updateUrl();joinUrls()"></select>
 									<i class="fa fa-chevron-circle-down toggle_moves" ng-model="showMoves" ng-click="showMoves=!showMoves" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle move list"></i> <i class="fa fa-chevron-circle-right toggle_parts" ng-model="showParts" ng-click="showParts=!showParts" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle body parts"></i></th>
 									<th></th>
-									<th ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><%monsterDamage.name%></th>
+									<th ng-show="showParts" ng-repeat="monsterDamage in monsterDetails['damage_' + monsterStateValue]" class="dmg_td">
+										<%monsterDamage.name%>
+										<span ng-if="monsterDamage.damage_broken" class="checkbox checkbox-danger">
+											<input type="checkbox" id="<%monsterDamage.name%>" ng-model="monsterDamage.broken" ng-click="updateMonsterDamage()">
+											<label for="<%monsterDamage.name%>">Broken</label>
+										</span>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -224,24 +210,44 @@
 										</div>
 									</td>
 									<td class="dmg_td">
-										<span class="dmg"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span>
-										~
-										<span class="dmg"><%allDamageRange.max.physicalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.max.elementalDamage[$index]%></span>
+										<span class="hidden"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span>
+										<span ng-if="!showAggregateDmg">
+											<span class="dmg"><%allDamageRange.min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span> ~ <span class="dmg"><%allDamageRange.max.physicalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.max.elementalDamage[$index]%></span>
+										</span>
+										<span ng-if="showAggregateDmg">
+											<span class="dmg"><%allDamageRange.min.totalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span> ~ <span class="dmg"><%allDamageRange.max.totalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span>
+										</span>
 									</td>
 									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
-										<span class="dmg"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + partDamageRange.min.elementalDamage[$index]%></span>
-										~
-										<span class="dmg"><%partDamageRange.max.physicalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>" ><%"+" + partDamageRange.max.elementalDamage[$index]%></span>
+										<span class="hidden"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span>
+										<span ng-if="!showAggregateDmg">
+											<span class="dmg"><%partDamageRange.min.physicalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + partDamageRange.min.elementalDamage[$index]%></span> ~ <span class="dmg"><%partDamageRange.max.physicalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>" ><%"+" + partDamageRange.max.elementalDamage[$index]%></span>
+										</span>
+										<span ng-if="showAggregateDmg">
+											<span class="dmg"><%partDamageRange.min.totalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span> ~ <span class="dmg"><%partDamageRange.max.totalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>" ><i class="fa fa-circle"></i></span>
+										</span>
 									</td>
 								</tr>
 								<tr ng-show="showMoves" ng-repeat="weaponMotion in setup.usableMoves">
 									<td><%weaponMotion.name%></td>
 									<td class="dmg_td">
-									<span class="dmg"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.min.elementalDamage[$index]%></span>
-									~
-									<span class="dmg"><%motionDamageRange.max.physicalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.max.elementalDamage[$index]%></span>
+										<span class="hidden"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span>
+										<span ng-if="!showAggregateDmg">
+											<span class="dmg"><%motionDamageRange.min.physicalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.min.elementalDamage[$index]%></span> ~ <span class="dmg"><%motionDamageRange.max.physicalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.max.elementalDamage[$index]%></span>
+										</span>
+										<span ng-if="showAggregateDmg">
+											<span class="dmg"><%motionDamageRange.min.totalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span> ~ <span class="dmg"><%motionDamageRange.max.totalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span>
+										</span>
 									</td>
-									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td"><span class="dmg"><%(calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span></td>
+									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
+										<span class="hidden"><%(calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).physicalDamage%></span>
+										<span ng-if="!showAggregateDmg">
+											<span class="dmg"><%calculatedDamage.physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span>
+										</span>
+										<span ng-if="showAggregateDmg">
+											<span class="dmg"><%calculatedDamage.totalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span>
+										</span>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -257,5 +263,15 @@
 </div>
 
 <script src="include.js"></script>
+<script>
+	/* Google Analytics
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-63592578-1', 'auto');
+	ga('send', 'pageview');*/
+</script>
 </body>
 </html>

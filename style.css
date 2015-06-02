@@ -20,6 +20,11 @@ ul.nav i {
 	border-radius: 0;
 }
 
+.element_marker {
+	font-size: 1.1em;
+	line-height: 1.3em;
+}
+
 .relic_input {
 	width: 4em;
 	text-align: right;
@@ -94,7 +99,7 @@ table thead tr th {
 
 table thead tr th:nth-child(n+2) {
 	font-size: 0.85em;
-	vertical-align: bottom;
+	vertical-align: top;
 }
 
 table tbody tr:nth-child(n+2) td:nth-child(1) {
@@ -115,24 +120,27 @@ table tr td:first-child {
 }
 
 .dmg_td {
+	display: table-cell;
 	text-align: center;
-	line-height: 0.9em;
+	line-height: 1em;
 }
 
 .dmg {
 	font-weight: bold;
-}
-
-.element_marker {
-	font-size: 1.1em;
-	line-height: 1.3em;
+	vertical-align: middle;
 }
 
 .element_dmg {
 	font-size: 0.8em;
 	font-weight: bold;
+	vertical-align: middle;
 }
 
+.element_dmg i {
+	font-size: 0.9em;
+	font-weight: normal;
+	vertical-align: middle;
+}
 
 #sharpness_bar {
 	width: 94px;
@@ -226,4 +234,238 @@ table tr td:first-child {
 
 .Blast {
 	color: magenta;
+}
+
+/* modified awesome-bootstrap-checkbox css
+	https://github.com/flatlogic/awesome-bootstrap-checkbox */
+.checkbox {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+/* default checkbox + label styling */
+.checkbox label {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	padding-left: 0;
+	padding-right: 25px;
+}
+
+.checkbox label::before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	background-color: #fff;
+	-webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+	-o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+	transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.checkbox label::after {
+	display: inline-block;
+	position: absolute;
+	color: #555555;
+}
+
+/* custom checkbox + label styling for weapon (relic) panel */
+.weapon_panel .checkbox label {
+	padding-right: 20px;
+}
+
+.weapon_panel .checkbox label::before {
+	width: 14px;
+	height: 14px;
+	right: 0;
+	top: 2px;
+	margin-right: 2px;
+}
+
+.weapon_panel .checkbox label::after {
+	width: 13px;
+	height: 13px;
+	right: 0;
+	top: 1px;
+	margin-right: 1px;
+	padding-top: 0;
+	font-size: 11px;
+}
+
+/* custom checkbox + label styling for modifiers panel */
+.modifiers .label {
+	min-height: 0;
+}
+.modifiers .checkbox label::before {
+	width: 13px;
+	height: 13px;
+	right: 0;
+	top: 1px;
+	margin-right: 2px;
+}
+
+.modifiers .checkbox label::after {
+	width: 12px;
+	height: 12px;
+	right: 0;
+	top: 1px;
+	margin-right: 4px;
+	padding-top: 0;
+	font-size: 9px;
+}
+
+/* custom checkbox + label styling for damage panel header */
+.damage_panel .checkbox label {
+	padding-right: 20px;
+}
+
+.damage_panel .checkbox label::before {
+	width: 14px;
+	height: 14px;
+	right: 0;
+	top: 2px;
+	margin-right: 2px;
+}
+
+.damage_panel .checkbox label::after {
+	width: 13px;
+	height: 13px;
+	right: 0;
+	top: 1px;
+	margin-right: 1px;
+	padding-top: 0;
+	font-size: 11px;
+}
+
+/* custom checkbox + label styling for damage panel */
+.dmg_td .checkbox label {
+	padding-right: 16px;
+	min-height: 0;
+}
+
+.dmg_td .checkbox label::before {
+	width: 12px;
+	height: 12px;
+	right: 0;
+	top: 1px;
+	margin-right: 2px;
+}
+
+.dmg_td .checkbox label::after {
+	width: 11px;
+	height: 11px;
+	right: 0;
+	top: 1px;
+	margin-right: 2px;
+	padding-top: 0;
+	font-size: 9px;
+}
+
+/* misc */
+.checkbox input[type="checkbox"],
+.checkbox input[type="radio"] {
+	opacity: 0;
+	z-index: 1;
+}
+
+.checkbox input[type="checkbox"]:focus + label::before,
+.checkbox input[type="radio"]:focus + label::before {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
+}
+
+.checkbox input[type="checkbox"]:checked + label::after,
+.checkbox input[type="radio"]:checked + label::after {
+	font-family: "FontAwesome";
+	content: "\f00c";
+}
+
+.checkbox input[type="checkbox"]:disabled + label,
+.checkbox input[type="radio"]:disabled + label {
+
+}
+
+.checkbox input[type="checkbox"]:disabled + label::before,
+.checkbox input[type="radio"]:disabled + label::before {
+	background-color: #eeeeee;
+	cursor: not-allowed;
+}
+
+.checkbox.checkbox-circle label::before {
+}
+
+.checkbox.checkbox-inline {
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::before,
+.checkbox-primary input[type="radio"]:checked + label::before {
+	background-color: #337ab7;
+	border-color: #337ab7;
+}
+
+.checkbox-primary input[type="checkbox"]:checked + label::after,
+.checkbox-primary input[type="radio"]:checked + label::after {
+	color: #fff;
+}
+
+.checkbox-danger input[type="checkbox"]:checked + label::before,
+.checkbox-danger input[type="radio"]:checked + label::before {
+	background-color: #d9534f;
+	border-color: #d9534f;
+}
+
+.checkbox-danger input[type="checkbox"]:checked + label::after,
+.checkbox-danger input[type="radio"]:checked + label::after {
+	color: #fff;
+}
+
+.checkbox-info input[type="checkbox"]:checked + label::before,
+.checkbox-info input[type="radio"]:checked + label::before {
+	background-color: #5bc0de;
+	border-color: #5bc0de;
+}
+
+.checkbox-info input[type="checkbox"]:checked + label::after,
+.checkbox-info input[type="radio"]:checked + label::after {
+	color: #fff;
+}
+
+.checkbox-warning input[type="checkbox"]:checked + label::before,
+.checkbox-warning input[type="radio"]:checked + label::before {
+	background-color: #f0ad4e;
+	border-color: #f0ad4e;
+}
+
+.checkbox-warning input[type="checkbox"]:checked + label::after,
+.checkbox-warning input[type="radio"]:checked + label::after {
+	color: #fff;
+}
+
+.checkbox-success input[type="checkbox"]:checked + label::before,
+.checkbox-success input[type="radio"]:checked + label::before {
+	background-color: #5cb85c;
+	border-color: #5cb85c;
+}
+
+.checkbox-success input[type="checkbox"]:checked + label::after,
+.checkbox-success input[type="radio"]:checked + label::after {
+	color: #fff;
+}
+
+input[type="checkbox"].styled:checked + label:after,
+input[type="radio"].styled:checked + label:after {
+	font-family: 'FontAwesome';
+	content: "\f00c";
+}
+
+input[type="checkbox"] .styled:checked + label::before,
+input[type="radio"] .styled:checked + label::before {
+	color: #fff;
+}
+
+input[type="checkbox"] .styled:checked + label::after,
+input[type="radio"] .styled:checked + label::after {
+	color: #fff;
 }

@@ -1,3 +1,16 @@
+## 0.4.2 (2015-06-01)
+Features:
+
+- Cleaned up checkboxes in UI using awesome-bootstrap-checkbox
+- Re-worked monster scraper
+  - Gogmazios and Fatalis data added
+  - Better resistance tracking of monster states and damaged part states
+- Added ability to select monster state (Default, Enraged, Savaged, etc)
+- Added ability to toggle Broken state for monster parts (only if Broken state weaknesses are different from the Default state weaknesses)
+- Added ability to aggregate raw+elemental damages
+- Added note for Survivor, Spirit, and Gloves Off skills to denote that the calculator assumes that conditions have been met and skills are active
+
+
 ## 0.4.1 (2015-05-30)
 Features:
 
