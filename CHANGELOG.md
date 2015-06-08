@@ -1,3 +1,8 @@
+## 0.4.3 (2015-06-07)
+Bugfixes:
+
+- Fixed Elemental Crit calculation (calculator incorrectly assumed that all attacks were crits)
+
 ## 0.4.2 (2015-06-01)
 Features:
 

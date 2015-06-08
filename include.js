@@ -54,8 +54,10 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				return Math.round((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
 			}
 			// raw elemental power calculation function
-			ePwr = function(attack, sharpness) {
-				return Math.round((attack / 10) * sharpness);
+			ePwr = function(attack, affinity, ecmod, sharpness) {
+				// limit affinity to max 100%; mainly for elemental crit calculations
+				if (affinity > 100) { affinity = 100; }
+				return Math.round((attack / 10) * (1 + ecmod * (affinity/100)) * sharpness);
 			}
 			// true power calculation function
 			pDmg = function(pwr, motionPower, res) {
@@ -64,10 +66,10 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 				return Math.round(pwr * (motionPower / 100) * (res / 100));
 			}
 			// true elemental power calculation function
-			eDmg = function(pwr, res, modmul, modadd, ecmod) {
+			eDmg = function(pwr, res, modmul, modadd) {
 				// limit elemental damage modifier to max 1.2x
 				if (modmul > 0.2) { modmul = 0.2; }
-				return Math.round((pwr * (1 + modmul) * ecmod + (modadd / 10)) * (res / 100));
+				return Math.round((pwr * (1 + modmul) + (modadd / 10)) * (res / 100));
 			}
 
 			// special considerations: long swords
@@ -126,9 +128,26 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			if (weaponType.id == 9) {
 				var pwrSACharge = pPwr(weapon.attack, affinityBase + modifiers.aff, weaponType.modifier, sharpnessMod[sharpness], pMul + 0.2, modifiers.pAdd);
 			}
-			var epwr = [];
+			var epwrs = [];
 			var etype = [];
-			var ecmod = 1;
+			var ecmod = 0;
+
+			// set Elemental Crit (weapon-type dependent)
+			if (modifiers.ec == true) {
+				switch (weaponType.id) {
+					case 1:
+						ecmod = 0.2;
+						break;
+					case 3:
+						ecmod = 0.35;
+						break;
+					case 4:
+						ecmod = 0.35;
+						break;
+					default:
+						ecmod = 0.25;
+				}
+			}
 
 			for (var i = 0; i < weapon.elements.length; i++) {
 				if (weapon.elements[i].id == 0) {
@@ -139,30 +158,13 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					// skip elemental damage calculation if weapon requires awaken and, but awaken skill is not active
 					continue;
 				}
-				epwr.push(ePwr(weapon.elements[i].attack, sharpnessModE[sharpness]));
+				epwrs.push(ePwr(weapon.elements[i].attack, affinityBase + modifiers.aff, ecmod, sharpnessModE[sharpness]));
 				etype.push(weapon.elements[i]);
-			}
-
-			// set Elemental Crit (weapon-type dependent)
-			if (modifiers.ec == true) {
-				switch (weaponType.id) {
-					case 1:
-						ecmod = 1.2;
-						break;
-					case 3:
-						ecmod = 1.35;
-						break;
-					case 4:
-						ecmod = 1.35;
-						break;
-					default:
-						ecmod = 1.25;
-				}
 			}
 
 			var raw = [];
 			var rawE = [];
-			for (i = 0; i < epwr.length; i++) {
+			for (i = 0; i < epwrs.length; i++) {
 				rawE[i] = 0;
 			}
 			for (var i = 0; i < motion.power.length; i++) {
@@ -181,9 +183,9 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					raw.push(cb_Exp(motion.name, weapon.attack, weaponType.modifier, 0, 100, modifiers.phialc, weapon.phial));
 				}
 
-				if (epwr.length > 0) {
+				if (epwrs.length > 0) {
 					var elementIndex = 0;
-					if(!(typeof motion.element === 'undefined') && epwr.length > 1) {
+					if(!(typeof motion.element === 'undefined') && epwrs.length > 1) {
 						elementIndex = motion.element[i]; // Mainly for dual swords; Use the index of the element based on the motion data.
 					}
 
@@ -194,7 +196,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 						continue;
 					}
 
-					var finalElementalPower = epwr[elementIndex];
+					var finalElementalPower = epwrs[elementIndex];
 
 					if (weaponType.id == 1) {
 							if (motion.name.indexOf('(Lvl 2)') > -1) {
@@ -210,7 +212,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 						}
 
 					rawE[elementIndex] += eDmg(finalElementalPower, damage[3 + elementType],
-							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd, ecmod);
+							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd);
 
 					// charge blade elemental phial damage
 					if (weaponType.id == 10 && weapon.phial == 'Element' && weapon.elements[0].id != 0) {
