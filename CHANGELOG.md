@@ -1,6 +1,7 @@
 ## 0.4.4 (2015-06-12)
 Features:
 
+- Added simple heatmap for visualizing individual damage values
 - Added footer with version number and project/contact links
 - Added display of motion values when hovering on top of a move's name
 

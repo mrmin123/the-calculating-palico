@@ -183,7 +183,7 @@
 						<div class="url_box url$index" ng-show="setup.showUrl"><%baseUrl%>?m=<%monsterDetails.id%>&s=["<%setup.setupUrl%>"]</div>
 						<div class="modifiers_list"><strong>Meowdifiers:</strong> <span><ul><li ng-repeat="modifier in setup.modifiers" ng-if="modifier.on == true"><%modifier.name%></li></ul></span></div>
 
-						<table class="table table-condensed table-hover table-bordered table-striped">
+						<table class="table table-condensed table-bordered">
 							<thead>
 								<tr>
 									<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue" ng-change="setup.updateUrl();joinUrls()"></select>
@@ -238,8 +238,7 @@
 											<span class="dmg"><%motionDamageRange.min.totalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span> ~ <span class="dmg"><%motionDamageRange.max.totalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><i class="fa fa-circle"></i></span>
 										</span>
 									</td>
-									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
-										<span><%calcHeatmapColor(allDamageRange.min.totalDamage, allDamageRange.max.totalDamage, (calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).totalDamage)%></span>
+									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td <%calcHeatmapColor(allDamageRange.min.totalDamage, allDamageRange.max.totalDamage, (calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).totalDamage)%>">
 										<span ng-if="!showAggregateDmg">
 											<span class="dmg"><%calculatedDamage.physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span>
 										</span>

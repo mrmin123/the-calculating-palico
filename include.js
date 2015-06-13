@@ -271,10 +271,10 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 		}
 
 		this.calcHeatmapColor = function(min, max, val) {
-			var colors = ["#ff9999", "#ffaaaa", "#ffbbbb", "#ffcccc", "#ffdddd", "#ffeeee"];
-			var increment = (max - min) / 10;
+			var colors = ["heat1", "heat2", "heat3", "heat4", "heat5", "heat6"];
+			var increment = (max - min) / 7;
 			var index = Math.floor((max - val) / increment);
-			var color = "#ffffff";
+			var color = "";
 			if (index < colors.length) {
 				color = colors[index];
 			}

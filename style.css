@@ -241,6 +241,30 @@ table tr td:first-child {
 	color: magenta;
 }
 
+.heat1 {
+	background-color: #ff9999;
+}
+
+.heat2 {
+	background-color: #ffaaaa;
+}
+
+.heat3 {
+	background-color: #ffbbbb;
+}
+
+.heat5 {
+	background-color: #ffcccc;
+}
+
+.heat5 {
+	background-color: #ffdddd;
+}
+
+.heat6 {
+	background-color: #ffeeee;
+}
+
 #footer {
 	text-align: center;
 	font-size: 0.8em;
