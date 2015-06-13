@@ -14,5 +14,8 @@ Data was automatically and manually curated from these sources:
 * [Monster Hunt Wikia](http://monsterhunter.wikia.com/wiki/Monster_Hunter_4_Ultimate)
 * [Ping's MH4G Dex](https://sites.google.com/site/pingsdex/pingsmh4gdex/en_us)
 
+###To-Do List
+View the to-do list on the project's [Trello](https://trello.com/b/5AqB1IAP/the-calculating-palico) page.
+
 ###Contact
 Feel free to post in this repository regarding any inquires or feedback, or PM [/u/mrmin123](http://www.reddit.com/message/compose?to=mrmin123&subject=calculatingpalico) on reddit.

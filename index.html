@@ -23,7 +23,6 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li data-toggle="tooltip" tooltip-placement="bottom" tooltip="view the to-do/changelog"><a href="https://trello.com/b/5AqB1IAP/the-calculating-palico"><i class="fa fa-trello fa-lg"></i> trello</a></li>
 				<li data-toggle="tooltip" tooltip-placement="bottom" tooltip="view the source code"><a href="https://github.com/mrmin123/the-calculating-palico"><i class="fa fa-github fa-lg"></i> github</a></li>
 			</ul>
 		</div>
@@ -210,7 +209,7 @@
 										</div>
 									</td>
 									<td class="dmg_td">
-										<span class="hidden"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span>
+										<span class="hidden"><%(allDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary))%></span>
 										<span ng-if="!showAggregateDmg">
 											<span class="dmg"><%allDamageRange.min.physicalDamage%></span><span ng-repeat="element in allDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.min.elementalDamage[$index]%></span> ~ <span class="dmg"><%allDamageRange.max.physicalDamage%></span><span ng-repeat="element in allDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + allDamageRange.max.elementalDamage[$index]%></span>
 										</span>
@@ -219,7 +218,7 @@
 										</span>
 									</td>
 									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
-										<span class="hidden"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span>
+										<span class="hidden"><%(partDamageRange = calcDamageFromRange(setup.usableMoves, setup.weaponDetails, setup.weaponTypeDetails, [monsterDamage], setup.sharpnessValue, setup.modSummary))%></span>
 										<span ng-if="!showAggregateDmg">
 											<span class="dmg"><%partDamageRange.min.physicalDamage%></span><span ng-repeat="element in partDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + partDamageRange.min.elementalDamage[$index]%></span> ~ <span class="dmg"><%partDamageRange.max.physicalDamage%></span><span ng-repeat="element in partDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>" ><%"+" + partDamageRange.max.elementalDamage[$index]%></span>
 										</span>
@@ -229,9 +228,9 @@
 									</td>
 								</tr>
 								<tr ng-show="showMoves" ng-repeat="weaponMotion in setup.usableMoves">
-									<td><%weaponMotion.name%></td>
+									<td><span class="dotted" data-toggle="tooltip" tooltip-placement="bottom" tooltip="<%weaponMotion.power%>"><%weaponMotion.name%></span></td>
 									<td class="dmg_td">
-										<span class="hidden"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary)).min.physicalDamage%></span>
+										<span class="hidden"><%(motionDamageRange = calcDamageFromRange([weaponMotion], setup.weaponDetails, setup.weaponTypeDetails, monsterDetails.damage, setup.sharpnessValue, setup.modSummary))%></span>
 										<span ng-if="!showAggregateDmg">
 											<span class="dmg"><%motionDamageRange.min.physicalDamage%></span><span ng-repeat="element in motionDamageRange.min.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.min.elementalDamage[$index]%></span> ~ <span class="dmg"><%motionDamageRange.max.physicalDamage%></span><span ng-repeat="element in motionDamageRange.max.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + motionDamageRange.max.elementalDamage[$index]%></span>
 										</span>
@@ -240,7 +239,7 @@
 										</span>
 									</td>
 									<td ng-show="showParts" ng-repeat="monsterDamage in monsterDetails.damage" class="dmg_td">
-										<span class="hidden"><%(calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).physicalDamage%></span>
+										<span><%calcHeatmapColor(allDamageRange.min.totalDamage, allDamageRange.max.totalDamage, (calculatedDamage = calcDamage(weaponMotion, setup.weaponDetails, setup.weaponTypeDetails, monsterDamage.damage, setup.sharpnessValue, setup.modSummary)).totalDamage)%></span>
 										<span ng-if="!showAggregateDmg">
 											<span class="dmg"><%calculatedDamage.physicalDamage%></span><span ng-repeat="element in calculatedDamage.elementalTypes" ng-if="element.id < 6" class="element_dmg <%element.name%>"><%"+" + calculatedDamage.elementalDamage[$index]%></span>
 										</span>
@@ -259,6 +258,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="footer">
+		<strong>Calculating Palico v0.4.4</strong> | View the <a href="https://trello.com/b/5AqB1IAP/the-calculating-palico"><i class="fa fa-trello fa-lg"></i> changelog/to-do list</a> | Please submits bugs and suggestions on <a href="https://github.com/mrmin123/the-calculating-palico"><i class="fa fa-github fa-lg"></i> Github</a>, <a href="https://trello.com/b/5AqB1IAP/the-calculating-palico"><i class="fa fa-trello fa-lg"></i> Trello</a>, or by <a href="http://www.reddit.com/message/compose?to=mrmin123&subject=calculatingpalico"><i class="fa fa-reddit fa-lg"></i> PM on reddit</a>
 	</div>
 </div>
 

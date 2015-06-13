@@ -1,3 +1,15 @@
+## 0.4.4 (2015-06-12)
+Features:
+
+- Added footer with version number and project/contact links
+- Added display of motion values when hovering on top of a move's name
+
+Bugfixes:
+
+- Changed rounding of all calculating from nearest-integer to rounding down
+- Reworked elemental attack damage calculation per discussion with Aetherflaer
+  - Moved move-specific elemental attack modifiers to JSON
+
 ## 0.4.3 (2015-06-07)
 Bugfixes:
 

@@ -51,25 +51,25 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			pPwr = function(attack, affinity, modifier, sharpness, modmul, modadd) {
 				// limit affinity to max 100%
 				if (affinity > 100) { affinity = 100; }
-				return Math.round((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
+				return Math.floor((((attack / modifier) + modadd) * (1 + 0.25 * (affinity/100)))  * sharpness * (1 + modmul));
 			}
 			// raw elemental power calculation function
 			ePwr = function(attack, affinity, ecmod, sharpness) {
 				// limit affinity to max 100%; mainly for elemental crit calculations
 				if (affinity > 100) { affinity = 100; }
-				return Math.round((attack / 10) * (1 + ecmod * (affinity/100)) * sharpness);
+				return Math.floor((attack / 10) * (1 + ecmod * (affinity/100)) * sharpness);
 			}
 			// true power calculation function
 			pDmg = function(pwr, motionPower, res) {
 				// modify resistance as needed if Weakness Exploit skill is active
 				if (modifiers.wex == true && res > 44) { res += 5; }
-				return Math.round(pwr * (motionPower / 100) * (res / 100));
+				return Math.floor(pwr * (motionPower / 100) * (res / 100));
 			}
 			// true elemental power calculation function
-			eDmg = function(pwr, res, modmul, modadd) {
+			eDmg = function(pwr, res, modmul, modadd, emod) {
 				// limit elemental damage modifier to max 1.2x
 				if (modmul > 0.2) { modmul = 0.2; }
-				return Math.round((pwr * (1 + modmul) + (modadd / 10)) * (res / 100));
+				return Math.floor((pwr * (1 + modmul) + (modadd / 10)) * (res / 100) * emod);
 			}
 
 			// special considerations: long swords
@@ -106,7 +106,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			};
 
 			cb_ExpEq = function(attack, modifier, modmul, res, phialMulti, expCount, phialCount) {
-				return Math.round(Math.round((attack / modifier) * (1 + modmul) * (res / 100)) * phialMulti) * expCount * phialCount;
+				return Math.floor(Math.floor((attack / modifier) * (1 + modmul) * (res / 100)) * phialMulti) * expCount * phialCount;
 			};
 
 			var affinityBase = 0
@@ -185,8 +185,18 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 				if (epwrs.length > 0) {
 					var elementIndex = 0;
-					if(!(typeof motion.element === 'undefined') && epwrs.length > 1) {
-						elementIndex = motion.element[i]; // Mainly for dual swords; Use the index of the element based on the motion data.
+					var emod = 1;
+					if (!(typeof motion.emod === 'undefined')) {
+						// grab elemental damage modifier from json
+						emod = motion.emod[i];
+						if (weaponType.id == 9 && weapon.phial != 'Element') {
+							// if switch axe phial type is not elemental, do not apply elemental modifier
+							emod = 1;
+						}
+					}
+					if (!(typeof motion.element === 'undefined') && epwrs.length > 1) {
+						// Mainly for dual swords; Use the index of the element based on the motion data.
+						elementIndex = motion.element[i];
 					}
 
 					var elementType = etype[elementIndex].id - 1;
@@ -196,23 +206,8 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 						continue;
 					}
 
-					var finalElementalPower = epwrs[elementIndex];
-
-					if (weaponType.id == 1) {
-							if (motion.name.indexOf('(Lvl 2)') > -1) {
-								finalElementalPower *= 2; // TODO: Get this checked out, I don't think GS doubles or triples it's elemental damage(thing it's closer to 25%/50% more) based on charge
-							}
-							else if (motion.name.indexOf('(Lvl 3)') > -1) {
-								finalElementalPower *= 3;
-							}
-						}
-						// switch axe elemental charge damage
-						if (weaponType.id == 9 && weapon.phial == 'Element' && motion.name.indexOf('Sword:') > -1) {
-							finalElementalPower *= 1.25;
-						}
-
-					rawE[elementIndex] += eDmg(finalElementalPower, damage[3 + elementType],
-							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd);
+					rawE[elementIndex] += eDmg(epwrs[elementIndex], damage[3 + elementType],
+							modifiers.elem[elementType].eMul, modifiers.elem[elementType].eAdd, emod);
 
 					// charge blade elemental phial damage
 					if (weaponType.id == 10 && weapon.phial == 'Element' && weapon.elements[0].id != 0) {
@@ -273,6 +268,18 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			}
 
 			return returnObject;
+		}
+
+		this.calcHeatmapColor = function(min, max, val) {
+			var colors = ["#ff9999", "#ffaaaa", "#ffbbbb", "#ffcccc", "#ffdddd", "#ffeeee"];
+			var increment = (max - min) / 10;
+			var index = Math.floor((max - val) / increment);
+			var color = "#ffffff";
+			if (index < colors.length) {
+				color = colors[index];
+			}
+
+			return color;
 		}
 	});
 
@@ -523,6 +530,7 @@ calculatingPalico.controller('calculatingPalicoController', function($scope, $ht
 	// define calculatorService for damage calculations
 	$scope.calcDamage = calculatorService.calcDamage;
 	$scope.calcDamageFromRange = calculatorService.calcDamageFromRange;
+	$scope.calcHeatmapColor = calculatorService.calcHeatmapColor;
 });
 
 // factory for generating custom setups

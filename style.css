@@ -93,6 +93,11 @@ ul.nav i {
 	font-size: 0.9em;
 }
 
+.dotted {
+	border-bottom: 1px dotted #000;
+	text-decoration: none;
+}
+
 table thead tr th {
 	font-weight: normal;
 }
@@ -234,6 +239,12 @@ table tr td:first-child {
 
 .Blast {
 	color: magenta;
+}
+
+#footer {
+	text-align: center;
+	font-size: 0.8em;
+	margin-bottom: 2em;
 }
 
 /* modified awesome-bootstrap-checkbox css
