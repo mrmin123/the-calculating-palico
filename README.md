@@ -1,5 +1,9 @@
 the Calculating Palico
 =======
+**NOTE: This project is no longer actively maintained! If you have minor requests and/or bugfixes, however, please feel to open an issue ticket and I might be able to get to them. Apologies for the inconvenience! If you're interested in picking up the project, please feel free/let me know!**
+
+**NOTE: As of 2015-06-12 (the time of the last major update) there is still no support for ranged weaponry, and I believe the calculations for the Gunlance and Charge Blades are a bit wonky. Please make note of this when calculating damage values for these weapons.**
+
 Browser-based and mobile-compatible damage calculation tool for the Monster Hunter 4 Ultimate game on the Nintendo 3DS. Shows the breakdown of damage dealt based on move and target monster body part. Allows for comparison of multiple weapons and/or modifier setups against the same monster. Supports relic weapons. Supports saving/sharing of views via URL.
 
 ###Examples

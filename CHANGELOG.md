@@ -1,4 +1,9 @@
 ## 0.4.5 (2016-01-10)
+Features:
+
+- Make Moves List and Parts List expanded by default
+- Update Readme
+
 Bugfixes:
 
 - Update sharpness values

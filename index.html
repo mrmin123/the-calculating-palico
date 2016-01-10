@@ -187,7 +187,7 @@
 							<thead>
 								<tr>
 									<th>Sharpness: <select id="weapon_sharpness" name="weapon_sharpness" ng-init="setup.sharpnessValue" ng-options="sharpness.id as sharpness.name for sharpness in setup.weaponSharpnessDisplay" ng-model="setup.sharpnessValue" ng-change="setup.updateUrl();joinUrls()"></select>
-									<i class="fa fa-chevron-circle-down toggle_moves" ng-model="showMoves" ng-click="showMoves=!showMoves" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle move list"></i> <i class="fa fa-chevron-circle-right toggle_parts" ng-model="showParts" ng-click="showParts=!showParts" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle body parts"></i></th>
+									<i class="fa fa-chevron-circle-down toggle_moves" ng-model="showMoves" ng-init="showMoves=true" ng-click="showMoves=!showMoves" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle move list"></i> <i class="fa fa-chevron-circle-right toggle_parts" ng-model="showParts" ng-init="showParts=true" ng-click="showParts=!showParts" data-toggle="tooltip" tooltip-placement="bottom" tooltip="toggle body parts"></i></th>
 									<th></th>
 									<th ng-show="showParts" ng-repeat="monsterDamage in monsterDetails['damage_' + monsterStateValue]" class="dmg_td">
 										<%monsterDamage.name%>
