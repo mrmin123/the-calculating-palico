@@ -1,3 +1,8 @@
+## 0.4.5 (2016-01-10)
+Bugfixes:
+
+- Update sharpness values
+
 ## 0.4.4 (2015-06-12)
 Features:
 
