@@ -79,7 +79,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 			}
 
 			// special considerations: charge blades
-			cb_Exp = function(attackName, attack, modifier, modmul, res, phialc, phialt) {
+			cb_Exp = function(attackName, attack, modifier, modmul, modadd, res, phialc, phialt) {
 				if (phialt == 'Impact') {
 					var modlo = 0.05;
 					var modhi = 0.1;
@@ -89,24 +89,24 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 					var modhi = 3.5;
 				}
 				if (attackName == 'Sword: Return Stroke' || attackName == 'Shield Attack' || attackName == 'Axe: Element Discharge 1' || attackName == 'Axe: Element Discharge 1 (Boost Mode)' || attackName == 'Axe: Dash Element Discharge 1' || attackName == 'Axe: Dash Element Discharge 1 (Boost Mode)') {
-					return cb_ExpEq(attack, modifier, 0, res, modlo, 1, 1);
+					return cb_ExpEq(attack, modifier, modmul, modadd, res, modlo, 1, 1);
 				}
 				else if (attackName == 'Axe: Element Discharge 2' || attackName == 'Axe: Element Discharge 2 (Boost Mode)') {
-					return cb_ExpEq(attack, modifier, 0, res, modlo, 2, 1);
+					return cb_ExpEq(attack, modifier, modmul, modadd, res, modlo, 2, 1);
 				}
 				else if (attackName == 'Axe: Amped Element Discharge' || attackName == 'Axe: Amped Element Discharge (Boost Mode)') {
-					return cb_ExpEq(attack, modifier, 0, res, modhi, 3, 1);
+					return cb_ExpEq(attack, modifier, modmul, modadd, res, modhi, 3, 1);
 				}
 				else if (attackName == 'Axe: Super Amped Element Discharge') {
-					return cb_ExpEq(attack, modifier, 0, res, modhi, 3, phialc);
+					return cb_ExpEq(attack, modifier, modmul, modadd, res, modhi, 3, phialc);
 				}
 				else {
 					return 0;
 				}
 			};
 
-			cb_ExpEq = function(attack, modifier, modmul, res, phialMulti, expCount, phialCount) {
-				return Math.floor(Math.floor((attack / modifier) * (1 + modmul) * (res / 100)) * phialMulti) * expCount * phialCount;
+			cb_ExpEq = function(attack, modifier, modmul, modadd, res, phialMulti, expCount, phialCount) {
+				return Math.floor(Math.floor(((attack / modifier) + (modadd / 10)) * (1 + modmul) * (res / 100)) * phialMulti) * expCount * phialCount;
 			};
 
 			var affinityBase = 0
@@ -180,7 +180,7 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 				// charge blade phial damage
 				if (weaponType.id == 10 && weapon.phial == 'Impact') {
-					raw.push(cb_Exp(motion.name, weapon.attack, weaponType.modifier, 0, 100, modifiers.phialc, weapon.phial));
+					raw.push(cb_Exp(motion.name, weapon.attack, weaponType.modifier, 0, 0, 100, modifiers.phialc, weapon.phial));
 				}
 
 				if (epwrs.length > 0) {
@@ -211,8 +211,8 @@ var calculatingPalico = angular.module('calculatingPalico', ['ui.bootstrap'])
 
 					// charge blade elemental phial damage
 					if (weaponType.id == 10 && weapon.phial == 'Element' && weapon.elements[0].id != 0) {
-						rawE[elementIndex] += cb_Exp(motion.name, weapon.elements[0].attack, 10, 0,
-							damage[3 + elementType], modifiers.phialc, weapon.phial);
+						rawE[elementIndex] += cb_Exp(motion.name, weapon.elements[0].attack, 10, modifiers.elem[elementType].eMul,
+							modifiers.elem[elementType].eAdd, damage[3 + elementType], modifiers.phialc, weapon.phial);
 					}
 				}
 			}

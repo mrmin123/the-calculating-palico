@@ -1,3 +1,8 @@
+## 0.4.6 (2016-01-16)
+Bugfixes:
+
+- Implement elemental armor skill modifiers into charge blade explosion calculations ([#5](https://github.com/mrmin123/the-calculating-palico/issues/5))
+
 ## 0.4.5 (2016-01-10)
 Features:
 
@@ -6,7 +11,7 @@ Features:
 
 Bugfixes:
 
-- Update sharpness values
+- Update sharpness values ([#4](https://github.com/mrmin123/the-calculating-palico/issues/4))
 
 ## 0.4.4 (2015-06-12)
 Features:
