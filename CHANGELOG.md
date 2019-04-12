@@ -1,3 +1,7 @@
+## 0.4.7 (2019-04-11)
+- Add notice for new URL
+- Add Patreon links, no idea why
+
 ## 0.4.6 (2016-01-16)
 Bugfixes:
 

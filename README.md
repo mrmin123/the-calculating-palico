@@ -6,6 +6,12 @@ the Calculating Palico
 
 Browser-based and mobile-compatible damage calculation tool for the Monster Hunter 4 Ultimate game on the Nintendo 3DS. Shows the breakdown of damage dealt based on move and target monster body part. Allows for comparison of multiple weapons and/or modifier setups against the same monster. Supports relic weapons. Supports saving/sharing of views via URL.
 
+---
+
+Consider supporting the developer on [Patreon](https://www.patreon.com/mrmin123)!
+
+<a href="https://www.patreon.com/mrmin123"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" width="130" /></a>
+
 ###Examples
 * [AUXL vs Water Attack +3 on Crossenders Dual Blades vs Basarios](http://minyoung.ch/calculatingpalico/?m=64&s=["4.667.5.0.1.aupxls","4.667.5.0.1.watk3"])
 * [Comparing two Relic Great Swords](http://minyoung.ch/calculatingpalico/?m=64&s=["1.-1.6.0.1..1680.-10.9.360.0.6","1.-1.6.0.1..1728.-10.2.630.0.6"])
